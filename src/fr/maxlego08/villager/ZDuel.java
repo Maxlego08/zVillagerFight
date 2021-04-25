@@ -59,4 +59,26 @@ public class ZDuel extends ZUtils implements Duel {
 
 	}
 
+	@Override
+	public void update() {
+
+		// On verif si le duel est lancé
+
+		System.out.println(this.firstFighter.distance(this.secondFighter) + " la distance ?");
+
+		if (this.firstFighter.distance(this.secondFighter) < 1.5D) {
+			System.out.println("on est proche !");
+			
+			this.firstFighter.push(this.secondFighter.getLocation(), 1.0);
+			this.secondFighter.push(this.firstFighter.getLocation(), 1.0);
+			
+			
+		}
+		Location centerLocation = this.arena.getCenterLocation();
+		this.manager.setPathGoal(firstFighter, centerLocation, 1.0);
+		this.manager.setPathGoal(secondFighter, centerLocation, 1.0);
+
+	}
+
+
 }

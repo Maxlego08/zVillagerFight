@@ -1,6 +1,8 @@
 package fr.maxlego08.villager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -18,7 +20,9 @@ import fr.maxlego08.villager.zcore.utils.storage.Persist;
 
 public class ZVillagerManager extends ZUtils implements VillagerManager {
 
-	private final PathManager pathManager = new ZPathManager();
+	private transient final PathManager pathManager = new ZPathManager();
+	private transient final List<Duel> duels = new ArrayList<>();
+	private transient boolean isRunning = false;
 	private static Map<String, Arena> arenas = new HashMap<String, Arena>();
 
 	@Override
@@ -127,9 +131,31 @@ public class ZVillagerManager extends ZUtils implements VillagerManager {
 		}
 
 		Arena arena = optional.get();
-		
+
+		// verif si l'arène est libre ici
+
 		Duel duel = new ZDuel(arena, pathManager);
 		duel.start();
+		this.duels.add(duel);
+		this.task();
+	}
+
+	private void task() {
+		if (this.isRunning)
+			return;
+
+		scheduleFix(100, (task, canRun) -> {
+
+			if (!canRun)
+				return;
+
+			if (this.duels.size() == 0) {
+				task.cancel();
+				return;
+			}
+
+			this.duels.forEach(Duel::update);
+		});
 	}
 
 }

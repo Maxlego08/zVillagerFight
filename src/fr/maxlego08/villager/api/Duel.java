@@ -25,4 +25,9 @@ public interface Duel {
 	 */
 	void start();
 	
+	/**
+	 * 
+	 */
+	void update();
+	
 }

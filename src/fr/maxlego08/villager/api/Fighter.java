@@ -19,4 +19,24 @@ public interface Fighter {
 	 */
 	void setPathGoal(Location location);
 
+	/**
+	 * 
+	 * @return
+	 */
+	Location getLocation();
+
+	/**
+	 * 
+	 * @param fighter
+	 * @return distance
+	 */
+	double distance(Fighter fighter);
+
+	/**
+	 * 
+	 * @param location
+	 * @param distance
+	 */
+	void push(Location location, double distance);
+
 }
