@@ -3,12 +3,15 @@ package fr.maxlego08.villager.command.commands.arena;
 import fr.maxlego08.villager.ZVillagerPlugin;
 import fr.maxlego08.villager.api.enums.Message;
 import fr.maxlego08.villager.command.VCommand;
+import fr.maxlego08.villager.zcore.enums.Permission;
 import fr.maxlego08.villager.zcore.utils.commands.CommandType;
 
 public class CommandVillagerFightArena extends VCommand {
 
 	public CommandVillagerFightArena() {
 		this.addSubCommand("arena");
+		this.setPermission(Permission.ZVILLAGER_ARENA);
+		this.setDescription(Message.COMMAND_DESCRIPTION_ARENA);
 		this.addSubCommand(new CommandVillagerFightArenaCreate());
 		this.addSubCommand(new CommandVillagerFightArenaDelete());
 		this.addSubCommand(new CommandVillagerFightArenaShow());

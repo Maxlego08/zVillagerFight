@@ -51,6 +51,7 @@ public enum Message {
 	ARENA_SHOW_VALID("§avalid"),
 	ARENA_SHOW_INVALID("§cinvalid"),
 	
+	COMMAND_DESCRIPTION_ARENA("Show arena commands"),
 	COMMAND_DESCRIPTION_ARENA_CREATE("Create an arena"),
 	COMMAND_DESCRIPTION_ARENA_DELETE("Delete an arena"),
 	COMMAND_DESCRIPTION_ARENA_SHOW("Show arena list"),

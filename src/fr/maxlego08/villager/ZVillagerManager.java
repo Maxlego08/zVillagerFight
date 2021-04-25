@@ -8,13 +8,17 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import fr.maxlego08.villager.api.Arena;
+import fr.maxlego08.villager.api.Duel;
 import fr.maxlego08.villager.api.VillagerManager;
 import fr.maxlego08.villager.api.enums.Message;
+import fr.maxlego08.villager.api.path.PathManager;
+import fr.maxlego08.villager.path.ZPathManager;
 import fr.maxlego08.villager.zcore.utils.ZUtils;
 import fr.maxlego08.villager.zcore.utils.storage.Persist;
 
 public class ZVillagerManager extends ZUtils implements VillagerManager {
 
+	private final PathManager pathManager = new ZPathManager();
 	private static Map<String, Arena> arenas = new HashMap<String, Arena>();
 
 	@Override
@@ -108,9 +112,24 @@ public class ZVillagerManager extends ZUtils implements VillagerManager {
 			message(sender, Message.ARENA_SHOW_HEADER);
 			arenas.values().forEach(arena -> {
 				String valid = (!arena.isValid() ? Message.ARENA_SHOW_INVALID : Message.ARENA_SHOW_VALID).getMessage();
-				messageWO(sender, Message.ARENA_SHOW_CONTENT, "%is_valid%", valid, "%name%", arena.getName()	);
+				messageWO(sender, Message.ARENA_SHOW_CONTENT, "%is_valid%", valid, "%name%", arena.getName());
 			});
 		}
+	}
+
+	@Override
+	public void start(CommandSender sender, String name) {
+
+		Optional<Arena> optional = getArena(name);
+		if (!optional.isPresent()) {
+			message(sender, Message.ARENA_ALREADY_DOESNT_EXIST);
+			return;
+		}
+
+		Arena arena = optional.get();
+		
+		Duel duel = new ZDuel(arena, pathManager);
+		duel.start();
 	}
 
 }

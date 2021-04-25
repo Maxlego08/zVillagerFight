@@ -58,4 +58,11 @@ public interface VillagerManager extends Saveable {
 	 */
 	void showArenas(CommandSender sender);
 
+	/**
+	 * 
+	 * @param sender
+	 * @param name
+	 */
+	void start(CommandSender sender, String name);
+
 }
