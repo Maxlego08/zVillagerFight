@@ -38,5 +38,12 @@ public interface Duel {
 	boolean isValid();
 	
 	boolean isFinish();
+
+	/**
+	 * 
+	 * @param fighter
+	 * @param zFighter
+	 */
+	void win(Fighter winner, Fighter looser);
 	
 }

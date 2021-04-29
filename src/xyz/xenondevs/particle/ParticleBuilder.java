@@ -3,6 +3,8 @@ package xyz.xenondevs.particle;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+
+import fr.maxlego08.mobfighter.api.particles.ParticleEffect;
 import xyz.xenondevs.particle.data.ParticleData;
 import xyz.xenondevs.particle.data.color.RegularColor;
 import xyz.xenondevs.particle.utils.ReflectionUtils;

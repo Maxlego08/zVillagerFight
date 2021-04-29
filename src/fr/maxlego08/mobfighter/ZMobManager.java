@@ -171,4 +171,12 @@ public class ZMobManager extends ZUtils implements MobManager {
 		});
 	}
 
+	@Override
+	public void onDisable() {
+		this.duels.forEach(e -> {
+			e.getFirstFighter().remove();
+			e.getSecondFighter().remove();
+		});
+	}
+
 }

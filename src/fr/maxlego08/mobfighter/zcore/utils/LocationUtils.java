@@ -5,7 +5,9 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-public abstract class LocationUtils {
+import fr.maxlego08.mobfighter.zcore.utils.particles.ParticleUtils;
+
+public abstract class LocationUtils extends ParticleUtils{
 
 	/**
 	 * @param location

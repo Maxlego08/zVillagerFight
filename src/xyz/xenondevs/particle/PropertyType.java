@@ -26,6 +26,8 @@
 
 package xyz.xenondevs.particle;
 
+import fr.maxlego08.mobfighter.api.particles.ParticleEffect;
+
 /**
  * {@link Enum} to easily define which properties are supported by specific
  * {@link ParticleEffect ParticleEffects}.

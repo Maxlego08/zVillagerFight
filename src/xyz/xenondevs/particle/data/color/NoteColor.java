@@ -27,7 +27,7 @@
 package xyz.xenondevs.particle.data.color;
 
 
-import xyz.xenondevs.particle.ParticleEffect;
+import fr.maxlego08.mobfighter.api.particles.ParticleEffect;
 import xyz.xenondevs.particle.data.ParticleData;
 import xyz.xenondevs.particle.utils.MathUtils;
 

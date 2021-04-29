@@ -93,6 +93,15 @@ public abstract class ZUtils extends MessageUtils {
 	protected int getNumberBetween(int a, int b) {
 		return ThreadLocalRandom.current().nextInt(a, b);
 	}
+	
+	/**
+	 * @param a
+	 * @param b
+	 * @return number between a and b
+	 */
+	protected double getNumberBetween(double a, double b) {
+		return ThreadLocalRandom.current().nextDouble(a, b);
+	}
 
 	/**
 	 * @param player
@@ -689,7 +698,7 @@ public abstract class ZUtils extends MessageUtils {
 		if (element.size() == 1)
 			return element.get(0);
 		Random random = new Random();
-		return element.get(random.nextInt(element.size() - 1));
+		return element.get(random.nextInt(element.size()));
 	}
 
 	/**
@@ -737,6 +746,8 @@ public abstract class ZUtils extends MessageUtils {
 	 * @return
 	 */
 	protected List<String> colorReverse(List<String> messages) {
+		if (messages == null)
+			return null;
 		return messages.stream().map(message -> colorReverse(message)).collect(Collectors.toList());
 	}
 

@@ -28,6 +28,8 @@ package xyz.xenondevs.particle;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+
+import fr.maxlego08.mobfighter.api.particles.ParticleEffect;
 import xyz.xenondevs.particle.data.ParticleData;
 import xyz.xenondevs.particle.data.color.NoteColor;
 import xyz.xenondevs.particle.data.color.ParticleColor;
@@ -38,9 +40,9 @@ import xyz.xenondevs.particle.utils.ReflectionUtils;
 
 import java.lang.reflect.Constructor;
 
+import static fr.maxlego08.mobfighter.api.particles.ParticleEffect.NOTE;
+import static fr.maxlego08.mobfighter.api.particles.ParticleEffect.REDSTONE;
 import static xyz.xenondevs.particle.ParticleConstants.PACKET_PLAY_OUT_WORLD_PARTICLES_CONSTRUCTOR;
-import static xyz.xenondevs.particle.ParticleEffect.NOTE;
-import static xyz.xenondevs.particle.ParticleEffect.REDSTONE;
 
 
 /**
@@ -310,7 +312,7 @@ public class ParticlePacket {
      * @return A PacketPlayOutWorldParticles instance with the given data or {@code null} if an error occurs.
      */
     private Object createPacket(Object param, float locationX, float locationY, float locationZ, float offsetX, float offsetY, float offsetZ, float speed, int amount, int[] data) {
-        Constructor packetConstructor = PACKET_PLAY_OUT_WORLD_PARTICLES_CONSTRUCTOR;
+        Constructor<?> packetConstructor = PACKET_PLAY_OUT_WORLD_PARTICLES_CONSTRUCTOR;
         try {
             if (ReflectionUtils.MINECRAFT_VERSION < 13)
                 return packetConstructor.newInstance(param, true, locationX, locationY, locationZ, offsetX, offsetY, offsetZ, speed, amount, data);

@@ -68,4 +68,9 @@ public interface MobManager extends Saveable {
 	 */
 	void start(CommandSender sender, String name, EntityType entity1, EntityType entity2);
 
+	/*
+	 * 
+	 */
+	void onDisable();
+
 }

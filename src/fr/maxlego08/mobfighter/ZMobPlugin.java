@@ -19,7 +19,7 @@ import fr.maxlego08.mobfighter.zcore.ZPlugin;
  */
 public class ZMobPlugin extends ZPlugin {
 
-	private final MobManager villagerManager = new ZMobManager(this);
+	private final MobManager manager = new ZMobManager(this);
 	private final ConfigurationManager configurationManager = new ZConfigurationManager(this);
 
 	@Override
@@ -42,7 +42,7 @@ public class ZMobPlugin extends ZPlugin {
 
 		/* Add Saver */
 		this.addSave(Config.getInstance());
-		this.addSave((ZMobManager) this.villagerManager);
+		this.addSave((ZMobManager) this.manager);
 		this.addSave(configurationManager);
 
 		getSavers().forEach(saver -> saver.load(getPersist()));
@@ -56,13 +56,14 @@ public class ZMobPlugin extends ZPlugin {
 		preDisable();
 
 		getSavers().forEach(saver -> saver.save(getPersist()));
+		this.manager.onDisable();
 
 		postDisable();
 
 	}
 
 	public MobManager getVillagerManager() {
-		return villagerManager;
+		return manager;
 	}
 
 	public ConfigurationManager getConfigurationManager() {

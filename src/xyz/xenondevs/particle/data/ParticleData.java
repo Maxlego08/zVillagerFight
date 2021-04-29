@@ -27,7 +27,7 @@
 package xyz.xenondevs.particle.data;
 
 
-import xyz.xenondevs.particle.ParticleEffect;
+import fr.maxlego08.mobfighter.api.particles.ParticleEffect;
 
 /**
  * A Object to easier hold data of a particle.

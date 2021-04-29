@@ -1,5 +1,7 @@
 package fr.maxlego08.mobfighter;
 
+import java.util.Random;
+
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 
@@ -9,8 +11,6 @@ import fr.maxlego08.mobfighter.api.Fighter;
 import fr.maxlego08.mobfighter.api.configuration.ConfigurationManager;
 import fr.maxlego08.mobfighter.api.path.PathManager;
 import fr.maxlego08.mobfighter.zcore.utils.ZUtils;
-import xyz.xenondevs.particle.ParticleBuilder;
-import xyz.xenondevs.particle.ParticleEffect;
 
 public class ZDuel extends ZUtils implements Duel {
 
@@ -18,6 +18,7 @@ public class ZDuel extends ZUtils implements Duel {
 	private final Fighter firstFighter;
 	private final Fighter secondFighter;
 	private final PathManager manager;
+	private final Random random = new Random();
 
 	/**
 	 * @param arena
@@ -80,25 +81,12 @@ public class ZDuel extends ZUtils implements Duel {
 			this.firstFighter.push(this.secondFighter.getLocation());
 			this.secondFighter.push(this.firstFighter.getLocation());
 
-			Location location = this.firstFighter.getEntity().getEyeLocation();
+			int value = random.nextInt(100);
 
-			for (float i = -0.2f; i < 0.3; i += 0.1) {
-				for (float j = -0.1f; j < 0.3; j += 0.1) {
-					for (float k = -0.2f; k < 0.3; k += 0.1) {
-
-						final float ii = i;
-						final float jj = j;
-						final float kk = k;
-						ParticleBuilder builder = new ParticleBuilder(ParticleEffect.SPELL_INSTANT, location);
-						builder.setAmount(1);
-						builder.setOffsetX(ii);
-						builder.setOffsetY(jj);
-						builder.setOffsetZ(kk);
-						builder.setSpeed(0.0f);
-						builder.display(p -> p.getWorld().equals(location.getWorld())
-								&& p.getLocation().distance(location) < 64);
-					}
-				}
+			if (value > 50) {
+				this.firstFighter.onTouch(this.secondFighter, this);
+			} else {
+				this.secondFighter.onTouch(this.firstFighter, this);
 			}
 
 		}
@@ -106,7 +94,7 @@ public class ZDuel extends ZUtils implements Duel {
 		Location centerLocation = this.arena.getCenterLocation();
 		this.manager.setPathGoal(this.firstFighter, centerLocation);
 		this.manager.setPathGoal(this.secondFighter, centerLocation);
-		
+
 		this.firstFighter.setTarget(this.secondFighter);
 		this.secondFighter.setTarget(this.firstFighter);
 
@@ -121,6 +109,17 @@ public class ZDuel extends ZUtils implements Duel {
 	@Override
 	public boolean isFinish() {
 		return !this.isValid();
+	}
+
+	@Override
+	public void win(Fighter winner, Fighter looser) {
+
+		System.out.println("Et nous avons un gagnant !");
+
+		winner.remove(); // On retire le winner
+		winner.win(); // On fait un truc au cas ou
+		looser.loose(); // On fait un truc au cas ou
+
 	}
 
 }

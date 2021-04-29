@@ -5,11 +5,10 @@ import fr.maxlego08.mobfighter.zcore.utils.storage.Saveable;
 
 public class Config implements Saveable {
 
-		/**
+	/**
 	 * static Singleton instance.
 	 */
 	private static volatile Config instance;
-
 
 	/**
 	 * Private constructor for singleton.

@@ -7,7 +7,7 @@ import fr.maxlego08.mobfighter.configuration.ZMobConfiguration;
 public class PassibleConfiguration extends ZMobConfiguration {
 
 	public PassibleConfiguration(EntityType type) {
-		super(type, 1.3D, 2D, 0.2D, 1.2D);
+		super(type, 2.5D, 2D, 0.2D, 1.2D, 100D, 120D, 4D, 2D, 1.25D, "§c%health% §4§l<3", 2);
 	}
 
 }

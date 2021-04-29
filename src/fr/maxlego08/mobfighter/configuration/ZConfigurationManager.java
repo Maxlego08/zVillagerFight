@@ -12,12 +12,12 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Monster;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import fr.maxlego08.mobfighter.ConfigurationLoader;
 import fr.maxlego08.mobfighter.api.configuration.ConfigurationManager;
 import fr.maxlego08.mobfighter.api.configuration.MobConfiguration;
 import fr.maxlego08.mobfighter.configuration.configurations.CreatureConfiguration;
 import fr.maxlego08.mobfighter.configuration.configurations.PassibleConfiguration;
 import fr.maxlego08.mobfighter.configuration.configurations.VillagerConfiguration;
+import fr.maxlego08.mobfighter.loader.ConfigurationLoader;
 import fr.maxlego08.mobfighter.zcore.utils.loader.Loader;
 import fr.maxlego08.mobfighter.zcore.utils.storage.Persist;
 import fr.maxlego08.mobfighter.zcore.utils.yaml.YamlUtils;

@@ -27,13 +27,14 @@
 package xyz.xenondevs.particle.data.color;
 
 import xyz.xenondevs.particle.ParticleConstants;
-import xyz.xenondevs.particle.ParticleEffect;
 import xyz.xenondevs.particle.PropertyType;
 import xyz.xenondevs.particle.data.ParticleData;
 import xyz.xenondevs.particle.utils.MathUtils;
 import xyz.xenondevs.particle.utils.ReflectionUtils;
 
 import java.awt.*;
+
+import fr.maxlego08.mobfighter.api.particles.ParticleEffect;
 
 /**
  * A implementation of the {@link ParticleColor} class that supports normal RGB values.
