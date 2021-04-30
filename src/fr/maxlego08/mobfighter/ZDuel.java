@@ -93,7 +93,7 @@ public class ZDuel extends ZUtils implements Duel {
 			}
 
 		}
-
+		
 		Location centerLocation = this.arena.getCenterLocation();
 		this.manager.setPathGoal(this.firstFighter, centerLocation);
 		this.manager.setPathGoal(this.secondFighter, centerLocation);
