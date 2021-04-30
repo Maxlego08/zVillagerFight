@@ -9,6 +9,7 @@ import fr.maxlego08.mobfighter.api.Arena;
 import fr.maxlego08.mobfighter.api.Duel;
 import fr.maxlego08.mobfighter.api.Fighter;
 import fr.maxlego08.mobfighter.api.configuration.ConfigurationManager;
+import fr.maxlego08.mobfighter.api.enums.Message;
 import fr.maxlego08.mobfighter.api.path.PathManager;
 import fr.maxlego08.mobfighter.zcore.utils.ZUtils;
 
@@ -65,6 +66,8 @@ public class ZDuel extends ZUtils implements Duel {
 		this.manager.setPathGoal(firstFighter, centerLocation);
 		this.manager.setPathGoal(secondFighter, centerLocation);
 
+		broadcast(Message.DUEL_START, "%first%", this.firstFighter.getName(), "%second%", this.secondFighter.getName());
+
 	}
 
 	@Override
@@ -114,8 +117,8 @@ public class ZDuel extends ZUtils implements Duel {
 	@Override
 	public void win(Fighter winner, Fighter looser) {
 
-		System.out.println("Et nous avons un gagnant !");
-
+		broadcast(Message.DUEL_WIN, "%winner%", winner.getName(), "%looser%", looser.getName());
+		
 		winner.remove(); // On retire le winner
 		winner.win(); // On fait un truc au cas ou
 		looser.loose(); // On fait un truc au cas ou

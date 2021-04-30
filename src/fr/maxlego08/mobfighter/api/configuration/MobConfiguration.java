@@ -72,6 +72,18 @@ public interface MobConfiguration {
 	 * @return
 	 */
 	String getDisplayName();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	String getRandomName();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	List<String> getNames();
 
 	/**
 	 * 

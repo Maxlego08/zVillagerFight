@@ -29,6 +29,7 @@ public class ZMobConfiguration extends ZUtils implements MobConfiguration {
 	private double criticalPercent;
 	private final List<Particle> particles;
 	private final List<String> sentences;
+	private final List<String> names;
 
 	/**
 	 * @param type
@@ -45,10 +46,12 @@ public class ZMobConfiguration extends ZUtils implements MobConfiguration {
 	 * @param criticalPercent
 	 * @param particles
 	 * @param sentences
+	 * @param names
 	 */
 	public ZMobConfiguration(EntityType type, double speed, double distance, double pushHeight, double pushSpeed,
 			double minHealth, double maxHealth, double maxDamage, double minDamage, double criticalMultiplier,
-			String displayName, double criticalPercent, List<Particle> particles, List<String> sentences) {
+			String displayName, double criticalPercent, List<Particle> particles, List<String> sentences,
+			List<String> names) {
 		super();
 		this.type = type;
 		this.speed = speed;
@@ -64,6 +67,7 @@ public class ZMobConfiguration extends ZUtils implements MobConfiguration {
 		this.criticalPercent = criticalPercent;
 		this.particles = particles;
 		this.sentences = sentences;
+		this.names = names;
 	}
 
 	/**
@@ -111,6 +115,20 @@ public class ZMobConfiguration extends ZUtils implements MobConfiguration {
 		this.particles.add(new ZParticle(ParticleEffect.FLAME, ParticleType.PUSH, 5));
 		this.particles.add(new ZParticle(ParticleEffect.LAVA, ParticleType.FIRE, 5));
 		this.particles.add(new ZParticle(ParticleEffect.CLOUD, ParticleType.FIRE, 5));
+		
+		this.names = new ArrayList<>();
+		this.names.add("Kevin");
+		this.names.add("Michel");
+		this.names.add("Laurette");
+		this.names.add("Leann");
+		this.names.add("Linus");
+		this.names.add("Lexa");
+		this.names.add("Clarck");
+		this.names.add("Zygmunt");
+		this.names.add("Yavuz");
+		this.names.add("Deryck");
+		this.names.add("Björn");
+		this.names.add("Burcu");
 	}
 
 	/**
@@ -299,6 +317,16 @@ public class ZMobConfiguration extends ZUtils implements MobConfiguration {
 		if (particle.getPercent() >= percent)
 			return particle;
 		return this.getRandomParticle();
+	}
+
+	@Override
+	public List<String> getNames() {
+		return this.names;
+	}
+
+	@Override
+	public String getRandomName() {
+		return randomElement(this.names);
 	}
 
 }

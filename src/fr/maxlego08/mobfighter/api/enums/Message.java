@@ -57,7 +57,10 @@ public enum Message {
 	COMMAND_DESCRIPTION_ARENA_SHOW("Show arena list"),
 	COMMAND_DESCRIPTION_ARENA_FIRST("Set arena first location"),
 	COMMAND_DESCRIPTION_ARENA_SECOND("Set arena second location"),
-	COMMAND_DESCRIPTION_ARENA_CENTER("Set arena center location"),
+	COMMAND_DESCRIPTION_ARENA_CENTER("Set arena center location"), 
+	
+	DUEL_START("§fStart of the duel between §a%first% §fand §2%second%§f. May the best man win!"),
+	DUEL_WIN("§a%winner% §f comes to win the fight against §b%looser%§f."),
 	
 	
 	;

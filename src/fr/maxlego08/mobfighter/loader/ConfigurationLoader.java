@@ -34,6 +34,7 @@ public class ConfigurationLoader extends ZUtils implements Loader<MobConfigurati
 
 			String displayName = color(configuration.getString(path + "displayname"));
 			List<String> setences = color(configuration.getStringList(path + "setences"));
+			List<String> names = color(configuration.getStringList(path + "names"));
 
 			double criticalMultiplier = configuration.getDouble(path + "critical.multiplier");
 			double criticalPercent = configuration.getDouble(path + "critical.percent");
@@ -61,7 +62,7 @@ public class ConfigurationLoader extends ZUtils implements Loader<MobConfigurati
 				}
 
 			return new ZMobConfiguration(entityType, speed, distance, pushHeight, pushSpeed, minHealth, maxHealth,
-					maxDamage, minDamage, criticalMultiplier, displayName, criticalPercent, particles, setences);
+					maxDamage, minDamage, criticalMultiplier, displayName, criticalPercent, particles, setences, names);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -83,6 +84,7 @@ public class ConfigurationLoader extends ZUtils implements Loader<MobConfigurati
 		configuration.set(path + "push.height", mobConfiguration.getPushHeight());
 		configuration.set(path + "push.speed", mobConfiguration.getPushSpeed());
 		configuration.set(path + "setences", colorReverse(mobConfiguration.getSentences()));
+		configuration.set(path + "names", colorReverse(mobConfiguration.getNames()));
 		AtomicInteger atomicInteger = new AtomicInteger(1);
 		mobConfiguration.getParticle().forEach(particle -> {
 			String currentPath = path + "particles." + atomicInteger.getAndIncrement() + ".";

@@ -25,7 +25,9 @@ public class ZFighter extends ZUtils implements Fighter {
 	private final MobConfiguration configuration;
 	private LivingEntity entity;
 	private double health;
+	private double maxHealth;
 
+	private String name;
 	private ArmorStand armorStandHealth;
 	private ArmorStand armorStandWord;
 	private int taskID;
@@ -39,6 +41,8 @@ public class ZFighter extends ZUtils implements Fighter {
 		this.entityType = entityType;
 		this.configuration = optional.get();
 		this.health = getNumberBetween(this.configuration.getMinHealth(), this.configuration.getMaxHealth());
+		this.maxHealth = this.health;
+		this.name = this.configuration.getRandomName();
 	}
 
 	@Override
@@ -142,7 +146,7 @@ public class ZFighter extends ZUtils implements Fighter {
 		} else {
 
 			this.updateSentence();
-			
+
 			Particle particle = this.configuration.getRandomParticle();
 			Location location = this.entity.getEyeLocation();
 			switch (particle.getType()) {
@@ -199,6 +203,8 @@ public class ZFighter extends ZUtils implements Fighter {
 			String string = new String(this.configuration.getDisplayName());
 
 			string = string.replace("%health%", format(this.health, "#.##"));
+			string = string.replace("%maxhealth%", format(this.health, "#.##"));
+			string = string.replace("%name%", this.name);
 
 			this.armorStandHealth.setCustomName(string);
 		}
@@ -231,8 +237,23 @@ public class ZFighter extends ZUtils implements Fighter {
 	public void updateSentence() {
 		if (this.armorStandWord != null) {
 			String string = randomElement(this.configuration.getSentences());
+
+			string = string.replace("%health%", format(this.health, "#.##"));
+			string = string.replace("%maxhealth%", format(this.health, "#.##"));
+			string = string.replace("%name%", this.name);
+
 			this.armorStandWord.setCustomName(string);
 		}
+	}
+
+	@Override
+	public String getName() {
+		return this.name;
+	}
+
+	@Override
+	public double getMaxHealth() {
+		return this.maxHealth;
 	}
 
 }

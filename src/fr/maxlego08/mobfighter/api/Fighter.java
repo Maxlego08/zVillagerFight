@@ -23,6 +23,12 @@ public interface Fighter {
 
 	/**
 	 * 
+	 * @return
+	 */
+	String getName();
+
+	/**
+	 * 
 	 * @param fighter
 	 * @return distance
 	 */
@@ -59,6 +65,12 @@ public interface Fighter {
 	 * @return health
 	 */
 	double getHealth();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	double getMaxHealth();
 
 	/**
 	 * 
