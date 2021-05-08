@@ -13,6 +13,9 @@ public class CommandMobFighter extends VCommand {
 		this.setPermission(Permission.ZVILLAGER_USE);
 		this.addSubCommand(new CommandVillagerFightArena());
 		this.addSubCommand(new CommandMobFighterStart());
+		this.addSubCommand(new CommandMobFighterStop());
+		this.addSubCommand(new CommandMobFighterVersion());
+		this.addSubCommand(new CommandMobFighterReload());
 	}
 	
 	@Override

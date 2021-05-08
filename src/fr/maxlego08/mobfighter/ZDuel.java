@@ -10,6 +10,9 @@ import fr.maxlego08.mobfighter.api.Duel;
 import fr.maxlego08.mobfighter.api.Fighter;
 import fr.maxlego08.mobfighter.api.configuration.ConfigurationManager;
 import fr.maxlego08.mobfighter.api.enums.Message;
+import fr.maxlego08.mobfighter.api.event.events.DuelStopEvent;
+import fr.maxlego08.mobfighter.api.event.events.DuelUpdateEvent;
+import fr.maxlego08.mobfighter.api.event.events.DuelWinEvent;
 import fr.maxlego08.mobfighter.api.path.PathManager;
 import fr.maxlego08.mobfighter.zcore.utils.ZUtils;
 
@@ -77,9 +80,19 @@ public class ZDuel extends ZUtils implements Duel {
 
 		double d1 = this.firstFighter.getConfiguration().getDistance();
 		double d2 = this.secondFighter.getConfiguration().getDistance();
-		double distannce = Math.max(d1, d2);
+		double distance = Math.max(d1, d2);
 
-		if (this.firstFighter.distance(this.secondFighter) <= distannce) {
+		DuelUpdateEvent event = new DuelUpdateEvent(d1, d2, distance, this);
+		event.callEvent();
+
+		if (event.isCancelled())
+			return;
+
+		d1 = event.getD1();
+		d2 = event.getD2();
+		distance = event.getDistance();
+
+		if (this.firstFighter.distance(this.secondFighter) <= distance) {
 
 			this.firstFighter.push(this.secondFighter.getLocation());
 			this.secondFighter.push(this.firstFighter.getLocation());
@@ -93,7 +106,7 @@ public class ZDuel extends ZUtils implements Duel {
 			}
 
 		}
-		
+
 		Location centerLocation = this.arena.getCenterLocation();
 		this.manager.setPathGoal(this.firstFighter, centerLocation);
 		this.manager.setPathGoal(this.secondFighter, centerLocation);
@@ -117,12 +130,29 @@ public class ZDuel extends ZUtils implements Duel {
 	@Override
 	public void win(Fighter winner, Fighter looser) {
 
+		DuelWinEvent event = new DuelWinEvent(winner, looser, this);
+		event.callEvent();
+
 		broadcast(Message.DUEL_WIN, "%winner%", winner.getName(), "%looser%", looser.getName());
-		
+
 		winner.remove(); // On retire le winner
 		winner.win(); // On fait un truc au cas ou
 		looser.loose(); // On fait un truc au cas ou
 
+	}
+
+	@Override
+	public void stop() {
+		
+		DuelStopEvent event = new DuelStopEvent(this);
+		event.callEvent();
+		
+		if (event.isCancelled())
+			return;
+		
+		this.firstFighter.remove();
+		this.secondFighter.remove();
+		
 	}
 
 }

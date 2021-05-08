@@ -11,16 +11,16 @@ public enum Message {
 
 	PREFIX("§8[§a§l!§8] "),
 	
-	TELEPORT_MOVE("§cVous ne devez pas bouger !"),
-	TELEPORT_MESSAGE("§7Téléportatio dans §3%s §7secondes !"),
-	TELEPORT_ERROR("§cVous avez déjà une téléportation en cours !"),
-	TELEPORT_SUCCESS("§7Téléportation effectué !"),
+	TELEPORT_MOVE("§cVous ne devez pas bouger !", false),
+	TELEPORT_MESSAGE("§7Téléportatio dans §3%s §7secondes !", false),
+	TELEPORT_ERROR("§cVous avez déjà une téléportation en cours !", false),
+	TELEPORT_SUCCESS("§7Téléportation effectué !", false),
 	
-	INVENTORY_NULL("§cImpossible de trouver l'inventaire avec l'id §6%s§c."),
-	INVENTORY_CLONE_NULL("§cLe clone de l'inventaire est null !"),
-	INVENTORY_OPEN_ERROR("§cUne erreur est survenu avec l'ouverture de l'inventaire §6%s§c."),
-	INVENTORY_BUTTON_PREVIOUS("§f» §7Page précédente"),
-	INVENTORY_BUTTON_NEXT("§f» §7Page suivante"),
+	INVENTORY_NULL("§cImpossible de trouver l'inventaire avec l'id §6%s§c.", false),
+	INVENTORY_CLONE_NULL("§cLe clone de l'inventaire est null !", false),
+	INVENTORY_OPEN_ERROR("§cUne erreur est survenu avec l'ouverture de l'inventaire §6%s§c.", false),
+	INVENTORY_BUTTON_PREVIOUS("§f» §7Page précédente", false),
+	INVENTORY_BUTTON_NEXT("§f» §7Page suivante", false),
 	
 	TIME_DAY("%02d jour(s) %02d heure(s) %02d minute(s) %02d seconde(s)"),
 	TIME_HOUR("%02d heure(s) %02d minute(s) %02d seconde(s)"),
@@ -36,7 +36,7 @@ public enum Message {
 	
 	
 	ARENA_ALREADY_EXIST("§cThis arena already exists."),
-	ARENA_ALREADY_DOESNT_EXIST("§cThis arena doesn't exists."),
+	ARENA_DOESNT_EXIST("§cThis arena doesn't exists."),
 	ARENA_CREATE("§7You have just created the §f%name% §farena."), 
 	ARENA_DELETE("§7You have just deleted the §f%name% §farena."),
 	ARENA_DELETE_ERROR_ACTIVE("§cYou cannot delete the arena at this time."),
@@ -58,9 +58,17 @@ public enum Message {
 	COMMAND_DESCRIPTION_ARENA_FIRST("Set arena first location"),
 	COMMAND_DESCRIPTION_ARENA_SECOND("Set arena second location"),
 	COMMAND_DESCRIPTION_ARENA_CENTER("Set arena center location"), 
+	COMMAND_DESCRIPTION_VERSION("Show plugin version"), 
+	COMMAND_DESCRIPTION_START("Start a duel"), 
+	COMMAND_DESCRIPTION_STOP("Stop a duel"), 
+	COMMAND_RELOAD("§aReload !!"),
 	
 	DUEL_START("§fStart of the duel between §a%first% §fand §2%second%§f. May the best man win!"),
 	DUEL_WIN("§a%winner% §fjust won the fight against §b%looser%§f."),
+	DUEL_START_ERROR_ALIVE("§cYou cannot have this entity used."),
+	DUEL_START_ERROR_DUEL("§cArena is already use."),
+	DUEL_STOP_ERROR_DUEL("§cArena is not use."),
+	DUEL_STOP_SUCCESS("§aYou have just stop a duel."),
 	
 	
 	;

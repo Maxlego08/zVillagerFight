@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
@@ -15,6 +16,7 @@ import fr.maxlego08.mobfighter.api.Duel;
 import fr.maxlego08.mobfighter.api.MobManager;
 import fr.maxlego08.mobfighter.api.configuration.ConfigurationManager;
 import fr.maxlego08.mobfighter.api.enums.Message;
+import fr.maxlego08.mobfighter.api.event.events.DuelStartEvent;
 import fr.maxlego08.mobfighter.api.path.PathManager;
 import fr.maxlego08.mobfighter.path.ZPathManager;
 import fr.maxlego08.mobfighter.zcore.utils.ZUtils;
@@ -69,7 +71,7 @@ public class ZMobManager extends ZUtils implements MobManager {
 	public void setFirstLocation(Player player, String name) {
 		Optional<Arena> optional = getArena(name);
 		if (!optional.isPresent()) {
-			message(player, Message.ARENA_ALREADY_DOESNT_EXIST);
+			message(player, Message.ARENA_DOESNT_EXIST);
 			return;
 		}
 		Arena arena = optional.get();
@@ -81,7 +83,7 @@ public class ZMobManager extends ZUtils implements MobManager {
 	public void setSecondLocation(Player player, String name) {
 		Optional<Arena> optional = getArena(name);
 		if (!optional.isPresent()) {
-			message(player, Message.ARENA_ALREADY_DOESNT_EXIST);
+			message(player, Message.ARENA_DOESNT_EXIST);
 			return;
 		}
 		Arena arena = optional.get();
@@ -93,7 +95,7 @@ public class ZMobManager extends ZUtils implements MobManager {
 	public void setCenterLocation(Player player, String name) {
 		Optional<Arena> optional = getArena(name);
 		if (!optional.isPresent()) {
-			message(player, Message.ARENA_ALREADY_DOESNT_EXIST);
+			message(player, Message.ARENA_DOESNT_EXIST);
 			return;
 		}
 		Arena arena = optional.get();
@@ -105,7 +107,7 @@ public class ZMobManager extends ZUtils implements MobManager {
 	public void deleteArena(CommandSender sender, String name) {
 		Optional<Arena> optional = getArena(name);
 		if (!optional.isPresent()) {
-			message(sender, Message.ARENA_ALREADY_DOESNT_EXIST);
+			message(sender, Message.ARENA_DOESNT_EXIST);
 			return;
 		}
 
@@ -137,16 +139,32 @@ public class ZMobManager extends ZUtils implements MobManager {
 
 		Optional<Arena> optional = getArena(name);
 		if (!optional.isPresent()) {
-			message(sender, Message.ARENA_ALREADY_DOESNT_EXIST);
+			message(sender, Message.ARENA_DOESNT_EXIST);
+			return;
+		}
+
+		if (!entity1.isAlive() || entity2.isAlive()) {
+			message(sender, Message.DUEL_START_ERROR_ALIVE);
 			return;
 		}
 
 		Arena arena = optional.get();
 
-		// verif si l'arène est libre ici
-
+		if (!arena.isReady()){
+			message(sender, Message.DUEL_START_ERROR_ALIVE);
+			return;
+		}
+		
 		ConfigurationManager configurationManager = plugin.getConfigurationManager();
 		Duel duel = new ZDuel(arena, pathManager, configurationManager, entity1, entity2);
+
+		DuelStartEvent event = new DuelStartEvent(duel);
+		event.callEvent();
+
+		if (event.isCancelled())
+			return;
+
+		arena.setDuel(duel);
 		duel.start();
 		this.duels.add(duel);
 		this.task();
@@ -177,6 +195,34 @@ public class ZMobManager extends ZUtils implements MobManager {
 			e.getFirstFighter().remove();
 			e.getSecondFighter().remove();
 		});
+	}
+
+	@Override
+	public List<String> getArenas() {
+		return arenas.values().stream().map(e -> e.getName()).collect(Collectors.toList());
+	}
+
+	@Override
+	public void stop(CommandSender sender, String name) {
+		
+		Optional<Arena> optional = getArena(name);
+		if (!optional.isPresent()) {
+			message(sender, Message.ARENA_DOESNT_EXIST);
+			return;
+		}
+
+		Arena arena = optional.get();
+		if (arena.isReady()){
+			message(sender, Message.DUEL_STOP_ERROR_DUEL);
+			return;
+		}
+		
+		Duel duel = arena.getDuel();
+		duel.stop();
+		arena.setDuel(null);
+		
+		message(sender, Message.DUEL_STOP_SUCCESS);
+		
 	}
 
 }

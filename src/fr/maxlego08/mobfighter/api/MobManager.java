@@ -1,5 +1,6 @@
 package fr.maxlego08.mobfighter.api;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.bukkit.command.CommandSender;
@@ -72,5 +73,18 @@ public interface MobManager extends Saveable {
 	 * 
 	 */
 	void onDisable();
+
+	/**
+	 * 
+	 * @return
+	 */
+	List<String> getArenas();
+
+	/**
+	 * 
+	 * @param sender
+	 * @param name
+	 */
+	void stop(CommandSender sender, String name);
 
 }

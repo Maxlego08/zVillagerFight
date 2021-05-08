@@ -8,6 +8,7 @@ import fr.maxlego08.mobfighter.configuration.ZConfigurationManager;
 import fr.maxlego08.mobfighter.inventory.InventoryManager;
 import fr.maxlego08.mobfighter.listener.AdapterListener;
 import fr.maxlego08.mobfighter.save.Config;
+import fr.maxlego08.mobfighter.save.MessageLoader;
 import fr.maxlego08.mobfighter.zcore.ZPlugin;
 
 /**
@@ -44,6 +45,7 @@ public class ZMobPlugin extends ZPlugin {
 		this.addSave(Config.getInstance());
 		this.addSave((ZMobManager) this.manager);
 		this.addSave(configurationManager);
+		this.addSave(new MessageLoader(this));
 
 		getSavers().forEach(saver -> saver.load(getPersist()));
 
@@ -62,7 +64,7 @@ public class ZMobPlugin extends ZPlugin {
 
 	}
 
-	public MobManager getVillagerManager() {
+	public MobManager getManager() {
 		return manager;
 	}
 

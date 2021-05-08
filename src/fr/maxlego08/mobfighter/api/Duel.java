@@ -37,6 +37,10 @@ public interface Duel {
 	 */
 	boolean isValid();
 	
+	/**
+	 *
+	 * @return
+	 */
 	boolean isFinish();
 
 	/**
@@ -45,5 +49,10 @@ public interface Duel {
 	 * @param zFighter
 	 */
 	void win(Fighter winner, Fighter looser);
+
+	/**
+	 * 
+	 */
+	void stop();
 	
 }

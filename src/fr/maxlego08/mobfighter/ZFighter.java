@@ -15,6 +15,7 @@ import org.bukkit.util.Vector;
 import fr.maxlego08.mobfighter.api.Duel;
 import fr.maxlego08.mobfighter.api.Fighter;
 import fr.maxlego08.mobfighter.api.configuration.MobConfiguration;
+import fr.maxlego08.mobfighter.api.event.events.FighterTouchEvent;
 import fr.maxlego08.mobfighter.api.particles.Particle;
 import fr.maxlego08.mobfighter.zcore.ZPlugin;
 import fr.maxlego08.mobfighter.zcore.utils.ZUtils;
@@ -133,7 +134,13 @@ public class ZFighter extends ZUtils implements Fighter {
 	@Override
 	public void onTouch(Fighter fighter, Duel duel) {
 		double damage = fighter.getRandomDamage();
-		this.applyDamage(damage);
+		
+		FighterTouchEvent event = new FighterTouchEvent(this, fighter, duel, damage);
+		event.callEvent();
+		
+		if (event.isCancelled());
+		
+		this.applyDamage(event.getDamage());
 
 		if (this.health <= 0) { // La mort
 

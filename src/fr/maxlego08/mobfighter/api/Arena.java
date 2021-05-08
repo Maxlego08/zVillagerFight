@@ -62,4 +62,22 @@ public interface Arena {
 	 */
 	boolean isActive();
 
+	/**
+	 * 
+	 * @param duel
+	 */
+	void setDuel(Duel duel);
+
+	/**
+	 * 
+	 * @return
+	 */
+	Duel getDuel();
+
+	/**
+	 * 
+	 * @return
+	 */
+	boolean isReady();
+
 }

@@ -18,7 +18,7 @@ public class CommandVillagerFightArenaSecond extends VCommand {
 
 	@Override
 	protected CommandType perform(ZMobPlugin plugin) {
-		MobManager manager = plugin.getVillagerManager();
+		MobManager manager = plugin.getManager();
 		String name = argAsString(0);
 		manager.setSecondLocation(player, name);
 		return CommandType.SUCCESS;

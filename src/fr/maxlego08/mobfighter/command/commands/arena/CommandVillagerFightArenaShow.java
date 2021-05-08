@@ -17,7 +17,7 @@ public class CommandVillagerFightArenaShow extends VCommand {
 
 	@Override
 	protected CommandType perform(ZMobPlugin plugin) {
-		MobManager manager = plugin.getVillagerManager();
+		MobManager manager = plugin.getManager();
 		manager.showArenas(sender);
 		return CommandType.SUCCESS;
 	}

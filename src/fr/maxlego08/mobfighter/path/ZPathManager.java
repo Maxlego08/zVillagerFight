@@ -6,10 +6,14 @@ import fr.maxlego08.mobfighter.api.Fighter;
 import fr.maxlego08.mobfighter.api.enums.EnumVersion;
 import fr.maxlego08.mobfighter.api.path.Path;
 import fr.maxlego08.mobfighter.api.path.PathManager;
+import fr.maxlego08.mobfighter.path.nms.Path12R1;
+import fr.maxlego08.mobfighter.path.nms.Path15R1;
 import fr.maxlego08.mobfighter.path.nms.Path16R1;
 import fr.maxlego08.mobfighter.path.nms.Path16R2;
 import fr.maxlego08.mobfighter.path.nms.Path16R3;
 import fr.maxlego08.mobfighter.path.nms.Path18R3;
+import fr.maxlego08.mobfighter.zcore.logger.Logger;
+import fr.maxlego08.mobfighter.zcore.logger.Logger.LogType;
 import fr.maxlego08.mobfighter.zcore.utils.ItemDecoder;
 
 public class ZPathManager implements PathManager {
@@ -20,6 +24,10 @@ public class ZPathManager implements PathManager {
 		double nms = ItemDecoder.getNMSVersion();
 		if (nms == 1.8)
 			this.path = new Path18R3();
+		else if (nms == 1.15)
+			this.path = new Path15R1();
+		else if (nms == 1.12)
+			this.path = new Path12R1();
 		else if (nms == 1.16) {
 			EnumVersion nmsVersion = ItemDecoder.getVersion();
 			switch (nmsVersion) {
@@ -36,13 +44,18 @@ public class ZPathManager implements PathManager {
 				this.path = new Path16R3();
 				break;
 			}
-		} else
-			this.path = new Path16R3();
+		} else {
+			Logger.info("PLEASE CONTECT DEVELOPPER FOR ADDED YOUR VERSION OF SPIGOT", LogType.ERROR);
+			this.path = null;
+		}
 	}
 
 	@Override
 	public void setPathGoal(Fighter fighter, Location location) {
-		this.path.setPath(fighter, location, fighter.getConfiguration().getSpeed());
+		if (this.path != null)
+			this.path.setPath(fighter, location, fighter.getConfiguration().getSpeed());
+		else
+			Logger.info("PLEASE CONTECT DEVELOPPER FOR ADDED YOUR VERSION OF SPIGOT", LogType.ERROR);
 	}
 
 }

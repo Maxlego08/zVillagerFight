@@ -3,6 +3,7 @@ package fr.maxlego08.mobfighter;
 import org.bukkit.Location;
 
 import fr.maxlego08.mobfighter.api.Arena;
+import fr.maxlego08.mobfighter.api.Duel;
 
 public class ZArena implements Arena {
 
@@ -11,6 +12,7 @@ public class ZArena implements Arena {
 	private Location secondLocation;
 	private Location centerLocation;
 	private boolean isActive = false;
+	private Duel duel;
 
 	/**
 	 * @param name
@@ -95,6 +97,21 @@ public class ZArena implements Arena {
 	@Override
 	public boolean isActive() {
 		return this.isActive;
+	}
+
+	@Override
+	public void setDuel(Duel duel) {
+		this.duel = duel;
+	}
+
+	@Override
+	public Duel getDuel() {
+		return this.duel;
+	}
+
+	@Override
+	public boolean isReady() {
+		return this.duel == null;
 	}
 
 }
