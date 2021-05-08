@@ -87,6 +87,11 @@ public interface MobManager extends Saveable {
 	 */
 	List<Duel> getDuels();
 
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
 	Optional<Duel> getDuelByFighter(String name);
 	
 	/**
@@ -95,5 +100,11 @@ public interface MobManager extends Saveable {
 	 * @param name
 	 */
 	void stop(CommandSender sender, String name);
+	
+	/**
+	 * 
+	 * @return
+	 */
+	List<String> getFighterNames();
 
 }

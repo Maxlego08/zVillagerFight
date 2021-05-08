@@ -56,7 +56,7 @@ public class ZFighter extends ZUtils implements Fighter {
 
 		if (this.armorStandHealth != null)
 			this.armorStandHealth.remove();
-		
+
 		if (this.armorStandWord != null)
 			this.armorStandWord.remove();
 

@@ -15,6 +15,9 @@ public class Config implements Saveable {
 
 	public static boolean enableDebug = false;
 	public static Economy economy = Economy.VAULT;
+	
+	public static long minBet = 100;
+	public static long maxBet = 100000;
 
 	public static long duelTaskMilliSecond = 100;
 	public static List<Integer> displayMessageCooldown = Arrays.asList(300, 120, 60, 30, 10, 5, 4, 3, 2, 1);

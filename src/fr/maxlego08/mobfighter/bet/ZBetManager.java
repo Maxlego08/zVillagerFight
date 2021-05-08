@@ -55,6 +55,16 @@ public class ZBetManager extends ZUtils implements BetManager {
 			return;
 		}
 
+		if (bet < Config.minBet) {
+			message(player, Message.BET_MIN);
+			return;
+		}
+
+		if (bet > Config.maxBet) {
+			message(player, Message.BET_MAX);
+			return;
+		}
+
 		MobManager mobManager = plugin.getManager();
 		Optional<Duel> optional2 = mobManager.getDuelByFighter(name);
 

@@ -81,6 +81,8 @@ public enum Message {
 	BET_LOOSE("§fYou just lost your bet."),
 	BET_HELP("§cYou did not create a bet.", "§7To create a bet you must do §f/zmf bet create <name> <bet>§7."),
 	BET_SHOW("§fYour bet§8:", "§7Fighter§8: §a%fighter%", "§7Bet§8: §2%bet%", "§7Multiplicator§8: §a%multiplicator%"),
+	BET_MIN("§cYou must put at least §f100$§c."),
+	BET_MAX("§cYou can't put in more than §f$100,000§c."),
 	
 	
 	;

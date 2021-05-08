@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import fr.maxlego08.mobfighter.api.Arena;
 import fr.maxlego08.mobfighter.api.Duel;
 import fr.maxlego08.mobfighter.api.MobManager;
+import fr.maxlego08.mobfighter.api.bets.BetManager;
 import fr.maxlego08.mobfighter.api.configuration.ConfigurationManager;
 import fr.maxlego08.mobfighter.api.enums.Message;
 import fr.maxlego08.mobfighter.api.event.events.DuelStartEvent;
@@ -151,13 +152,14 @@ public class ZMobManager extends ZUtils implements MobManager {
 
 		Arena arena = optional.get();
 
-		if (!arena.isReady()){
+		if (!arena.isReady()) {
 			message(sender, Message.DUEL_START_ERROR_DUEL);
 			return;
 		}
-		
+
 		ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
-		Duel duel = new ZDuel(this.plugin.getBetManager(), arena, this.pathManager, configurationManager, entity1, entity2);
+		Duel duel = new ZDuel(this.plugin.getBetManager(), arena, this.pathManager, configurationManager, entity1,
+				entity2);
 
 		DuelStartEvent event = new DuelStartEvent(duel);
 		event.callEvent();
@@ -192,7 +194,9 @@ public class ZMobManager extends ZUtils implements MobManager {
 
 	@Override
 	public void onDisable() {
+		BetManager betManager = this.plugin.getBetManager();
 		this.duels.forEach(e -> {
+			betManager.refundBets(e);
 			e.getFirstFighter().remove();
 			e.getSecondFighter().remove();
 		});
@@ -205,7 +209,7 @@ public class ZMobManager extends ZUtils implements MobManager {
 
 	@Override
 	public void stop(CommandSender sender, String name) {
-		
+
 		Optional<Arena> optional = getArena(name);
 		if (!optional.isPresent()) {
 			message(sender, Message.ARENA_DOESNT_EXIST);
@@ -213,16 +217,19 @@ public class ZMobManager extends ZUtils implements MobManager {
 		}
 
 		Arena arena = optional.get();
-		if (arena.isReady()){
+		if (arena.isReady()) {
 			message(sender, Message.DUEL_STOP_ERROR_DUEL);
 			return;
 		}
-		
+
 		Duel duel = arena.getDuel();
 		duel.stop();
 		
-		message(sender, Message.DUEL_STOP_SUCCESS);
+		BetManager betManager = this.plugin.getBetManager();
+		betManager.refundBets(duel);
 		
+		message(sender, Message.DUEL_STOP_SUCCESS);
+
 	}
 
 	@Override
@@ -232,7 +239,18 @@ public class ZMobManager extends ZUtils implements MobManager {
 
 	@Override
 	public Optional<Duel> getDuelByFighter(String name) {
-		return arenas.values().stream().filter(e -> e != null && e.getDuel().match(name)).map(e -> e.getDuel()).findFirst();
+		return arenas.values().stream().filter(e -> e != null && e.getDuel().match(name)).map(e -> e.getDuel())
+				.findFirst();
+	}
+
+	@Override
+	public List<String> getFighterNames() {
+		List<String> strings = new ArrayList<>();
+		duels.forEach(e -> {
+			strings.add(e.getFirstFighter().getName());
+			strings.add(e.getSecondFighter().getName());
+		});
+		return strings;
 	}
 
 }
