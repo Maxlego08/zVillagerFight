@@ -7,6 +7,9 @@ import fr.maxlego08.mobfighter.api.enums.EnumVersion;
 import fr.maxlego08.mobfighter.api.path.Path;
 import fr.maxlego08.mobfighter.api.path.PathManager;
 import fr.maxlego08.mobfighter.path.nms.Path12R1;
+import fr.maxlego08.mobfighter.path.nms.Path13R1;
+import fr.maxlego08.mobfighter.path.nms.Path13R2;
+import fr.maxlego08.mobfighter.path.nms.Path14R1;
 import fr.maxlego08.mobfighter.path.nms.Path15R1;
 import fr.maxlego08.mobfighter.path.nms.Path16R1;
 import fr.maxlego08.mobfighter.path.nms.Path16R2;
@@ -28,6 +31,14 @@ public class ZPathManager implements PathManager {
 			this.path = new Path15R1();
 		else if (nms == 1.12)
 			this.path = new Path12R1();
+		else if (nms == 1.13) {
+			EnumVersion nmsVersion = ItemDecoder.getVersion();
+			if (nmsVersion.equals(EnumVersion.V_13_R1))
+				this.path = new Path13R1();
+			else
+				this.path = new Path13R2();
+		} else if (nms == 1.14)
+			this.path = new Path14R1();
 		else if (nms == 1.16) {
 			EnumVersion nmsVersion = ItemDecoder.getVersion();
 			switch (nmsVersion) {

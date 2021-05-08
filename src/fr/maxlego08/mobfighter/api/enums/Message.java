@@ -34,7 +34,6 @@ public enum Message {
 	COMMAND_NO_ARG("§cThis argument does not exist !"),
 	COMMAND_SYNTAXE_HELP("§b» §f%syntaxe% §8- §7%description%"),
 	
-	
 	ARENA_ALREADY_EXIST("§cThis arena already exists."),
 	ARENA_DOESNT_EXIST("§cThis arena doesn't exists."),
 	ARENA_CREATE("§7You have just created the §f%name% §farena."), 
@@ -59,6 +58,7 @@ public enum Message {
 	COMMAND_DESCRIPTION_ARENA_SECOND("Set arena second location"),
 	COMMAND_DESCRIPTION_ARENA_CENTER("Set arena center location"), 
 	COMMAND_DESCRIPTION_VERSION("Show plugin version"), 
+	COMMAND_DESCRIPTION_RELOAD("Reload configuration"), 
 	COMMAND_DESCRIPTION_START("Start a duel"), 
 	COMMAND_DESCRIPTION_STOP("Stop a duel"), 
 	COMMAND_RELOAD("§aReload !!"),
@@ -69,9 +69,17 @@ public enum Message {
 	DUEL_START_ERROR_DUEL("§cArena is already use."),
 	DUEL_STOP_ERROR_DUEL("§cArena is not use."),
 	DUEL_STOP_SUCCESS("§aYou have just stop a duel."),
+	DUEL_COOLDOWN("§fThe duel between §a%first% §fand §2%second% §fcommence dans §a%timer%§f."),
+	
+	BET_ALREADY_CREATE("§cYou have already created a bet."),
+	BET_ALREADY_START("§cThe duel is already in progress, you can't create a bet now."),
+	BET_NOT_FOUND("§cImpossible to find the fighter §2%name%§c."),
+	BET_NOT_ENOUGHT_MONEY("§cYou don't have enought money to do this."),
+	BET_CREATE("§fYou have just bet §a%bet%%currency% §fon the fighter §2%fighter%."),
+	BET_WIN("§fYou have just won §a%value%%economy% §fwith your bet §8(§7x%multiplicator%§8)"),
+	BET_LOOSE("§fYou just lost your bet."),
 	
 	
-	;
 	;
 
 	private List<String> messages;

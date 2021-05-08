@@ -24,6 +24,7 @@ public class CommandMobFighterStart extends VCommand {
 		this.addRequireArg("name");
 		this.addRequireArg("fighter");
 		this.addRequireArg("opponent");
+		this.addOptionalArg("second");
 		this.setTabCompletor();
 	}
 
@@ -32,8 +33,9 @@ public class CommandMobFighterStart extends VCommand {
 		String name = this.argAsString(0);
 		EntityType entity1 = this.argAsEntityType(1);
 		EntityType entity2 = this.argAsEntityType(2);
+		int second = this.argAsInteger(3, 300);
 		MobManager manager = main.getManager();
-		manager.start(sender, name, entity1, entity2);
+		manager.start(sender, name, entity1, entity2, second);
 		return CommandType.SUCCESS;
 	}
 

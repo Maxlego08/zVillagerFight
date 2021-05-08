@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import fr.maxlego08.mobfighter.ZMobPlugin;
 import fr.maxlego08.mobfighter.api.enums.Message;
+import fr.maxlego08.mobfighter.save.Config;
 import fr.maxlego08.mobfighter.zcore.enums.Permission;
 import fr.maxlego08.mobfighter.zcore.utils.commands.Arguments;
 import fr.maxlego08.mobfighter.zcore.utils.commands.CommandType;
@@ -48,7 +49,6 @@ public abstract class VCommand extends Arguments {
 	 */
 	private boolean ignoreParent = false;
 	private boolean ignoreArgs = false;
-	protected boolean DEBUG = true;
 	protected boolean runAsync = false;
 	private CommandType tabCompleter = CommandType.DEFAULT;
 
@@ -185,7 +185,7 @@ public abstract class VCommand extends Arguments {
 		this.permission = permission;
 		return this;
 	}
-	
+
 	/**
 	 * @param permission
 	 *            the permission to set
@@ -379,7 +379,7 @@ public abstract class VCommand extends Arguments {
 		try {
 			return perform(main);
 		} catch (Exception e) {
-			if (DEBUG)
+			if (Config.enableDebug)
 				e.printStackTrace();
 			return CommandType.SYNTAX_ERROR;
 		}

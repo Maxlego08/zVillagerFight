@@ -2,9 +2,11 @@ package fr.maxlego08.mobfighter;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import fr.maxlego08.mobfighter.api.MobManager;
 import fr.maxlego08.mobfighter.listener.ListenerAdapter;
@@ -33,4 +35,10 @@ public class ZMobListener extends ListenerAdapter {
 		MobManager manager = plugin.getManager();
 		manager.getDuels().forEach(e -> e.onDamage(event, cause, damage, entity, entityType));
 	}
+	
+	@Override
+	protected void onQuit(PlayerQuitEvent event, Player player) {
+		plugin.getBetManager().refundBet(player);
+	}
+	
 }

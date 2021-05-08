@@ -1,7 +1,10 @@
 package fr.maxlego08.mobfighter;
 
+import fr.maxlego08.mobfighter.api.IEconomy;
 import fr.maxlego08.mobfighter.api.MobManager;
+import fr.maxlego08.mobfighter.api.bets.BetManager;
 import fr.maxlego08.mobfighter.api.configuration.ConfigurationManager;
+import fr.maxlego08.mobfighter.bet.ZBetManager;
 import fr.maxlego08.mobfighter.command.CommandManager;
 import fr.maxlego08.mobfighter.command.commands.CommandMobFighter;
 import fr.maxlego08.mobfighter.configuration.ZConfigurationManager;
@@ -10,6 +13,7 @@ import fr.maxlego08.mobfighter.listener.AdapterListener;
 import fr.maxlego08.mobfighter.save.Config;
 import fr.maxlego08.mobfighter.save.MessageLoader;
 import fr.maxlego08.mobfighter.zcore.ZPlugin;
+import fr.maxlego08.mobfighter.zcore.utils.ZEconomy;
 
 /**
  * System to create your plugins very simply Projet:
@@ -22,6 +26,8 @@ public class ZMobPlugin extends ZPlugin {
 
 	private final MobManager manager = new ZMobManager(this);
 	private final ConfigurationManager configurationManager = new ZConfigurationManager(this);
+	private final IEconomy economy = new ZEconomy(this);
+	private final BetManager betManager = new ZBetManager(this);
 
 	@Override
 	public void onEnable() {
@@ -72,5 +78,13 @@ public class ZMobPlugin extends ZPlugin {
 	public ConfigurationManager getConfigurationManager() {
 		return configurationManager;
 	}
+	
+	public IEconomy getEconomy() {
+		return economy;
+	}
 
+	public BetManager getBetManager() {
+		return betManager;
+	}
+	
 }

@@ -66,8 +66,9 @@ public interface MobManager extends Saveable {
 	 * @param name
 	 * @param entity2 
 	 * @param entity1 
+	 * @param second 
 	 */
-	void start(CommandSender sender, String name, EntityType entity1, EntityType entity2);
+	void start(CommandSender sender, String name, EntityType entity1, EntityType entity2, int second);
 
 	/*
 	 * 
@@ -86,6 +87,8 @@ public interface MobManager extends Saveable {
 	 */
 	List<Duel> getDuels();
 
+	Optional<Duel> getDuelByFighter(String name);
+	
 	/**
 	 * 
 	 * @param sender

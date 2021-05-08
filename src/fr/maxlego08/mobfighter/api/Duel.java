@@ -27,9 +27,10 @@ public interface Duel {
 	Fighter getSecondFighter();
 	
 	/**
+	 * @param second 
 	 * 
 	 */
-	void start();
+	void start(int second);
 	
 	/**
 	 * 
@@ -78,5 +79,31 @@ public interface Duel {
 	 * @return
 	 */
 	void onDeath(EntityDeathEvent event, Entity entity);
+	
+	/**
+	 * 
+	 * @return
+	 */
+	int getSecond();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	boolean isCooldown();
+
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+	boolean match(String name);
+
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+	Fighter getByName(String name);
 	
 }

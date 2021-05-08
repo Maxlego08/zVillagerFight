@@ -1,6 +1,7 @@
 package fr.maxlego08.mobfighter;
 
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -12,31 +13,37 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import fr.maxlego08.mobfighter.api.Arena;
 import fr.maxlego08.mobfighter.api.Duel;
 import fr.maxlego08.mobfighter.api.Fighter;
+import fr.maxlego08.mobfighter.api.bets.BetManager;
 import fr.maxlego08.mobfighter.api.configuration.ConfigurationManager;
 import fr.maxlego08.mobfighter.api.enums.Message;
 import fr.maxlego08.mobfighter.api.event.events.DuelStopEvent;
 import fr.maxlego08.mobfighter.api.event.events.DuelUpdateEvent;
 import fr.maxlego08.mobfighter.api.event.events.DuelWinEvent;
 import fr.maxlego08.mobfighter.api.path.PathManager;
+import fr.maxlego08.mobfighter.save.Config;
 import fr.maxlego08.mobfighter.zcore.utils.ZUtils;
+import fr.maxlego08.mobfighter.zcore.utils.builder.TimerBuilder;
 
 public class ZDuel extends ZUtils implements Duel {
 
+	private final BetManager betManager;
 	private final Arena arena;
 	private final Fighter firstFighter;
 	private final Fighter secondFighter;
 	private final PathManager manager;
 	private final Random random = new Random();
+	private AtomicInteger startSecond;
 
 	/**
 	 * @param arena
 	 * @param entity2
 	 * @param entity1
 	 */
-	public ZDuel(Arena arena, PathManager manager, ConfigurationManager configurationManager, EntityType entity1,
+	public ZDuel(BetManager betManager, Arena arena, PathManager manager, ConfigurationManager configurationManager, EntityType entity1,
 			EntityType entity2) {
 		super();
 		this.arena = arena;
+		this.betManager = betManager;
 		this.firstFighter = new ZFighter(entity1, configurationManager.getConfiguration(entity1));
 		this.secondFighter = new ZFighter(entity2, configurationManager.getConfiguration(entity2));
 		this.manager = manager;
@@ -58,27 +65,58 @@ public class ZDuel extends ZUtils implements Duel {
 	}
 
 	@Override
-	public void start() {
+	public void start(int second) {
 
 		if (this.arena == null || !this.arena.isValid())
 			return; // On cancel le début du combat
 
-		Location firstLocation = this.arena.getFirstLocation();
-		Location secondLocation = this.arena.getSecondLocation();
-		Location centerLocation = this.arena.getCenterLocation();
+		this.startSecond = new AtomicInteger(second);
 
-		this.firstFighter.spawn(firstLocation);
-		this.secondFighter.spawn(secondLocation);
+		scheduleFix(Config.enableDebug ? 100 : 1000, (task, canRun) -> {
 
-		this.manager.setPathGoal(firstFighter, centerLocation);
-		this.manager.setPathGoal(secondFighter, centerLocation);
+			if (!canRun)
+				return;
 
-		broadcast(Message.DUEL_START, "%first%", this.firstFighter.getName(), "%second%", this.secondFighter.getName());
+			if (this.arena.getDuel() != this) {
+				task.cancel();
+				return;
+			}
+
+			int current = this.startSecond.getAndDecrement();
+			if (Config.displayMessageCooldown.contains(current)) {
+				broadcast(Message.DUEL_COOLDOWN, "%first%", this.firstFighter.getName(), "%second%",
+						this.secondFighter.getName(), "%timer%", TimerBuilder.getStringTime(current));
+			}
+
+			if (current <= 0) {
+
+				task.cancel();
+
+				Location firstLocation = this.arena.getFirstLocation();
+				Location secondLocation = this.arena.getSecondLocation();
+				Location centerLocation = this.arena.getCenterLocation();
+
+				this.firstFighter.spawn(firstLocation);
+				this.secondFighter.spawn(secondLocation);
+
+				this.manager.setPathGoal(firstFighter, centerLocation);
+				this.manager.setPathGoal(secondFighter, centerLocation);
+
+				this.startSecond = null;
+
+				broadcast(Message.DUEL_START, "%first%", this.firstFighter.getName(), "%second%",
+						this.secondFighter.getName());
+			}
+
+		});
 
 	}
 
 	@Override
 	public void update() {
+
+		if (this.isCooldown() || !this.isValid())
+			return;
 
 		// On verif si le duel est lancé
 
@@ -128,7 +166,7 @@ public class ZDuel extends ZUtils implements Duel {
 
 	@Override
 	public boolean isFinish() {
-		return !this.isValid();
+		return !this.isValid() && this.startSecond == null;
 	}
 
 	@Override
@@ -144,6 +182,7 @@ public class ZDuel extends ZUtils implements Duel {
 		looser.loose(); // On fait un truc au cas ou
 
 		this.arena.setDuel(null);
+		this.betManager.giveBets(this, winner);
 
 	}
 
@@ -165,6 +204,9 @@ public class ZDuel extends ZUtils implements Duel {
 	public void onDamage(EntityDamageEvent event, DamageCause cause, double damage, Entity entity,
 			EntityType entityType) {
 
+		if (!isValid())
+			return;
+
 		if (this.firstFighter.isValid() && this.firstFighter.getEntity().equals(entity)) {
 			event.setDamage(0);
 		} else if (this.secondFighter.isValid() && this.secondFighter.getEntity().equals(entity)) {
@@ -175,8 +217,40 @@ public class ZDuel extends ZUtils implements Duel {
 
 	@Override
 	public void onDeath(EntityDeathEvent event, Entity entity) {
+
+		if (this.firstFighter == null || this.secondFighter == null)
+			return;
+
 		if (this.firstFighter.getEntity().equals(entity) || this.secondFighter.getEntity().equals(entity))
 			event.getDrops().clear();
+	}
+
+	@Override
+	public int getSecond() {
+		return this.startSecond == null ? 0 : this.startSecond.get();
+	}
+
+	@Override
+	public boolean isCooldown() {
+		return (this.startSecond == null ? 0 : this.startSecond.get()) != 0;
+	}
+
+	@Override
+	public boolean match(String name) {
+		if (this.firstFighter != null && this.firstFighter.getName().equalsIgnoreCase(name))
+			return true;
+		if (this.secondFighter != null && this.secondFighter.getName().equalsIgnoreCase(name))
+			return true;
+		return false;
+	}
+
+	@Override
+	public Fighter getByName(String name) {
+		if (this.firstFighter != null && this.firstFighter.getName().equalsIgnoreCase(name))
+			return this.firstFighter;
+		if (this.secondFighter != null && this.secondFighter.getName().equalsIgnoreCase(name))
+			return this.secondFighter;
+		return null;
 	}
 
 }

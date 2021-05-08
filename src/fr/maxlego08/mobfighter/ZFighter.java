@@ -56,11 +56,12 @@ public class ZFighter extends ZUtils implements Fighter {
 
 		if (this.armorStandHealth != null)
 			this.armorStandHealth.remove();
+		
 		if (this.armorStandWord != null)
 			this.armorStandWord.remove();
 
 		World world = location.getWorld();
-		this.entity = (LivingEntity) world.spawn(location, entityType.getEntityClass());
+		this.entity = (LivingEntity) world.spawn(location, this.entityType.getEntityClass());
 
 		this.armorStandHealth = world.spawn(this.entity.getEyeLocation().add(0, -0.5, 0), ArmorStand.class);
 		this.armorStandWord = world.spawn(this.entity.getEyeLocation().add(0, -0.25, 0), ArmorStand.class);
@@ -105,6 +106,8 @@ public class ZFighter extends ZUtils implements Fighter {
 	public void push(Location location) {
 		Vector vector = this.entity.getLocation().toVector().subtract(location.toVector()).normalize();
 		vector.setY(this.configuration.getPushHeight());
+		vector.setX(vector.getX() + getNumberBetween(-0.5, 0.5));
+		vector.setZ(vector.getZ() + getNumberBetween(-0.5, 0.5));
 		this.entity.setVelocity(vector.multiply(this.configuration.getPushSpeed()));
 	}
 
@@ -134,12 +137,13 @@ public class ZFighter extends ZUtils implements Fighter {
 	@Override
 	public void onTouch(Fighter fighter, Duel duel) {
 		double damage = fighter.getRandomDamage();
-		
+
 		FighterTouchEvent event = new FighterTouchEvent(this, fighter, duel, damage);
 		event.callEvent();
-		
-		if (event.isCancelled());
-		
+
+		if (event.isCancelled())
+			;
+
 		this.applyDamage(event.getDamage());
 
 		if (this.health <= 0) { // La mort

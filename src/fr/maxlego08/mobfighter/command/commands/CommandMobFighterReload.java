@@ -10,7 +10,7 @@ import fr.maxlego08.mobfighter.zcore.utils.commands.CommandType;
 public class CommandMobFighterReload extends VCommand {
 
 	public CommandMobFighterReload() {
-		this.setDescription(Message.COMMAND_DESCRIPTION_VERSION);
+		this.setDescription(Message.COMMAND_DESCRIPTION_RELOAD);
 		this.setPermission(Permission.ZVILLAGER_RELOAD);
 		this.addSubCommand("reload", "rl");
 	}

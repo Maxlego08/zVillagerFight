@@ -19,6 +19,7 @@ import fr.maxlego08.mobfighter.api.enums.Message;
 import fr.maxlego08.mobfighter.api.event.events.DuelStartEvent;
 import fr.maxlego08.mobfighter.api.path.PathManager;
 import fr.maxlego08.mobfighter.path.ZPathManager;
+import fr.maxlego08.mobfighter.save.Config;
 import fr.maxlego08.mobfighter.zcore.utils.ZUtils;
 import fr.maxlego08.mobfighter.zcore.utils.storage.Persist;
 
@@ -135,7 +136,7 @@ public class ZMobManager extends ZUtils implements MobManager {
 	}
 
 	@Override
-	public void start(CommandSender sender, String name, EntityType entity1, EntityType entity2) {
+	public void start(CommandSender sender, String name, EntityType entity1, EntityType entity2, int second) {
 
 		Optional<Arena> optional = getArena(name);
 		if (!optional.isPresent()) {
@@ -155,8 +156,8 @@ public class ZMobManager extends ZUtils implements MobManager {
 			return;
 		}
 		
-		ConfigurationManager configurationManager = plugin.getConfigurationManager();
-		Duel duel = new ZDuel(arena, pathManager, configurationManager, entity1, entity2);
+		ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
+		Duel duel = new ZDuel(this.plugin.getBetManager(), arena, this.pathManager, configurationManager, entity1, entity2);
 
 		DuelStartEvent event = new DuelStartEvent(duel);
 		event.callEvent();
@@ -165,7 +166,7 @@ public class ZMobManager extends ZUtils implements MobManager {
 			return;
 
 		arena.setDuel(duel);
-		duel.start();
+		duel.start(second);
 		this.duels.add(duel);
 		this.task();
 	}
@@ -174,7 +175,7 @@ public class ZMobManager extends ZUtils implements MobManager {
 		if (this.isRunning)
 			return;
 
-		scheduleFix(100, (task, canRun) -> {
+		scheduleFix(Config.duelTaskMilliSecond, (task, canRun) -> {
 
 			if (!canRun)
 				return;
@@ -227,6 +228,11 @@ public class ZMobManager extends ZUtils implements MobManager {
 	@Override
 	public List<Duel> getDuels() {
 		return arenas.values().stream().filter(e -> !e.isReady()).map(e -> e.getDuel()).collect(Collectors.toList());
+	}
+
+	@Override
+	public Optional<Duel> getDuelByFighter(String name) {
+		return arenas.values().stream().filter(e -> e != null && e.getDuel().match(name)).map(e -> e.getDuel()).findFirst();
 	}
 
 }

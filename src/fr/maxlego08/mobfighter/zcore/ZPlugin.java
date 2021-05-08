@@ -4,6 +4,8 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.black_ixx.playerpoints.PlayerPoints;
+import org.black_ixx.playerpoints.PlayerPointsAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.Listener;
@@ -45,11 +47,32 @@ public abstract class ZPlugin extends JavaPlugin {
 
 	protected CommandManager commandManager;
 	protected InventoryManager inventoryManager;
+	
+	private PlayerPoints playerPoints;
+	private PlayerPointsAPI playerPointsAPI;
 
 	public ZPlugin() {
 		plugin = this;
 	}
 
+	/**
+	 * @return boolean
+	 */
+	protected void hookPlayerPoints() {
+		try {
+			final Plugin plugin = (Plugin) this.getServer().getPluginManager().getPlugin("PlayerPoints");
+			if (plugin == null)
+				return;
+			playerPoints = PlayerPoints.class.cast(plugin);
+			if (playerPoints != null) {
+				playerPointsAPI = playerPoints.getAPI();
+				log.log("PlayerPoint plugin detection performed successfully", LogType.SUCCESS);
+			} else
+				log.log("Impossible de charger player point !", LogType.SUCCESS);
+		} catch (Exception e) {
+		}
+	}
+	
 	protected boolean preEnable() {
 
 		enableTime = System.currentTimeMillis();
@@ -58,6 +81,8 @@ public abstract class ZPlugin extends JavaPlugin {
 		log.log("Plugin Version V<&>c" + getDescription().getVersion(), LogType.INFO);
 
 		getDataFolder().mkdirs();
+		
+		hookPlayerPoints();
 
 		gson = getGsonBuilder().create();
 		persist = new Persist(this);
@@ -67,6 +92,14 @@ public abstract class ZPlugin extends JavaPlugin {
 
 		return true;
 
+	}
+	
+	public PlayerPoints getPlayerPoints() {
+		return playerPoints;
+	}
+	
+	public PlayerPointsAPI getPlayerPointsAPI() {
+		return playerPointsAPI;
 	}
 
 	protected void postEnable() {
@@ -187,7 +220,7 @@ public abstract class ZPlugin extends JavaPlugin {
 		return provider.getProvider() != null ? (T) provider.getProvider() : null;
 	}
 
-	public Economy getEconomy() {
+	public Economy getVaultEconomy() {
 		return economy;
 	}
 

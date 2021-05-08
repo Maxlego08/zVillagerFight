@@ -18,6 +18,7 @@ import fr.maxlego08.mobfighter.configuration.configurations.CreatureConfiguratio
 import fr.maxlego08.mobfighter.configuration.configurations.PassibleConfiguration;
 import fr.maxlego08.mobfighter.configuration.configurations.VillagerConfiguration;
 import fr.maxlego08.mobfighter.loader.ConfigurationLoader;
+import fr.maxlego08.mobfighter.zcore.logger.Logger;
 import fr.maxlego08.mobfighter.zcore.utils.loader.Loader;
 import fr.maxlego08.mobfighter.zcore.utils.storage.Persist;
 import fr.maxlego08.mobfighter.zcore.utils.yaml.YamlUtils;
@@ -76,6 +77,7 @@ public class ZConfigurationManager extends YamlUtils implements ConfigurationMan
 
 		try {
 			fileConfiguration.save(file);
+			Logger.info("Saved " + this.configurations.size() + " entities configurations.");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -111,6 +113,7 @@ public class ZConfigurationManager extends YamlUtils implements ConfigurationMan
 
 			}
 
+		Logger.info("Loaded " + this.configurations.size() + " entities configurations.");
 	}
 
 	@Override

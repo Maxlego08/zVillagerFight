@@ -313,7 +313,7 @@ public abstract class ZUtils extends MessageUtils {
 		return decimalFormat.format(decimal);
 	}
 
-	private transient Economy economy = ZPlugin.z().getEconomy();
+	private transient Economy economy = ZPlugin.z().getVaultEconomy();
 
 	/**
 	 * Player bank
