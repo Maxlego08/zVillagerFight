@@ -57,5 +57,11 @@ public interface BetManager {
 	 * @return
 	 */
 	double getMultiplicator(Player player);
+
+	/**
+	 * 
+	 * @param player
+	 */
+	void sendBet(Player player);
 	
 }

@@ -29,7 +29,7 @@ public class ZDuel extends ZUtils implements Duel {
 	private final BetManager betManager;
 	private final Arena arena;
 	private final Fighter firstFighter;
-	private final Fighter secondFighter;
+	private Fighter secondFighter;
 	private final PathManager manager;
 	private final Random random = new Random();
 	private AtomicInteger startSecond;
@@ -46,6 +46,13 @@ public class ZDuel extends ZUtils implements Duel {
 		this.betManager = betManager;
 		this.firstFighter = new ZFighter(entity1, configurationManager.getConfiguration(entity1));
 		this.secondFighter = new ZFighter(entity2, configurationManager.getConfiguration(entity2));
+		if (this.firstFighter.getName().equals(this.secondFighter.getName())){
+			
+			// On va modifier leur nom
+			while(this.firstFighter.getName().equals(this.secondFighter.getName()))
+				this.secondFighter = new ZFighter(entity2, configurationManager.getConfiguration(entity2));
+			
+		}
 		this.manager = manager;
 	}
 

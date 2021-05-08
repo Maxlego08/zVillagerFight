@@ -27,7 +27,7 @@ public class Config implements Saveable {
 	public static String item1Format = "i";
 	public static String item2Format = "o";
 	public static String item3Format = "b";
-	public static String vaultFormat = "v";
+	public static String vaultFormat = "$";
 
 	public static String currencyVault = "$";
 	public static String currencyLevel = "L";

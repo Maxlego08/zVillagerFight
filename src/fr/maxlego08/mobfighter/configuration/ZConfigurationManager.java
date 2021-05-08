@@ -113,6 +113,14 @@ public class ZConfigurationManager extends YamlUtils implements ConfigurationMan
 
 			}
 
+		this.configurations.values().forEach(configuration -> {
+			if (configuration.getNames().size() < 2){
+				configuration.getNames().add("Maxlego08");
+				configuration.getNames().add("AzartoxHD");
+				Logger.info("Not enough names in the configuration " + configuration.getType().name()+", addition of two automatic names.");
+			}
+		});
+		
 		Logger.info("Loaded " + this.configurations.size() + " entities configurations.");
 	}
 

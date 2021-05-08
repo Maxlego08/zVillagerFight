@@ -61,6 +61,7 @@ public enum Message {
 	COMMAND_DESCRIPTION_RELOAD("Reload configuration"), 
 	COMMAND_DESCRIPTION_START("Start a duel"), 
 	COMMAND_DESCRIPTION_STOP("Stop a duel"), 
+	COMMAND_DESCRIPTION_BET("Show your bet"), 
 	COMMAND_RELOAD("§aReload !!"),
 	
 	DUEL_START("§fStart of the duel between §a%first% §fand §2%second%§f. May the best man win!"),
@@ -76,8 +77,10 @@ public enum Message {
 	BET_NOT_FOUND("§cImpossible to find the fighter §2%name%§c."),
 	BET_NOT_ENOUGHT_MONEY("§cYou don't have enought money to do this."),
 	BET_CREATE("§fYou have just bet §a%bet%%currency% §fon the fighter §2%fighter%."),
-	BET_WIN("§fYou have just won §a%value%%economy% §fwith your bet §8(§7x%multiplicator%§8)"),
+	BET_WIN("§fYou have just won §a%value%%currency% §fwith your bet §8(§7x%multiplicator%§8)"),
 	BET_LOOSE("§fYou just lost your bet."),
+	BET_HELP("§cYou did not create a bet.", "§7To create a bet you must do §f/zmf bet create <name> <bet>§7."),
+	BET_SHOW("§fYour bet§8:", "§7Fighter§8: §a%fighter%", "§7Bet§8: §2%bet%", "§7Multiplicator§8: §a%multiplicator%"),
 	
 	
 	;

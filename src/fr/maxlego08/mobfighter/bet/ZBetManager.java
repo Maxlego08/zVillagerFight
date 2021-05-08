@@ -59,7 +59,7 @@ public class ZBetManager extends ZUtils implements BetManager {
 		Optional<Duel> optional2 = mobManager.getDuelByFighter(name);
 
 		if (!optional2.isPresent()) {
-			message(player, Message.BET_CREATE, "%name%", name);
+			message(player, Message.BET_NOT_FOUND, "%name%", name);
 			return;
 		}
 
@@ -72,10 +72,15 @@ public class ZBetManager extends ZUtils implements BetManager {
 
 		Fighter fighter = duel.getByName(name);
 
+		if (fighter == null) {
+			message(player, Message.BET_NOT_FOUND, "%name%", name);
+			return;
+		}
+
 		Bet bet2 = new ZBet(player, bet, duel, fighter);
 		bets.put(player, bet2);
 		iEconomy.withdrawMoney(Config.economy, player, bet);
-		message(player, Message.BET_CREATE, "%fighter%", name, "%bet%", bet, "%economy%", Config.economy.getFormat());
+		message(player, Message.BET_CREATE, "%fighter%", name, "%bet%", bet, "%currency%", Config.economy.toCurrency());
 
 	}
 
@@ -92,11 +97,10 @@ public class ZBetManager extends ZUtils implements BetManager {
 
 				long newValue = (long) (value * multiplocator);
 				iEconomy.depositMoney(Config.economy, bet.getPlayer(), newValue);
-				bets.remove(bet.getPlayer());
 
 				if (bet.getPlayer().isOnline())
-					message(bet.getPlayer(), Message.BET_WIN, "%value%", newValue, "%economy%",
-							Config.economy.getFormat(), "%multiplicator%", multiplocator);
+					message(bet.getPlayer(), Message.BET_WIN, "%value%", newValue, "%currency%",
+							Config.economy.toCurrency(), "%multiplicator%", multiplocator);
 
 			} else {
 
@@ -104,6 +108,7 @@ public class ZBetManager extends ZUtils implements BetManager {
 					message(bet.getPlayer(), Message.BET_LOOSE);
 
 			}
+			bets.remove(bet.getPlayer());
 
 		});
 
@@ -137,12 +142,24 @@ public class ZBetManager extends ZUtils implements BetManager {
 	@Override
 	public void refundBet(Player player) {
 		Optional<Bet> optional = getBet(player);
-		if (optional.isPresent()){
+		if (optional.isPresent()) {
 			Bet bet = optional.get();
 			IEconomy economy = plugin.getEconomy();
 			economy.depositMoney(Config.economy, player, bet.getBet());
 			bets.remove(player);
 		}
+	}
+
+	@Override
+	public void sendBet(Player player) {
+		Optional<Bet> optional = getBet(player);
+		if (optional.isPresent()) {
+			Bet bet = optional.get();
+			System.out.println(bet.getFighter());
+			message(player, Message.BET_SHOW, "%fighter%", bet.getFighter().getName(), "%bet%", bet.getBet(),
+					"%multiplicator%", this.getMultiplicator(player));
+		} else
+			message(player, Message.BET_HELP);
 	}
 
 }

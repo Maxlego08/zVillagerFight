@@ -3,6 +3,8 @@ package fr.maxlego08.mobfighter.zcore.enums;
 public enum Permission {
 
 	ZVILLAGER_USE,
+	ZVILLAGER_BET,
+	ZVILLAGER_BET_CREATE,
 	ZVILLAGER_ARENA,
 	ZVILLAGER_ARENA_CREATE,
 	ZVILLAGER_ARENA_DELETE,
