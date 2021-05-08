@@ -38,8 +38,9 @@ public class ZMobPlugin extends ZPlugin {
 
 		/* Add Listener */
 
-		addListener(new AdapterListener(this));
-		addListener(inventoryManager);
+		this.addListener(new AdapterListener(this));
+		// this.addListener(inventoryManager);
+		this.addListener(new ZMobListener(this));
 
 		/* Add Saver */
 		this.addSave(Config.getInstance());
@@ -71,5 +72,5 @@ public class ZMobPlugin extends ZPlugin {
 	public ConfigurationManager getConfigurationManager() {
 		return configurationManager;
 	}
-	
+
 }

@@ -79,6 +79,12 @@ public interface MobManager extends Saveable {
 	 * @return
 	 */
 	List<String> getArenas();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	List<Duel> getDuels();
 
 	/**
 	 * 

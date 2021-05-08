@@ -3,6 +3,7 @@ package fr.maxlego08.mobfighter.listener;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -11,6 +12,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.inventory.CraftItemEvent;
@@ -102,5 +104,9 @@ public abstract class ListenerAdapter extends ZUtils{
 	}
 
 	public void onPlayerWalk(PlayerMoveEvent event, Player player, int i) {
+	}
+
+	public void onDamage(EntityDamageEvent event, DamageCause cause, double damage, Entity entity,
+			EntityType entityType) {
 	}
 }

@@ -3,7 +3,11 @@ package fr.maxlego08.mobfighter;
 import java.util.Random;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.EntityDeathEvent;
 
 import fr.maxlego08.mobfighter.api.Arena;
 import fr.maxlego08.mobfighter.api.Duel;
@@ -139,20 +143,40 @@ public class ZDuel extends ZUtils implements Duel {
 		winner.win(); // On fait un truc au cas ou
 		looser.loose(); // On fait un truc au cas ou
 
+		this.arena.setDuel(null);
+
 	}
 
 	@Override
 	public void stop() {
-		
+
 		DuelStopEvent event = new DuelStopEvent(this);
 		event.callEvent();
-		
+
 		if (event.isCancelled())
 			return;
-		
+
 		this.firstFighter.remove();
 		this.secondFighter.remove();
-		
+		this.arena.setDuel(null);
+	}
+
+	@Override
+	public void onDamage(EntityDamageEvent event, DamageCause cause, double damage, Entity entity,
+			EntityType entityType) {
+
+		if (this.firstFighter.isValid() && this.firstFighter.getEntity().equals(entity)) {
+			event.setDamage(0);
+		} else if (this.secondFighter.isValid() && this.secondFighter.getEntity().equals(entity)) {
+			event.setDamage(0);
+		}
+
+	}
+
+	@Override
+	public void onDeath(EntityDeathEvent event, Entity entity) {
+		if (this.firstFighter.getEntity().equals(entity) || this.secondFighter.getEntity().equals(entity))
+			event.getDrops().clear();
 	}
 
 }

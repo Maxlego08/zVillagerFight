@@ -143,7 +143,7 @@ public class ZMobManager extends ZUtils implements MobManager {
 			return;
 		}
 
-		if (!entity1.isAlive() || entity2.isAlive()) {
+		if (!entity1.isAlive() || !entity2.isAlive()) {
 			message(sender, Message.DUEL_START_ERROR_ALIVE);
 			return;
 		}
@@ -151,7 +151,7 @@ public class ZMobManager extends ZUtils implements MobManager {
 		Arena arena = optional.get();
 
 		if (!arena.isReady()){
-			message(sender, Message.DUEL_START_ERROR_ALIVE);
+			message(sender, Message.DUEL_START_ERROR_DUEL);
 			return;
 		}
 		
@@ -219,10 +219,14 @@ public class ZMobManager extends ZUtils implements MobManager {
 		
 		Duel duel = arena.getDuel();
 		duel.stop();
-		arena.setDuel(null);
 		
 		message(sender, Message.DUEL_STOP_SUCCESS);
 		
+	}
+
+	@Override
+	public List<Duel> getDuels() {
+		return arenas.values().stream().filter(e -> !e.isReady()).map(e -> e.getDuel()).collect(Collectors.toList());
 	}
 
 }

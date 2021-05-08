@@ -50,7 +50,12 @@ public class CommandMobFighterStart extends VCommand {
 
 			String startWith = args[args.length - 1];
 			Stream<String> entities = Arrays.asList(EntityType.values()).stream().filter(e -> {
-				return e.isAlive();
+				switch (e) {
+				case ARMOR_STAND:
+					return false;
+				default:
+					return e.isAlive();
+				}
 			}).map(e -> {
 				return e.name().toLowerCase();
 			});
