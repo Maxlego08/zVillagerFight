@@ -8,7 +8,6 @@ import fr.maxlego08.mobfighter.api.Fighter;
 import fr.maxlego08.mobfighter.api.path.Path;
 import net.minecraft.server.v1_16_R3.EntityInsentient;
 import net.minecraft.server.v1_16_R3.Navigation;
-import net.minecraft.server.v1_16_R3.PathEntity;
 import net.minecraft.server.v1_16_R3.PathfinderGoal;
 import net.minecraft.server.v1_16_R3.PathfinderGoalSelector;
 
@@ -55,16 +54,7 @@ public class Path16R3 implements Path {
 
 		@Override
 		public void c() {
-			this.entity.setOnGround(true);
-			Location localLocation = new Location(this.location.getWorld(), this.entity.lastX, this.entity.lastY,
-					this.entity.lastZ);
-			System.out.println(this.entity);
-			while (localLocation.distanceSquared(this.location) > 400.0D)
-				this.location = localLocation.toVector().midpoint(this.location.toVector())
-						.toLocation(this.location.getWorld());
-			PathEntity localPathEntity = this.navigation.a(this.location.getX(), this.location.getY(),
-					this.location.getZ(), 1);
-			this.navigation.a(localPathEntity, this.speed);
+			this.navigation.a(this.location.getX(), this.location.getY(), this.location.getZ(), this.speed);
 		}
 	}
 

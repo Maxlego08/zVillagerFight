@@ -165,7 +165,6 @@ public class ZBetManager extends ZUtils implements BetManager {
 		Optional<Bet> optional = getBet(player);
 		if (optional.isPresent()) {
 			Bet bet = optional.get();
-			System.out.println(bet.getFighter());
 			message(player, Message.BET_SHOW, "%fighter%", bet.getFighter().getName(), "%bet%", bet.getBet(),
 					"%multiplicator%", this.getMultiplicator(player));
 		} else

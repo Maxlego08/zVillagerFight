@@ -43,6 +43,7 @@ public class ZConfigurationManager extends YamlUtils implements ConfigurationMan
 			if (entityType.isAlive())
 				saveEntity(entityType);
 
+		Logger.info("Saved " + this.configurations.size() + " entities configurations.");
 	}
 
 	private void saveEntity(EntityType entityType) {
@@ -77,7 +78,6 @@ public class ZConfigurationManager extends YamlUtils implements ConfigurationMan
 
 		try {
 			fileConfiguration.save(file);
-			Logger.info("Saved " + this.configurations.size() + " entities configurations.");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

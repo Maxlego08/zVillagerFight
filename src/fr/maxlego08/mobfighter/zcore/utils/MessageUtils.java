@@ -130,7 +130,6 @@ public abstract class MessageUtils extends LocationUtils {
 	 * @param fadeOutTime
 	 */
 	protected void title(Player player, String title, String subtitle, int fadeInTime, int showTime, int fadeOutTime) {
-		System.out.println(fadeInTime + " - " + showTime + " - " + fadeOutTime);
 		try {
 			Object chatTitle = getNMSClass("IChatBaseComponent").getDeclaredClasses()[0].getMethod("a", String.class)
 					.invoke(null, "{\"text\": \"" + title + "\"}");

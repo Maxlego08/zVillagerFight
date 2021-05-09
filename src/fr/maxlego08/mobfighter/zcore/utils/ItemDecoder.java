@@ -23,7 +23,6 @@ public class ItemDecoder {
 		String var1 = Bukkit.getServer().getClass().getPackage().getName();
 		String[] arrayOfString = var1.replace(".", ",").split(",")[3].split("_");
 		String var2 = arrayOfString[2];
-//		System.out.println(var1 + " -- " + Arrays.asList(arrayOfString));
 		return EnumVersion.getVersion(getNMSVersion(), var2);
 	}
 	

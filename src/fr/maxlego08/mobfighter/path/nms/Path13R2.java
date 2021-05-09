@@ -8,7 +8,6 @@ import fr.maxlego08.mobfighter.api.Fighter;
 import fr.maxlego08.mobfighter.api.path.Path;
 import net.minecraft.server.v1_13_R2.EntityInsentient;
 import net.minecraft.server.v1_13_R2.Navigation;
-import net.minecraft.server.v1_13_R2.PathEntity;
 import net.minecraft.server.v1_13_R2.PathfinderGoal;
 
 public class Path13R2 implements Path {
@@ -54,14 +53,7 @@ public class Path13R2 implements Path {
 
 		@Override
 		public void c() {
-			Location localLocation = new Location(this.location.getWorld(), this.entity.lastX, this.entity.lastY,
-					this.entity.lastZ);
-			while (localLocation.distanceSquared(this.location) > 400.0D)
-				this.location = localLocation.toVector().midpoint(this.location.toVector())
-						.toLocation(this.location.getWorld());
-			PathEntity localPathEntity = this.navigation.a(this.location.getX(), this.location.getY(),
-					this.location.getZ());
-			this.navigation.a(localPathEntity, this.speed);
+			this.navigation.a(this.location.getX(), this.location.getY(), this.location.getZ(), this.speed);
 		}
 	}
 

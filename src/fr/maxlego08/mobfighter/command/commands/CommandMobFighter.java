@@ -19,7 +19,7 @@ public class CommandMobFighter extends VCommand {
 		this.addSubCommand(new CommandMobFighterReload());
 		this.addSubCommand(new CommandMobFighterBet());
 	}
-	
+
 	@Override
 	protected CommandType perform(ZMobPlugin main) {
 		this.subVCommands.forEach(v -> {
