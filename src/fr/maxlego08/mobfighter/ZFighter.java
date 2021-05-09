@@ -54,6 +54,7 @@ public class ZFighter extends ZUtils implements Fighter {
 	@Override
 	public void spawn(Location location) {
 
+		
 		if (this.armorStandHealth != null)
 			this.armorStandHealth.remove();
 

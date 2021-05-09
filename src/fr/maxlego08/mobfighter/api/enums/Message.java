@@ -43,6 +43,7 @@ public enum Message {
 	ARENA_LOCATION_FIRST("§7You just put the §ofirst§7 location for the §f%name%§7 arena."),
 	ARENA_LOCATION_SECOND("§7You just put the §osecond§7 location for the §f%name%§7 arena."),
 	ARENA_LOCATION_CENTER("§7You just put the §ocenter§7 location for the §f%name%§7 arena."), 
+	ARENA_INVALID("§cYou cannot start a duel, the arena is invalid."), 
 	
 	ARENA_EMPTY("§cThere is no arena created."),
 	ARENA_SHOW_HEADER("§7List of arenas:"),

@@ -157,6 +157,11 @@ public class ZMobManager extends ZUtils implements MobManager {
 			return;
 		}
 
+		if (!arena.isValid()){
+			message(sender, Message.ARENA_INVALID);
+			return;
+		}
+		
 		ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
 		Duel duel = new ZDuel(this.plugin.getBetManager(), arena, this.pathManager, configurationManager, entity1,
 				entity2);
