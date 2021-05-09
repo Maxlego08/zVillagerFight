@@ -14,6 +14,8 @@ import fr.maxlego08.mobfighter.save.Config;
 import fr.maxlego08.mobfighter.save.MessageLoader;
 import fr.maxlego08.mobfighter.zcore.ZPlugin;
 import fr.maxlego08.mobfighter.zcore.utils.ZEconomy;
+import fr.maxlego08.mobfighter.zcore.utils.plugins.Metrics;
+import fr.maxlego08.mobfighter.zcore.utils.plugins.VersionChecker;
 
 /**
  * System to create your plugins very simply Projet:
@@ -56,6 +58,11 @@ public class ZMobPlugin extends ZPlugin {
 
 		getSavers().forEach(saver -> saver.load(getPersist()));
 
+		new Metrics(this, 11294);
+		
+		VersionChecker versionChecker = new VersionChecker(this, 41);
+		versionChecker.useLastVersion();
+		
 		postEnable();
 	}
 
