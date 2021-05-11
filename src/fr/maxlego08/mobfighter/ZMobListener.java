@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import fr.maxlego08.mobfighter.api.MobManager;
 import fr.maxlego08.mobfighter.listener.ListenerAdapter;
+import fr.maxlego08.mobfighter.zcore.utils.BossBarManager;
 
 public class ZMobListener extends ListenerAdapter {
 
@@ -39,6 +40,7 @@ public class ZMobListener extends ListenerAdapter {
 	@Override
 	protected void onQuit(PlayerQuitEvent event, Player player) {
 		plugin.getBetManager().refundBet(player);
+		BossBarManager.getInstance().removePlayer(player);
 	}
 	
 }

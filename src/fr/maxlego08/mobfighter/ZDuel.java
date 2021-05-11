@@ -23,8 +23,10 @@ import fr.maxlego08.mobfighter.api.path.PathManager;
 import fr.maxlego08.mobfighter.save.Config;
 import fr.maxlego08.mobfighter.zcore.logger.Logger;
 import fr.maxlego08.mobfighter.zcore.logger.Logger.LogType;
+import fr.maxlego08.mobfighter.zcore.utils.BossBarManager;
 import fr.maxlego08.mobfighter.zcore.utils.ZUtils;
 import fr.maxlego08.mobfighter.zcore.utils.builder.TimerBuilder;
+import fr.maxlego08.mobfighter.zcore.utils.players.ActionBar;
 
 public class ZDuel extends ZUtils implements Duel {
 
@@ -100,7 +102,7 @@ public class ZDuel extends ZUtils implements Duel {
 
 		this.startSecond = new AtomicInteger(second);
 
-		scheduleFix(Config.enableDebug ? 100 : 1000, (task, canRun) -> {
+		scheduleFix(0, Config.enableDebug ? 100 : 1000, (task, canRun) -> {
 
 			if (!canRun)
 				return;
@@ -142,6 +144,9 @@ public class ZDuel extends ZUtils implements Duel {
 		if (this.isCooldown() || !this.isValid())
 			return;
 
+		this.updateActionBar();
+		this.updateBossBar();
+
 		// On verif si le duel est lancé
 
 		double d1 = this.firstFighter.getConfiguration().getDistance();
@@ -182,6 +187,36 @@ public class ZDuel extends ZUtils implements Duel {
 
 	}
 
+	private void updateActionBar() {
+		if (Config.enableActionBar) {
+
+			String message = Config.actionBarMessage;
+
+			message = message.replace("%first_health%",
+					format(this.firstFighter.getHealth(), Config.actionBarHealthFormat));
+			message = message.replace("%second_health%",
+					format(this.secondFighter.getHealth(), Config.actionBarHealthFormat));
+			message = message.replace("%first_name%", this.firstFighter.getName());
+			message = message.replace("%second_name%", this.secondFighter.getName());
+
+			ActionBar.sendActionBarToAllPlayers(message);
+
+		}
+	}
+
+	private void updateBossBar(){
+		String message = Config.actionBarMessage;
+
+		message = message.replace("%first_health%",
+				format(this.firstFighter.getHealth(), Config.actionBarHealthFormat));
+		message = message.replace("%second_health%",
+				format(this.secondFighter.getHealth(), Config.actionBarHealthFormat));
+		message = message.replace("%first_name%", this.firstFighter.getName());
+		message = message.replace("%second_name%", this.secondFighter.getName());
+		
+		BossBarManager.getInstance().start(message);
+	}
+	
 	@Override
 	public boolean isValid() {
 		return this.firstFighter != null && this.secondFighter != null && this.firstFighter.isValid()
@@ -207,6 +242,8 @@ public class ZDuel extends ZUtils implements Duel {
 
 		this.arena.setDuel(null);
 		this.betManager.giveBets(this, winner);
+		
+		BossBarManager.getInstance().clearBossBar();
 
 	}
 
@@ -222,6 +259,8 @@ public class ZDuel extends ZUtils implements Duel {
 		this.firstFighter.remove();
 		this.secondFighter.remove();
 		this.arena.setDuel(null);
+		
+		BossBarManager.getInstance().clearBossBar();
 	}
 
 	@Override

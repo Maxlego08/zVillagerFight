@@ -30,7 +30,7 @@ public class ScoreBoardManager extends ZUtils {
 
 		isRunning = true;
 
-		scheduleFix(schedulerMillisecond, (task, canRun) -> {
+		scheduleFix(schedulerMillisecond, schedulerMillisecond, (task, canRun) -> {
 
 			// If the task cannot continue then we do not update the scoreboard
 			if (!canRun)

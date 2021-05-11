@@ -673,7 +673,7 @@ public abstract class ZUtils extends MessageUtils {
 	 * @param delay
 	 * @param runnable
 	 */
-	protected void scheduleFix(long delay, BiConsumer<TimerTask, Boolean> runnable) {
+	protected void scheduleFix(long start, long delay, BiConsumer<TimerTask, Boolean> runnable) {
 		new Timer().scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
@@ -684,7 +684,7 @@ public abstract class ZUtils extends MessageUtils {
 				}
 				Bukkit.getScheduler().runTask(ZPlugin.z(), () -> runnable.accept(this, true));
 			}
-		}, delay, delay);
+		}, start, delay);
 	}
 
 	/**

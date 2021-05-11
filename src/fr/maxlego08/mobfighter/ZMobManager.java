@@ -182,7 +182,7 @@ public class ZMobManager extends ZUtils implements MobManager {
 		if (this.isRunning)
 			return;
 
-		scheduleFix(Config.duelTaskMilliSecond, (task, canRun) -> {
+		scheduleFix(Config.duelTaskMilliSecond, Config.duelTaskMilliSecond, (task, canRun) -> {
 
 			if (!canRun)
 				return;
