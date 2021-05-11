@@ -11,7 +11,7 @@ public class CommandMobFighterReload extends VCommand {
 
 	public CommandMobFighterReload() {
 		this.setDescription(Message.COMMAND_DESCRIPTION_RELOAD);
-		this.setPermission(Permission.ZVILLAGER_RELOAD);
+		this.setPermission(Permission.ZMOBFIGHTER_RELOAD);
 		this.addSubCommand("reload", "rl");
 	}
 

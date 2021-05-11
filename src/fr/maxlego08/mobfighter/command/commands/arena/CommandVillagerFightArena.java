@@ -10,7 +10,7 @@ public class CommandVillagerFightArena extends VCommand {
 
 	public CommandVillagerFightArena() {
 		this.addSubCommand("arena");
-		this.setPermission(Permission.ZVILLAGER_ARENA);
+		this.setPermission(Permission.ZMOBFIGHTER_ARENA);
 		this.setDescription(Message.COMMAND_DESCRIPTION_ARENA);
 		this.addSubCommand(new CommandVillagerFightArenaCreate());
 		this.addSubCommand(new CommandVillagerFightArenaDelete());

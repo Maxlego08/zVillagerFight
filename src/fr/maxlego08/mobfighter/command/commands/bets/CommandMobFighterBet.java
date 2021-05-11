@@ -10,7 +10,7 @@ import fr.maxlego08.mobfighter.zcore.utils.commands.CommandType;
 public class CommandMobFighterBet extends VCommand {
 
 	public CommandMobFighterBet() {
-		this.setPermission(Permission.ZVILLAGER_BET);
+		this.setPermission(Permission.ZMOBFIGHTER_BET);
 		this.setDescription(Message.COMMAND_DESCRIPTION_BET);
 		this.setConsoleCanUse(false);
 		this.addSubCommand("bet", "mise");

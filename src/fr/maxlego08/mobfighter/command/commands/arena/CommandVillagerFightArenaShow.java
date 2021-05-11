@@ -11,7 +11,7 @@ public class CommandVillagerFightArenaShow extends VCommand {
 
 	public CommandVillagerFightArenaShow() {
 		this.addSubCommand("show");
-		this.setPermission(Permission.ZVILLAGER_ARENA_SHOW);
+		this.setPermission(Permission.ZMOBFIGHTER_ARENA_SHOW);
 		this.setDescription(Message.COMMAND_DESCRIPTION_ARENA_SHOW);
 	}
 

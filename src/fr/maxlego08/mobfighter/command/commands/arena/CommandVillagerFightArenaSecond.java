@@ -11,7 +11,7 @@ public class CommandVillagerFightArenaSecond extends VCommand {
 
 	public CommandVillagerFightArenaSecond() {
 		this.addSubCommand("second");
-		this.setPermission(Permission.ZVILLAGER_ARENA_LOCATION_SECOND);
+		this.setPermission(Permission.ZMOBFIGHTER_ARENA_LOCATION_SECOND);
 		this.setDescription(Message.COMMAND_DESCRIPTION_ARENA_SECOND);
 		this.addRequireArg("name");
 	}

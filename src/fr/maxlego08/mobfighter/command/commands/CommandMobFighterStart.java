@@ -19,7 +19,7 @@ public class CommandMobFighterStart extends VCommand {
 
 	public CommandMobFighterStart() {
 		this.addSubCommand("start");
-		this.setPermission(Permission.ZVILLAGER_START);
+		this.setPermission(Permission.ZMOBFIGHTER_START);
 		this.setDescription(Message.COMMAND_DESCRIPTION_START);
 		this.addRequireArg("name");
 		this.addRequireArg("fighter");

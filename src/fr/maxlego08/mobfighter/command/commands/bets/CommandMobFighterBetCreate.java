@@ -13,7 +13,7 @@ import fr.maxlego08.mobfighter.zcore.utils.commands.CommandType;
 public class CommandMobFighterBetCreate extends VCommand {
 
 	public CommandMobFighterBetCreate() {
-		this.setPermission(Permission.ZVILLAGER_BET_CREATE);
+		this.setPermission(Permission.ZMOBFIGHTER_BET_CREATE);
 		this.setConsoleCanUse(false);
 		this.addSubCommand("create");
 		this.addRequireArg("name");

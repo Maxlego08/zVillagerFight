@@ -11,7 +11,7 @@ import fr.maxlego08.mobfighter.zcore.utils.commands.CommandType;
 public class CommandMobFighter extends VCommand {
 
 	public CommandMobFighter() {
-		this.setPermission(Permission.ZVILLAGER_USE);
+		this.setPermission(Permission.ZMOBFIGHTER_USE);
 		this.addSubCommand(new CommandVillagerFightArena());
 		this.addSubCommand(new CommandMobFighterStart());
 		this.addSubCommand(new CommandMobFighterStop());

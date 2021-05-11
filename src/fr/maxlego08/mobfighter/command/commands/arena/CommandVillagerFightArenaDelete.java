@@ -11,7 +11,7 @@ public class CommandVillagerFightArenaDelete extends VCommand {
 
 	public CommandVillagerFightArenaDelete() {
 		this.addSubCommand("delete");
-		this.setPermission(Permission.ZVILLAGER_ARENA_DELETE);
+		this.setPermission(Permission.ZMOBFIGHTER_ARENA_DELETE);
 		this.setDescription(Message.COMMAND_DESCRIPTION_ARENA_DELETE);
 		this.addRequireArg("name");
 	}

@@ -15,7 +15,7 @@ public class CommandMobFighterStop extends VCommand {
 
 	public CommandMobFighterStop() {
 		this.addSubCommand("stop");
-		this.setPermission(Permission.ZVILLAGER_START);
+		this.setPermission(Permission.ZMOBFIGHTER_START);
 		this.setDescription(Message.COMMAND_DESCRIPTION_STOP);
 		this.addRequireArg("name");
 		this.setTabCompletor();

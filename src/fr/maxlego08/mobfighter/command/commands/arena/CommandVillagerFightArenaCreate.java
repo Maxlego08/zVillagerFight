@@ -11,7 +11,7 @@ public class CommandVillagerFightArenaCreate extends VCommand {
 
 	public CommandVillagerFightArenaCreate() {
 		this.addSubCommand("create");
-		this.setPermission(Permission.ZVILLAGER_ARENA_CREATE);
+		this.setPermission(Permission.ZMOBFIGHTER_ARENA_CREATE);
 		this.setDescription(Message.COMMAND_DESCRIPTION_ARENA_CREATE);
 		this.addRequireArg("name");
 	}

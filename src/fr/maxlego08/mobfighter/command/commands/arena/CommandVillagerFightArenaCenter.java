@@ -11,7 +11,7 @@ public class CommandVillagerFightArenaCenter extends VCommand {
 
 	public CommandVillagerFightArenaCenter() {
 		this.addSubCommand("center");
-		this.setPermission(Permission.ZVILLAGER_ARENA_LOCATION_CENTER);
+		this.setPermission(Permission.ZMOBFIGHTER_ARENA_LOCATION_CENTER);
 		this.setDescription(Message.COMMAND_DESCRIPTION_ARENA_CENTER);
 		this.addRequireArg("name");
 	}
