@@ -2,6 +2,7 @@ package fr.maxlego08.mobfighter.listener;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -48,7 +49,7 @@ public class AdapterListener extends ZUtils implements Listener {
 				.forEach(adapter -> adapter.onInventoryClick(event, (Player) event.getWhoClicked()));
 	}
 
-	@EventHandler
+	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onEntityDeath(EntityDeathEvent event) {
 		template.getListenerAdapters().forEach(adapter -> adapter.onEntityDeath(event, event.getEntity()));
 	}

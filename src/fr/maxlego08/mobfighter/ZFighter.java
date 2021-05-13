@@ -61,7 +61,13 @@ public class ZFighter extends ZUtils implements Fighter {
 		if (this.armorStandWord != null)
 			this.armorStandWord.remove();
 
+		
 		World world = location.getWorld();
+		
+		System.out.println(this.entityType.getEntityClass());
+		System.out.println(location);
+		System.out.println(world);
+		
 		this.entity = (LivingEntity) world.spawn(location, this.entityType.getEntityClass());
 
 		this.armorStandHealth = world.spawn(this.entity.getEyeLocation().add(0, -0.5, 0), ArmorStand.class);
