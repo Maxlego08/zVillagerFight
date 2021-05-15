@@ -76,7 +76,7 @@ public class ZBetManager extends ZUtils implements BetManager {
 		Duel duel = optional2.get();
 
 		if (!duel.isCooldown()) {
-			message(player, Message.BET_CREATE, "%name%", name);
+			message(player, Message.BET_ALREADY_START, "%name%", name);
 			return;
 		}
 

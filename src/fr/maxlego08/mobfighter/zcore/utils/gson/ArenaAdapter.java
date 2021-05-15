@@ -75,6 +75,8 @@ public class ArenaAdapter extends TypeAdapter<Arena> {
 	 * @return string as locaiton
 	 */
 	protected Location changeStringLocationToLocationEye(String s) {
+		if (s == null)
+			return null;
 		String[] a = s.split(",");
 		World w = Bukkit.getServer().getWorld(a[0]);
 		float x = Float.parseFloat(a[1]);
@@ -93,6 +95,8 @@ public class ArenaAdapter extends TypeAdapter<Arena> {
 	 * @return location as String
 	 */
 	protected String changeLocationToStringEye(Location location) {
+		if (location.getWorld() == null)
+			return null;
 		String ret = location.getWorld().getName() + "," + location.getBlockX() + "," + location.getBlockY() + ","
 				+ location.getBlockZ() + "," + location.getYaw() + "," + location.getPitch();
 		return ret;

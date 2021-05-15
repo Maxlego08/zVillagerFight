@@ -24,6 +24,7 @@ import fr.maxlego08.mobfighter.save.Config;
 import fr.maxlego08.mobfighter.zcore.logger.Logger;
 import fr.maxlego08.mobfighter.zcore.logger.Logger.LogType;
 import fr.maxlego08.mobfighter.zcore.utils.BossBarManager;
+import fr.maxlego08.mobfighter.zcore.utils.ItemDecoder;
 import fr.maxlego08.mobfighter.zcore.utils.ZUtils;
 import fr.maxlego08.mobfighter.zcore.utils.builder.TimerBuilder;
 import fr.maxlego08.mobfighter.zcore.utils.players.ActionBar;
@@ -205,6 +206,10 @@ public class ZDuel extends ZUtils implements Duel {
 	}
 
 	private void updateBossBar(){
+		
+		if (ItemDecoder.isOneHand())
+			return;
+		
 		String message = Config.actionBarMessage;
 
 		message = message.replace("%first_health%",
