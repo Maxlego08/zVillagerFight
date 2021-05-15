@@ -379,7 +379,7 @@ public abstract class VCommand extends Arguments {
 		try {
 			return perform(main);
 		} catch (Exception e) {
-			if (Config.enableDebug)
+			if (Config.enableDebugMode)
 				e.printStackTrace();
 			return CommandType.SYNTAX_ERROR;
 		}

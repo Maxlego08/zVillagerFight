@@ -25,7 +25,7 @@ public enum InventoryType {
 	}
 
 	public boolean isDefault() {
-		return this == InventoryType.DEFAULT;
+		return true;
 	}
 
 }

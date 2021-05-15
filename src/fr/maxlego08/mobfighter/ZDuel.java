@@ -103,7 +103,7 @@ public class ZDuel extends ZUtils implements Duel {
 
 		this.startSecond = new AtomicInteger(second);
 
-		scheduleFix(0, Config.enableDebug ? 100 : 1000, (task, canRun) -> {
+		scheduleFix(0, Config.enableDebugMode ? 100 : 1000, (task, canRun) -> {
 
 			if (!canRun)
 				return;

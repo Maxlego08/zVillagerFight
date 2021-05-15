@@ -21,6 +21,11 @@ public class CommandMobFighterReload extends VCommand {
 			if (!(e instanceof MobManager))
 				e.load(plugin.getPersist());
 		});
+		try {
+			plugin.getInventories().loadInventories();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 		message(sender, Message.COMMAND_RELOAD);
 		return CommandType.SUCCESS;
 	}

@@ -100,7 +100,7 @@ public class InventoryObject extends ZUtils implements Inventory {
 
 	@Override
 	public int getMaxPage() {
-		return this.getMaxPage(null);
+		return 1; // TODO
 	}
 
 	@Override

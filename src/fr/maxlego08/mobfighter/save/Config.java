@@ -16,7 +16,6 @@ import fr.maxlego08.mobfighter.zcore.utils.storage.Saveable;
 
 public class Config implements Saveable {
 
-	public static boolean enableDebug = false;
 	public static boolean enableInventoryPreRender = false;
 	public static boolean enableDebugMode = false;
 	public static boolean enableOpenSyncInventory = true;

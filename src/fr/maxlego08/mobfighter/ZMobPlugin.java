@@ -64,7 +64,7 @@ public class ZMobPlugin extends ZPlugin {
 		/* Add Listener */
 
 		this.addListener(new AdapterListener(this));
-		// this.addListener(inventoryManager);
+		this.addListener(inventoryManager);
 		this.addListener(new ZMobListener(this));
 
 		this.registerInventory(EnumInventory.INVENTORY_DEFAULT, new InventoryDefault());
@@ -87,7 +87,7 @@ public class ZMobPlugin extends ZPlugin {
 			ZMobExpension auctionExpension = new ZMobExpension(this);
 			auctionExpension.register();
 		}
-		
+
 		ZPlaceholderAPI placeholderAPI = ZPlaceholderAPI.getInstance();
 		placeholderAPI.setPlugin(this);
 
