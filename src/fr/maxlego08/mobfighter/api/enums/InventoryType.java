@@ -3,6 +3,8 @@ package fr.maxlego08.mobfighter.api.enums;
 public enum InventoryType {
 
 	DEFAULT,
+	BET,
+	BET_CREATE,
 
 	;
 

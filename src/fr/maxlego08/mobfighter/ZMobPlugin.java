@@ -6,6 +6,7 @@ import fr.maxlego08.mobfighter.api.IEconomy;
 import fr.maxlego08.mobfighter.api.MobManager;
 import fr.maxlego08.mobfighter.api.bets.BetManager;
 import fr.maxlego08.mobfighter.api.configuration.ConfigurationManager;
+import fr.maxlego08.mobfighter.api.enums.EnumInventory;
 import fr.maxlego08.mobfighter.api.enums.InventoryName;
 import fr.maxlego08.mobfighter.api.inventory.InventoryManager;
 import fr.maxlego08.mobfighter.bet.ZBetManager;
@@ -14,8 +15,11 @@ import fr.maxlego08.mobfighter.command.commands.CommandMobFighter;
 import fr.maxlego08.mobfighter.configuration.ZConfigurationManager;
 import fr.maxlego08.mobfighter.inventory.InventoryLoader;
 import fr.maxlego08.mobfighter.inventory.ZInventoryManager;
+import fr.maxlego08.mobfighter.inventory.inventories.InventoryDefault;
 import fr.maxlego08.mobfighter.listener.AdapterListener;
 import fr.maxlego08.mobfighter.listener.HeadListener;
+import fr.maxlego08.mobfighter.placeholder.ZMobExpension;
+import fr.maxlego08.mobfighter.placeholder.ZPlaceholderAPI;
 import fr.maxlego08.mobfighter.save.Config;
 import fr.maxlego08.mobfighter.save.MessageLoader;
 import fr.maxlego08.mobfighter.zcore.ZPlugin;
@@ -46,7 +50,7 @@ public class ZMobPlugin extends ZPlugin {
 
 		for (InventoryName inventoryName : InventoryName.values())
 			this.registerFile(inventoryName);
-		
+
 		super.preEnable();
 
 		commandManager = new CommandManager(this);
@@ -63,26 +67,37 @@ public class ZMobPlugin extends ZPlugin {
 		// this.addListener(inventoryManager);
 		this.addListener(new ZMobListener(this));
 
+		this.registerInventory(EnumInventory.INVENTORY_DEFAULT, new InventoryDefault());
+
 		/* Add Saver */
 		this.addSave(Config.getInstance());
 		this.addSave((ZMobManager) this.manager);
 		this.addSave(configurationManager);
 		this.addSave(new MessageLoader(this));
-		
+
 		Plugin plugin = getPlugin(Plugins.HEADDATABASE);
-		
+
 		if (plugin != null && plugin.isEnabled())
 			this.addListener(new HeadListener(enablePlugin()));
 		else
 			enablePlugin().run();
 
+		plugin = getPlugin(Plugins.PLACEHOLDER);
+		if (plugin != null && plugin.isEnabled()) {
+			ZMobExpension auctionExpension = new ZMobExpension(this);
+			auctionExpension.register();
+		}
+		
+		ZPlaceholderAPI placeholderAPI = ZPlaceholderAPI.getInstance();
+		placeholderAPI.setPlugin(this);
+
 		super.getSavers().forEach(saver -> saver.load(getPersist()));
 
 		new Metrics(this, 11294);
-		
+
 		VersionChecker versionChecker = new VersionChecker(this, 41);
 		versionChecker.useLastVersion();
-		
+
 		super.postEnable();
 	}
 
@@ -105,7 +120,7 @@ public class ZMobPlugin extends ZPlugin {
 	public ConfigurationManager getConfigurationManager() {
 		return configurationManager;
 	}
-	
+
 	public IEconomy getEconomy() {
 		return economy;
 	}
@@ -117,7 +132,7 @@ public class ZMobPlugin extends ZPlugin {
 	public InventoryManager getInventories() {
 		return this.inventoryLoader;
 	}
-	
+
 	public Runnable enablePlugin() {
 		return () -> {
 			/* Load inventories */
@@ -129,5 +144,5 @@ public class ZMobPlugin extends ZPlugin {
 			}
 		};
 	}
-	
+
 }

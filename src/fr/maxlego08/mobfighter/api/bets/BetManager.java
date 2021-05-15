@@ -63,5 +63,7 @@ public interface BetManager {
 	 * @param player
 	 */
 	void sendBet(Player player);
+
+	void openInventory(Player player);
 	
 }

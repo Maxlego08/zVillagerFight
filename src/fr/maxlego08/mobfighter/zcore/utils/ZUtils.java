@@ -613,8 +613,8 @@ public abstract class ZUtils extends MessageUtils {
 	 * @param player
 	 * @param inventoryId
 	 */
-	protected void createInventory(Player player, EnumInventory inventory) {
-		createInventory(player, inventory, 1);
+	protected void createInventory(ZMobPlugin plugin, Player player, EnumInventory inventory) {
+		createInventory(plugin, player, inventory, 1);
 	}
 
 	/**
@@ -623,8 +623,8 @@ public abstract class ZUtils extends MessageUtils {
 	 * @param inventoryId
 	 * @param page
 	 */
-	protected void createInventory(Player player, EnumInventory inventory, int page) {
-		createInventory(player, inventory, page, new Object() {
+	protected void createInventory(ZMobPlugin plugin, Player player, EnumInventory inventory, int page) {
+		createInventory(plugin, player, inventory, page, new Object() {
 		});
 	}
 
@@ -635,7 +635,7 @@ public abstract class ZUtils extends MessageUtils {
 	 * @param page
 	 * @param objects
 	 */
-	protected void createInventory(Player player, EnumInventory inventory, int page, Object... objects) {
+	protected void createInventory(ZMobPlugin plugin, Player player, EnumInventory inventory, int page, Object... objects) {
 		plugin.getInventoryManager().createInventory(inventory, player, page, objects);
 	}
 
@@ -720,7 +720,7 @@ public abstract class ZUtils extends MessageUtils {
 	 * @return
 	 */
 	protected String color(String message) {
-		return message.replace("&", "§");
+		return message == null ? null : message.replace("&", "§");
 	}
 
 	/**
@@ -729,7 +729,7 @@ public abstract class ZUtils extends MessageUtils {
 	 * @return
 	 */
 	protected String colorReverse(String message) {
-		return message.replace("§", "&");
+		return message == null ? null : message.replace("§", "&");
 	}
 
 	/**

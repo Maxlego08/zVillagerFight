@@ -106,5 +106,11 @@ public interface MobManager extends Saveable {
 	 * @return
 	 */
 	List<String> getFighterNames();
+	
+	/**
+	 * 
+	 * @return duel
+	 */
+	Optional<Duel> getCurrentDuel();
 
 }

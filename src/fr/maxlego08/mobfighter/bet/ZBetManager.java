@@ -1,5 +1,6 @@
 package fr.maxlego08.mobfighter.bet;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,12 @@ import fr.maxlego08.mobfighter.api.IEconomy;
 import fr.maxlego08.mobfighter.api.MobManager;
 import fr.maxlego08.mobfighter.api.bets.Bet;
 import fr.maxlego08.mobfighter.api.bets.BetManager;
+import fr.maxlego08.mobfighter.api.enums.EnumInventory;
+import fr.maxlego08.mobfighter.api.enums.InventoryType;
 import fr.maxlego08.mobfighter.api.enums.Message;
+import fr.maxlego08.mobfighter.api.inventory.Inventory;
+import fr.maxlego08.mobfighter.api.inventory.InventoryManager;
+import fr.maxlego08.mobfighter.inventory.ZInventoryManager;
 import fr.maxlego08.mobfighter.save.Config;
 import fr.maxlego08.mobfighter.zcore.utils.ZUtils;
 
@@ -169,6 +175,20 @@ public class ZBetManager extends ZUtils implements BetManager {
 					"%multiplicator%", this.getMultiplicator(player));
 		} else
 			message(player, Message.BET_HELP);
+	}
+
+	@Override
+	public void openInventory(Player player) {
+		Optional<Bet> optional = getBet(player);
+
+		InventoryManager iInventory = plugin.getInventories();
+		InventoryType inventoryType = optional.isPresent() ? InventoryType.BET : InventoryType.BET_CREATE;
+
+		Inventory inventory = iInventory.getInventory(inventoryType);
+
+		ZInventoryManager inventoryManager = plugin.getInventoryManager();
+		inventoryManager.createInventory(EnumInventory.INVENTORY_DEFAULT, player, 1, inventory, new ArrayList<>(), null,
+				null);
 	}
 
 }
