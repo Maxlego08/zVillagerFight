@@ -18,6 +18,7 @@ public class Config implements Saveable {
 
 	public static boolean enableDebug = false;
 	public static boolean enableActionBar = true;
+	public static boolean enableInventoryPreRender = false;
 	public static String actionBarMessage = "§fzMobFighter §8- §a%first_name% §7| §b%first_health% §0- §d%second_health% §7| §2%second_name%";
 	public static String actionBarHealthFormat =  "#.##";
 	
@@ -69,6 +70,7 @@ public class Config implements Saveable {
 	 * static Singleton instance.
 	 */
 	private static volatile Config instance;
+	public static boolean enableDebugMode = false;
 
 	/**
 	 * Private constructor for singleton.

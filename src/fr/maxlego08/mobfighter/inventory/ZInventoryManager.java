@@ -12,18 +12,19 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 
+import fr.maxlego08.mobfighter.api.enums.EnumInventory;
 import fr.maxlego08.mobfighter.api.enums.Message;
+import fr.maxlego08.mobfighter.api.inventory.VInventoryManager;
 import fr.maxlego08.mobfighter.exceptions.InventoryAlreadyExistException;
 import fr.maxlego08.mobfighter.exceptions.InventoryOpenException;
 import fr.maxlego08.mobfighter.listener.ListenerAdapter;
 import fr.maxlego08.mobfighter.zcore.ZPlugin;
-import fr.maxlego08.mobfighter.zcore.enums.EnumInventory;
 import fr.maxlego08.mobfighter.zcore.logger.Logger;
 import fr.maxlego08.mobfighter.zcore.logger.Logger.LogType;
 import fr.maxlego08.mobfighter.zcore.utils.inventory.InventoryResult;
 import fr.maxlego08.mobfighter.zcore.utils.inventory.ItemButton;
 
-public class InventoryManager extends ListenerAdapter {
+public class ZInventoryManager extends ListenerAdapter implements VInventoryManager{
 
 	private Map<Integer, VInventory> inventories = new HashMap<>();
 	private Map<UUID, VInventory> playerInventories = new HashMap<>();
@@ -184,17 +185,17 @@ public class InventoryManager extends ListenerAdapter {
 	/**
 	 * static Singleton instance.
 	 */
-	private static volatile InventoryManager instance;
+	private static volatile ZInventoryManager instance;
 
 	/**
 	 * Return a singleton instance of InventoryManager.
 	 */
-	public static InventoryManager getInstance() {
+	public static ZInventoryManager getInstance() {
 		// Double lock for thread safety.
 		if (instance == null) {
-			synchronized (InventoryManager.class) {
+			synchronized (ZInventoryManager.class) {
 				if (instance == null) {
-					instance = new InventoryManager();
+					instance = new ZInventoryManager();
 				}
 			}
 		}

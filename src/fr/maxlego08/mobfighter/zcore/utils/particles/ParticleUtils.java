@@ -3,9 +3,10 @@ package fr.maxlego08.mobfighter.zcore.utils.particles;
 import org.bukkit.Location;
 
 import fr.maxlego08.mobfighter.api.particles.ParticleEffect;
+import fr.maxlego08.mobfighter.zcore.utils.PapiUtils;
 import xyz.xenondevs.particle.ParticleBuilder;
 
-public abstract class ParticleUtils {
+public abstract class ParticleUtils extends PapiUtils{
 
 	public ParticleUtils() {
 		// TODO Auto-generated constructor stub

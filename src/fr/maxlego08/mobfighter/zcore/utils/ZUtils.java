@@ -39,6 +39,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.permissions.Permissible;
 import org.bukkit.plugin.Plugin;
@@ -49,9 +50,9 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
 import fr.maxlego08.mobfighter.ZMobPlugin;
+import fr.maxlego08.mobfighter.api.enums.EnumInventory;
 import fr.maxlego08.mobfighter.api.enums.Message;
 import fr.maxlego08.mobfighter.zcore.ZPlugin;
-import fr.maxlego08.mobfighter.zcore.enums.EnumInventory;
 import fr.maxlego08.mobfighter.zcore.enums.Permission;
 import fr.maxlego08.mobfighter.zcore.utils.builder.CooldownBuilder;
 import fr.maxlego08.mobfighter.zcore.utils.builder.TimerBuilder;
@@ -1277,6 +1278,14 @@ public abstract class ZUtils extends MessageUtils {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void glow(ItemStack itemStack) {
+		ItemMeta itemMeta = itemStack.getItemMeta();
+		itemMeta.addEnchant(Enchantment.ARROW_DAMAGE, 1, true);
+		if (ItemDecoder.getNMSVersion() != 1.7)
+			itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		itemStack.setItemMeta(itemMeta);
 	}
 
 }

@@ -24,7 +24,7 @@ public class ConfigurationLoader extends ZUtils implements Loader<MobConfigurati
 	}
 
 	@Override
-	public MobConfiguration load(YamlConfiguration configuration, String path) {
+	public MobConfiguration load(YamlConfiguration configuration, String path, Object... args) {
 
 		try {
 
