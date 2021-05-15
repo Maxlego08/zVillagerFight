@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import fr.maxlego08.mobfighter.api.button.Button;
 import fr.maxlego08.mobfighter.api.button.buttons.PlaceholderButton;
+import fr.maxlego08.mobfighter.api.enums.ButtonType;
 import fr.maxlego08.mobfighter.api.enums.InventoryType;
 import fr.maxlego08.mobfighter.api.inventory.Inventory;
 import fr.maxlego08.mobfighter.save.Config;
@@ -122,6 +123,11 @@ public class InventoryObject extends ZUtils implements Inventory {
 				this.needToRenderButtons.add(button);
 			}
 		});
+	}
+
+	@Override
+	public List<Button> getButtons(ButtonType type) {
+		return this.buttons.stream().filter(e -> e.getType() == type).collect(Collectors.toList());
 	}
 
 }

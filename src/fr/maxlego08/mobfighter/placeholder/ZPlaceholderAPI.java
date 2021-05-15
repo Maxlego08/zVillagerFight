@@ -11,6 +11,9 @@ import fr.maxlego08.mobfighter.ZMobPlugin;
 import fr.maxlego08.mobfighter.api.Duel;
 import fr.maxlego08.mobfighter.api.Fighter;
 import fr.maxlego08.mobfighter.api.MobManager;
+import fr.maxlego08.mobfighter.api.bets.BetManager;
+import fr.maxlego08.mobfighter.api.enums.BetSecletType;
+import fr.maxlego08.mobfighter.api.enums.Message;
 
 public class ZPlaceholderAPI {
 
@@ -115,6 +118,7 @@ public class ZPlaceholderAPI {
 	public String onRequest(Player player, String string) {
 
 		MobManager manager = plugin.getManager();
+		BetManager betManager = plugin.getBetManager();
 
 		Optional<Duel> optional = manager.getCurrentDuel();
 		boolean isPresent = optional.isPresent();
@@ -131,6 +135,28 @@ public class ZPlaceholderAPI {
 				Fighter fighter = duel.getSecondFighter();
 				return fighter.getName();
 			}
+			case "selected_fighter_name": {
+				BetSecletType betSecletType = betManager.getSelectedType(player);
+				if (betSecletType == null)
+					return Message.BET_NOT_SELECTED.getMessage();
+				else {
+					switch (betSecletType) {
+					case FIRST: {
+						Fighter fighter = duel.getFirstFighter();
+						return fighter.getName();
+					}
+					case SECOND: {
+						Fighter fighter = duel.getSecondFighter();
+						return fighter.getName();
+					}
+					default:
+						break;
+					}
+				}
+				break;
+			}
+			case "bet":
+				return String.valueOf(betManager.getTmpBet(player));
 			default:
 				break;
 			}

@@ -3,6 +3,7 @@ package fr.maxlego08.mobfighter.inventory.inventories;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import org.bukkit.entity.Player;
@@ -10,6 +11,9 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import fr.maxlego08.mobfighter.ZMobPlugin;
+import fr.maxlego08.mobfighter.api.Duel;
+import fr.maxlego08.mobfighter.api.MobManager;
+import fr.maxlego08.mobfighter.api.bets.BetManager;
 import fr.maxlego08.mobfighter.api.button.buttons.BackButton;
 import fr.maxlego08.mobfighter.api.button.buttons.BetSelectButton;
 import fr.maxlego08.mobfighter.api.button.buttons.HomeButton;
@@ -18,7 +22,9 @@ import fr.maxlego08.mobfighter.api.button.buttons.PerformButton;
 import fr.maxlego08.mobfighter.api.button.buttons.PlaceholderButton;
 import fr.maxlego08.mobfighter.api.button.buttons.SlotButton;
 import fr.maxlego08.mobfighter.api.command.Command;
+import fr.maxlego08.mobfighter.api.enums.ButtonType;
 import fr.maxlego08.mobfighter.api.enums.EnumInventory;
+import fr.maxlego08.mobfighter.api.enums.Message;
 import fr.maxlego08.mobfighter.api.inventory.Inventory;
 import fr.maxlego08.mobfighter.exceptions.InventoryOpenException;
 import fr.maxlego08.mobfighter.exceptions.InventoryTypeException;
@@ -35,6 +41,8 @@ public class InventoryDefault extends VInventory {
 	private Inventory inventory;
 	private List<Inventory> oldInventories;
 	private Command command;
+
+	private long betPrice;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -289,20 +297,46 @@ public class InventoryDefault extends VInventory {
 
 				break;
 			}
-			case BET_SELECT_TYPE:{
-				
+			case BET_SELECT_TYPE: {
+
 				this.inventory.getButtons(BetSelectButton.class).forEach(e -> {
 					e.setSelect(false);
 					int tmpSlot = e.getSlot();
 					super.inventory.setItem(tmpSlot, e.getCustomItemStack(player));
 				});
-				
+
 				BetSelectButton betSelectButton = finalButton.toButton(BetSelectButton.class);
 				betSelectButton.setSelect(true);
-				
+
+				BetManager betManager = plugin.getBetManager();
+				betManager.setPlayerPlaceHolder(player, betPrice, betSelectButton.getBetType());
+
 				int tmpSlot = betSelectButton.getSlot();
 				super.inventory.setItem(tmpSlot, betSelectButton.getCustomItemStack(player));
-				
+
+				this.inventory.getButtons(ButtonType.BET_CREATE).forEach(e -> {
+					int tmpSlot2 = e.getSlot();
+					super.inventory.setItem(tmpSlot2, e.getCustomItemStack(player));
+				});
+
+				break;
+			}
+			case BET_CREATE: {
+				BetManager betManager = plugin.getBetManager();
+				MobManager manager = plugin.getManager();
+
+				Optional<Duel> optional = manager.getCurrentDuel();
+
+				if (!optional.isPresent()) {
+					player.closeInventory();
+					message(player, Message.BET_DUEL_ALREADY_START);
+					return;
+				}
+
+				Duel duel = optional.get();
+				if (betManager.validation(player, this.betPrice)) 
+					betManager.createBet(player, duel, this.betPrice);
+
 				break;
 			}
 			default:
