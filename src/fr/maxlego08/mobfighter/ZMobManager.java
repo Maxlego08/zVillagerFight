@@ -157,11 +157,11 @@ public class ZMobManager extends ZUtils implements MobManager {
 			return;
 		}
 
-		if (!arena.isValid()){
+		if (!arena.isValid()) {
 			message(sender, Message.ARENA_INVALID);
 			return;
 		}
-		
+
 		ConfigurationManager configurationManager = this.plugin.getConfigurationManager();
 		Duel duel = new ZDuel(this.plugin.getBetManager(), arena, this.pathManager, configurationManager, entity1,
 				entity2);
@@ -229,10 +229,10 @@ public class ZMobManager extends ZUtils implements MobManager {
 
 		Duel duel = arena.getDuel();
 		duel.stop();
-		
+
 		BetManager betManager = this.plugin.getBetManager();
 		betManager.refundBets(duel);
-		
+
 		message(sender, Message.DUEL_STOP_SUCCESS);
 
 	}
@@ -256,6 +256,13 @@ public class ZMobManager extends ZUtils implements MobManager {
 			strings.add(e.getSecondFighter().getName());
 		});
 		return strings;
+	}
+
+	@Override
+	public Optional<Duel> getCurrentDuel() {
+		if (duels.size() == 0)
+			return Optional.empty();
+		return Optional.of(duels.get(0));
 	}
 
 }

@@ -4,6 +4,7 @@ import fr.maxlego08.mobfighter.ZMobPlugin;
 import fr.maxlego08.mobfighter.api.bets.BetManager;
 import fr.maxlego08.mobfighter.api.enums.Message;
 import fr.maxlego08.mobfighter.command.VCommand;
+import fr.maxlego08.mobfighter.save.Config;
 import fr.maxlego08.mobfighter.zcore.enums.Permission;
 import fr.maxlego08.mobfighter.zcore.utils.commands.CommandType;
 
@@ -20,7 +21,11 @@ public class CommandMobFighterBet extends VCommand {
 	@Override
 	protected CommandType perform(ZMobPlugin main) {
 		BetManager betManager = main.getBetManager();
-		betManager.sendBet(player);
+		if (Config.enableBetInventory) {
+			betManager.openInventory(player);
+		} else {
+			betManager.sendBet(player);
+		}
 		return CommandType.SUCCESS;
 	}
 

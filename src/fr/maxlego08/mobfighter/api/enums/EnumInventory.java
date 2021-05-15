@@ -1,8 +1,8 @@
-package fr.maxlego08.mobfighter.zcore.enums;
+package fr.maxlego08.mobfighter.api.enums;
 
 public enum EnumInventory {
 
-	INVENTORY_TEST(1),
+	INVENTORY_DEFAULT(1), 
 	
 	;
 	

@@ -2,5 +2,18 @@ name: zMobfighter
 author: Maxlego08
 main: fr.maxlego08.mobfighter.ZMobPlugin
 version: 1.0.0.0
+softdepend: 
+ - Vault
+ - PlayerPoints
+ - TokenManager
+ - MySqlToken
+ - Essentials
+ - MySQL-Tokens
+ - HeadDatabase
+ - PlaceholderAPI
+ - EpicHeads
+ - CMI
+ - Citizens
+ - TranslationAPI
 api-version: 1.13
 commands:

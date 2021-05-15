@@ -1,5 +1,6 @@
 package fr.maxlego08.mobfighter.bet;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,13 @@ import fr.maxlego08.mobfighter.api.IEconomy;
 import fr.maxlego08.mobfighter.api.MobManager;
 import fr.maxlego08.mobfighter.api.bets.Bet;
 import fr.maxlego08.mobfighter.api.bets.BetManager;
+import fr.maxlego08.mobfighter.api.enums.BetSecletType;
+import fr.maxlego08.mobfighter.api.enums.EnumInventory;
+import fr.maxlego08.mobfighter.api.enums.InventoryType;
 import fr.maxlego08.mobfighter.api.enums.Message;
+import fr.maxlego08.mobfighter.api.inventory.Inventory;
+import fr.maxlego08.mobfighter.api.inventory.InventoryManager;
+import fr.maxlego08.mobfighter.inventory.ZInventoryManager;
 import fr.maxlego08.mobfighter.save.Config;
 import fr.maxlego08.mobfighter.zcore.utils.ZUtils;
 
@@ -25,6 +32,9 @@ public class ZBetManager extends ZUtils implements BetManager {
 
 	private final Map<Player, Bet> bets = new HashMap<Player, Bet>();
 	private final ZMobPlugin plugin;
+
+	private final Map<Player, BetSecletType> betSeletedTypes = new HashMap<>();
+	private final Map<Player, Long> betPlayers = new HashMap<>();
 
 	/**
 	 * @param plugin
@@ -48,22 +58,8 @@ public class ZBetManager extends ZUtils implements BetManager {
 			return;
 		}
 
-		IEconomy iEconomy = plugin.getEconomy();
-
-		if (!iEconomy.hasMoney(Config.economy, player, bet)) {
-			message(player, Message.BET_NOT_ENOUGHT_MONEY);
+		if (!this.validation(player, bet))
 			return;
-		}
-
-		if (bet < Config.minBet) {
-			message(player, Message.BET_MIN);
-			return;
-		}
-
-		if (bet > Config.maxBet) {
-			message(player, Message.BET_MAX);
-			return;
-		}
 
 		MobManager mobManager = plugin.getManager();
 		Optional<Duel> optional2 = mobManager.getDuelByFighter(name);
@@ -89,6 +85,8 @@ public class ZBetManager extends ZUtils implements BetManager {
 
 		Bet bet2 = new ZBet(player, bet, duel, fighter);
 		bets.put(player, bet2);
+
+		IEconomy iEconomy = plugin.getEconomy();
 		iEconomy.withdrawMoney(Config.economy, player, bet);
 		message(player, Message.BET_CREATE, "%fighter%", name, "%bet%", bet, "%currency%", Config.economy.toCurrency());
 
@@ -131,6 +129,8 @@ public class ZBetManager extends ZUtils implements BetManager {
 			bet.refund(economy);
 			bets.remove(bet.getDuel());
 		});
+		this.betPlayers.clear();
+		this.betSeletedTypes.clear();
 	}
 
 	@Override
@@ -157,7 +157,11 @@ public class ZBetManager extends ZUtils implements BetManager {
 			IEconomy economy = plugin.getEconomy();
 			economy.depositMoney(Config.economy, player, bet.getBet());
 			bets.remove(player);
+
+			this.betPlayers.remove(player);
+			this.betSeletedTypes.remove(player);
 		}
+
 	}
 
 	@Override
@@ -169,6 +173,88 @@ public class ZBetManager extends ZUtils implements BetManager {
 					"%multiplicator%", this.getMultiplicator(player));
 		} else
 			message(player, Message.BET_HELP);
+	}
+
+	@Override
+	public void openInventory(Player player) {
+
+		MobManager manager = plugin.getManager();
+
+		Optional<Duel> duelOptional = manager.getCurrentDuel();
+
+		if (!duelOptional.isPresent()) {
+			message(player, Message.BET_NONE);
+			return;
+		}
+
+		Optional<Bet> optional = getBet(player);
+
+		InventoryManager iInventory = plugin.getInventories();
+		InventoryType inventoryType = optional.isPresent() ? InventoryType.BET : InventoryType.BET_CREATE;
+
+		Inventory inventory = iInventory.getInventory(inventoryType);
+
+		ZInventoryManager inventoryManager = plugin.getInventoryManager();
+		inventoryManager.createInventory(EnumInventory.INVENTORY_DEFAULT, player, 1, inventory, new ArrayList<>(), null,
+				null);
+	}
+
+	@Override
+	public void setPlayerPlaceHolder(Player player, long value, BetSecletType betSecletType) {
+		this.betSeletedTypes.put(player, betSecletType);
+		this.betPlayers.put(player, value);
+	}
+
+	@Override
+	public BetSecletType getSelectedType(Player player) {
+		return this.betSeletedTypes.getOrDefault(player, null);
+	}
+
+	@Override
+	public long getTmpBet(Player player) {
+		return this.betPlayers.getOrDefault(player, 0l);
+	}
+
+	@Override
+	public boolean validation(Player player, long betPrice) {
+		IEconomy iEconomy = plugin.getEconomy();
+
+		if (!iEconomy.hasMoney(Config.economy, player, betPrice)) {
+			message(player, Message.BET_NOT_ENOUGHT_MONEY);
+			return false;
+		}
+
+		if (betPrice < Config.minBet) {
+			message(player, Message.BET_MIN);
+			return false;
+		}
+
+		if (betPrice > Config.maxBet) {
+			message(player, Message.BET_MAX);
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public void createBet(Player player, Duel duel, long betPrice) {
+		BetSecletType type = this.getSelectedType(player);
+
+		if (type == null) {
+			message(player, Message.BET_SELECT_EMPTY);
+			return;
+		}
+
+		player.closeInventory();
+
+		Fighter fighter = (type == BetSecletType.FIRST ? duel.getFirstFighter() : duel.getSecondFighter());
+		Bet bet = new ZBet(player, betPrice, duel, fighter);
+		bets.put(player, bet);
+
+		IEconomy iEconomy = plugin.getEconomy();
+		iEconomy.withdrawMoney(Config.economy, player, betPrice);
+		message(player, Message.BET_CREATE, "%fighter%", fighter.getName(), "%bet%", betPrice, "%currency%",
+				Config.economy.toCurrency());
 	}
 
 }

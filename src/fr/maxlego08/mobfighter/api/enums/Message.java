@@ -75,6 +75,7 @@ public enum Message {
 	
 	BET_ALREADY_CREATE("§cYou have already created a bet."),
 	BET_ALREADY_START("§cThe duel is already in progress, you can't create a bet now."),
+	BET_NONE("§cYou cannot create a bet at this time."),
 	BET_NOT_FOUND("§cImpossible to find the fighter §2%name%§c."),
 	BET_NOT_ENOUGHT_MONEY("§cYou don't have enought money to do this."),
 	BET_CREATE("§fYou have just bet §a%bet%%currency% §fon the fighter §2%fighter%."),
@@ -84,6 +85,11 @@ public enum Message {
 	BET_SHOW("§fYour bet§8:", "§7Fighter§8: §a%fighter%", "§7Bet§8: §2%bet%", "§7Multiplicator§8: §a%multiplicator%"),
 	BET_MIN("§cYou must put at least §f100$§c."),
 	BET_MAX("§cYou can't put in more than §f$100,000§c."),
+	BET_NOT_SELECTED("None"),
+	BET_DUEL_ALREADY_START("§cThe duel has already begun."),
+	BET_SELECT_EMPTY("§cYou must select a fighter."),
+	BET_NAME_EMPTY("None"),
+	BET_PRICE_EMPTY("0"),
 	
 	
 	;

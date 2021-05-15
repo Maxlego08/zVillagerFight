@@ -1,8 +1,14 @@
 package fr.maxlego08.mobfighter.zcore;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.black_ixx.playerpoints.PlayerPoints;
 import org.black_ixx.playerpoints.PlayerPointsAPI;
@@ -18,14 +24,16 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import fr.maxlego08.mobfighter.api.Arena;
+import fr.maxlego08.mobfighter.api.enums.EnumInventory;
+import fr.maxlego08.mobfighter.api.enums.InventoryName;
 import fr.maxlego08.mobfighter.command.CommandManager;
 import fr.maxlego08.mobfighter.command.VCommand;
-import fr.maxlego08.mobfighter.inventory.InventoryManager;
 import fr.maxlego08.mobfighter.inventory.VInventory;
+import fr.maxlego08.mobfighter.inventory.ZInventoryManager;
 import fr.maxlego08.mobfighter.listener.ListenerAdapter;
-import fr.maxlego08.mobfighter.zcore.enums.EnumInventory;
 import fr.maxlego08.mobfighter.zcore.logger.Logger;
 import fr.maxlego08.mobfighter.zcore.logger.Logger.LogType;
+import fr.maxlego08.mobfighter.zcore.utils.ItemDecoder;
 import fr.maxlego08.mobfighter.zcore.utils.gson.ArenaAdapter;
 import fr.maxlego08.mobfighter.zcore.utils.gson.LocationAdapter;
 import fr.maxlego08.mobfighter.zcore.utils.gson.PotionEffectAdapter;
@@ -44,9 +52,10 @@ public abstract class ZPlugin extends JavaPlugin {
 	private List<Saveable> savers = new ArrayList<>();
 	private List<ListenerAdapter> listenerAdapters = new ArrayList<>();
 	private Economy economy = null;
+	private List<String> files = new ArrayList<>();
 
 	protected CommandManager commandManager;
-	protected InventoryManager inventoryManager;
+	protected ZInventoryManager inventoryManager;
 	
 	private PlayerPoints playerPoints;
 	private PlayerPointsAPI playerPointsAPI;
@@ -90,6 +99,18 @@ public abstract class ZPlugin extends JavaPlugin {
 		if (getPlugin(Plugins.VAULT) != null)
 			economy = getProvider(Economy.class);
 
+		
+		boolean isNew = ItemDecoder.isNewVersion();
+		for (String file : files) {
+			if (isNew) {
+				if (!new File(getDataFolder() + "/inventories/" + file + ".yml").exists())
+					saveResource("inventories/1_13/" + file + ".yml", "inventories/" + file + ".yml", false);
+			} else {
+				if (!new File(getDataFolder() + "/inventories/" + file + ".yml").exists())
+					saveResource("inventories/" + file + ".yml", false);
+			}
+		}
+		
 		return true;
 
 	}
@@ -242,7 +263,7 @@ public abstract class ZPlugin extends JavaPlugin {
 	/**
 	 * @return the inventoryManager
 	 */
-	public InventoryManager getInventoryManager() {
+	public ZInventoryManager getInventoryManager() {
 		return inventoryManager;
 	}
 
@@ -284,6 +305,61 @@ public abstract class ZPlugin extends JavaPlugin {
 	 */
 	protected void registerInventory(EnumInventory inventory, VInventory vInventory) {
 		inventoryManager.addInventory(inventory, vInventory);
+	}
+	
+	/**
+	 * 
+	 * @param resourcePath
+	 * @param toPath
+	 * @param replace
+	 */
+	protected void saveResource(String resourcePath, String toPath, boolean replace) {
+		if (resourcePath != null && !resourcePath.equals("")) {
+			resourcePath = resourcePath.replace('\\', '/');
+			InputStream in = this.getResource(resourcePath);
+			if (in == null) {
+				throw new IllegalArgumentException(
+						"The embedded resource '" + resourcePath + "' cannot be found in " + this.getFile());
+			} else {
+				File outFile = new File(getDataFolder(), toPath);
+				int lastIndex = toPath.lastIndexOf(47);
+				File outDir = new File(getDataFolder(), toPath.substring(0, lastIndex >= 0 ? lastIndex : 0));
+				if (!outDir.exists()) {
+					outDir.mkdirs();
+				}
+
+				try {
+					if (outFile.exists() && !replace) {
+						getLogger().log(Level.WARNING, "Could not save " + outFile.getName() + " to " + outFile
+								+ " because " + outFile.getName() + " already exists.");
+					} else {
+						OutputStream out = new FileOutputStream(outFile);
+						byte[] buf = new byte[1024];
+
+						int len;
+						while ((len = in.read(buf)) > 0) {
+							out.write(buf, 0, len);
+						}
+
+						out.close();
+						in.close();
+					}
+				} catch (IOException var10) {
+					getLogger().log(Level.SEVERE, "Could not save " + outFile.getName() + " to " + outFile, var10);
+				}
+
+			}
+		} else {
+			throw new IllegalArgumentException("ResourcePath cannot be null or empty");
+		}
+	}
+	
+	protected void registerFile(InventoryName file) {
+		this.files.add(file.getName());
+	}
+	
+	public List<String> getFiles() {
+		return files;
 	}
 
 }

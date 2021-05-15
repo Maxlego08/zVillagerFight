@@ -1,0 +1,109 @@
+name: "&7zMobFighter &fBet Create"
+size: 54
+type: BET_CREATE
+items:
+  slots:
+    type: NONE_SLOT
+    item:
+      material: STAINED_GLASS_PANE
+      data: 7
+      name: "&e"
+    slots:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 18
+      - 27
+      - 17
+      - 26
+      - 35
+      - 36
+      - 44
+      - 45
+      - 46
+      - 47
+      - 48
+      - 50
+      - 51
+      - 52
+      - 53
+  create:
+    type: BET_CREATE
+    slot: 49
+    item:
+      material: STAINED_GLASS_PANE
+      data: 13
+      name: "&aCreate the bet"
+      lore:
+        - "&7&m-------------------------------------"
+        - "&f&l» &7Confirmation&8:"
+        - ""
+        - "&f&l» &7Fighter&8: &a%zmobfighter_selected_fighter_name%" 
+        - "&f&l» &7Bet&8: &b%zmobfighter_bet%" 
+        - "&7&m-------------------------------------" 
+  first:
+    type: BET_SELECT_TYPE
+    item:
+      material: DIAMOND
+      name: "&f%zmobfighter_first_name%"
+      lore:
+        - "&7&m-------------------------------------"
+        - "&f&l» &7Click to select &a%zmobfighter_first_name%"
+        - "&7&m-------------------------------------"
+    selectedLore:
+      - "&7&m-------------------------------------"
+      - "&f&l» &7You have selected &a%zmobfighter_first_name%"
+      - "&7&m-------------------------------------"        
+    betType: FIRST
+    slot: 21
+  second:
+    type: BET_SELECT_TYPE
+    item:
+      material: EMERALD
+      name: "&f%zmobfighter_second_name%"
+      lore:
+        - "&7&m-------------------------------------"
+        - "&f&l» &7Click to select &a%zmobfighter_second_name%"
+        - "&7&m-------------------------------------"      
+    selectedLore:
+      - "&7&m-------------------------------------"
+      - "&f&l» &7You have selected &a%zmobfighter_second_name%"
+      - "&7&m-------------------------------------"
+    betType: SECOND
+    slot: 23
+  remove100:
+    type: BET_MODIFIER
+    value: -100
+    slot: 38
+    item:
+      material: REDSTONE_BLOCK
+      name: "&cRemove &f100"
+  remove10:
+    type: BET_MODIFIER
+    value: -10
+    slot: 39
+    item:
+      material: REDSTONE
+      name: "&cRemove &f10"
+  add10:
+    type: BET_MODIFIER
+    value: 10
+    slot: 41
+    item:
+      material: GOLD_INGOT
+      name: "&aAdd &f10" 
+  add100:
+    type: BET_MODIFIER
+    value: 100
+    slot: 42
+    item:
+      material: GOLD_BLOCK
+      name: "&aAdd &f100"                  
+      
