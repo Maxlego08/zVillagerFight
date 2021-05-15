@@ -9,11 +9,13 @@ import org.bukkit.inventory.ItemStack;
 import fr.maxlego08.mobfighter.ZMobPlugin;
 import fr.maxlego08.mobfighter.api.IEconomy;
 import fr.maxlego08.mobfighter.api.button.Button;
+import fr.maxlego08.mobfighter.api.enums.BetSecletType;
 import fr.maxlego08.mobfighter.api.enums.ButtonType;
 import fr.maxlego08.mobfighter.api.enums.PlaceholderAction;
 import fr.maxlego08.mobfighter.api.enums.XSound;
 import fr.maxlego08.mobfighter.api.sound.SoundOption;
 import fr.maxlego08.mobfighter.button.buttons.ZBackButton;
+import fr.maxlego08.mobfighter.button.buttons.ZBetSelectButton;
 import fr.maxlego08.mobfighter.button.buttons.ZHomeButton;
 import fr.maxlego08.mobfighter.button.buttons.ZInventoryButton;
 import fr.maxlego08.mobfighter.button.buttons.ZPerformButton;
@@ -115,6 +117,13 @@ public class ButtonLoader implements Loader<Button> {
 			List<Integer> list = configuration.getIntegerList(path + "slots");
 			return new ZSlotButton(type, itemStack, slot, permission, elseMessage, elseButton, isPermanent, action,
 					placeHolder, value, list, glowIfCheck, sound);
+		case BET_SELECT_TYPE: {
+			BetSecletType betSecletType = BetSecletType
+					.valueOf(configuration.getString(path + "betType").toUpperCase());
+			List<String> selectedLore = configuration.getStringList(path + "selectedLore");
+			return new ZBetSelectButton(type, itemStack, slot, permission, elseMessage, elseButton, isPermanent, action,
+					placeHolder, value, glowIfCheck, sound, betSecletType, selectedLore);
+		}
 		case NONE:
 		default:
 			button = new ZPlaceholderButton(type, itemStack, slot, permission, elseMessage, elseButton, isPermanent,

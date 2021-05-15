@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 
 import fr.maxlego08.mobfighter.ZMobPlugin;
 import fr.maxlego08.mobfighter.api.button.buttons.BackButton;
+import fr.maxlego08.mobfighter.api.button.buttons.BetSelectButton;
 import fr.maxlego08.mobfighter.api.button.buttons.HomeButton;
 import fr.maxlego08.mobfighter.api.button.buttons.InventoryButton;
 import fr.maxlego08.mobfighter.api.button.buttons.PerformButton;
@@ -286,6 +287,22 @@ public class InventoryDefault extends VInventory {
 				int newPage = this.args.length == 7 ? (int) args[5] : this.getPage();
 				createInventory(plugin, player, EnumInventory.INVENTORY_DEFAULT, newPage, clonedArrays);
 
+				break;
+			}
+			case BET_SELECT_TYPE:{
+				
+				this.inventory.getButtons(BetSelectButton.class).forEach(e -> {
+					e.setSelect(false);
+					int tmpSlot = e.getSlot();
+					super.inventory.setItem(tmpSlot, e.getCustomItemStack(player));
+				});
+				
+				BetSelectButton betSelectButton = finalButton.toButton(BetSelectButton.class);
+				betSelectButton.setSelect(true);
+				
+				int tmpSlot = betSelectButton.getSlot();
+				super.inventory.setItem(tmpSlot, betSelectButton.getCustomItemStack(player));
+				
 				break;
 			}
 			default:

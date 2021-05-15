@@ -16,6 +16,8 @@ public enum ButtonType {
 
 	PERFORM_COMMAND,
 
+	BET_SELECT_TYPE
+	
 	;
 
 	/**

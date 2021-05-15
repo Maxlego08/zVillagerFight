@@ -4,7 +4,6 @@ type: BET_CREATE
 items:
   slots:
     type: NONE_SLOT
-    isPermanent: true
     item:
       material: STAINED_GLASS_PANE
       data: 7
@@ -36,3 +35,34 @@ items:
       - 51
       - 52
       - 53
+  first:
+    type: BET_SELECT_TYPE
+    item:
+      material: DIAMOND
+      name: "&f%zmobfighter_first_name%"
+      lore:
+        - "&7&m-------------------------------------"
+        - "&f&l» &7Click to select &a%zmobfighter_first_name%"
+        - "&7&m-------------------------------------"
+    selectedLore:
+      - "&7&m-------------------------------------"
+      - "&f&l» &7You have selected &a%zmobfighter_first_name%"
+      - "&7&m-------------------------------------"        
+    betType: FIRST
+    slot: 20
+  second:
+    type: BET_SELECT_TYPE
+    item:
+      material: EMERALD
+      name: "&f%zmobfighter_second_name%"
+      lore:
+        - "&7&m-------------------------------------"
+        - "&f&l» &7Click to select &a%zmobfighter_second_name%"
+        - "&7&m-------------------------------------"      
+    selectedLore:
+      - "&7&m-------------------------------------"
+      - "&f&l» &7You have selected &a%zmobfighter_second_name%"
+      - "&7&m-------------------------------------"
+    betType: SECOND
+    slot: 24
+      

@@ -179,6 +179,16 @@ public class ZBetManager extends ZUtils implements BetManager {
 
 	@Override
 	public void openInventory(Player player) {
+		
+		MobManager manager = plugin.getManager();
+		
+		Optional<Duel> duelOptional = manager.getCurrentDuel();
+		
+		if (!duelOptional.isPresent()){
+			message(player, Message.BET_NONE);
+			return;
+		}
+		
 		Optional<Bet> optional = getBet(player);
 
 		InventoryManager iInventory = plugin.getInventories();
