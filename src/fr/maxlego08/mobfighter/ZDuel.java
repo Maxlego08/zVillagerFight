@@ -286,7 +286,7 @@ public class ZDuel extends ZUtils implements Duel {
 	@Override
 	public void onDeath(EntityDeathEvent event, Entity entity) {
 
-		if (this.firstFighter == null || this.secondFighter == null)
+		if (!isValid())
 			return;
 
 		if (this.firstFighter.getEntity().equals(entity) || this.secondFighter.getEntity().equals(entity))
