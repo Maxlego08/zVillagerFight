@@ -15,6 +15,7 @@ import fr.maxlego08.mobfighter.api.Duel;
 import fr.maxlego08.mobfighter.api.MobManager;
 import fr.maxlego08.mobfighter.api.bets.BetManager;
 import fr.maxlego08.mobfighter.api.button.buttons.BackButton;
+import fr.maxlego08.mobfighter.api.button.buttons.BetNumberButton;
 import fr.maxlego08.mobfighter.api.button.buttons.BetSelectButton;
 import fr.maxlego08.mobfighter.api.button.buttons.HomeButton;
 import fr.maxlego08.mobfighter.api.button.buttons.InventoryButton;
@@ -338,6 +339,22 @@ public class InventoryDefault extends VInventory {
 					betManager.createBet(player, duel, this.betPrice);
 
 				break;
+			}
+			case BET_MODIFIER:{
+				BetNumberButton numberButton = finalButton.toButton(BetNumberButton.class);
+				
+				this.betPrice += numberButton.getModifier();
+
+				BetManager betManager = plugin.getBetManager();
+				betManager.setPlayerPlaceHolder(player, betPrice, betManager.getSelectedType(player));
+				
+				if (this.betPrice < 0)
+					this.betPrice = 0;
+				
+				this.inventory.getButtons(ButtonType.BET_CREATE).forEach(e -> {
+					int tmpSlot2 = e.getSlot();
+					super.inventory.setItem(tmpSlot2, e.getCustomItemStack(player));
+				});
 			}
 			default:
 				break;

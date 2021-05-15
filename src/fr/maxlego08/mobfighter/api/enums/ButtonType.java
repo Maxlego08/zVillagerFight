@@ -20,6 +20,8 @@ public enum ButtonType {
 	
 	BET_CREATE,
 	
+	BET_MODIFIER,
+	
 	;
 
 	/**

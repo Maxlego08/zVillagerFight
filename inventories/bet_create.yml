@@ -78,4 +78,32 @@ items:
       - "&7&m-------------------------------------"
     betType: SECOND
     slot: 23
+  remove100:
+    type: BET_MODIFIER
+    value: -100
+    slot: 38
+    item:
+      material: REDSTONE_BLOCK
+      name: "&cRemove &f100"
+  remove10:
+    type: BET_MODIFIER
+    value: -10
+    slot: 39
+    item:
+      material: REDSTONE
+      name: "&cRemove &f10"
+  add10:
+    type: BET_MODIFIER
+    value: 10
+    slot: 41
+    item:
+      material: GOLD_INGOT
+      name: "&aAdd &f10" 
+  add100:
+    type: BET_MODIFIER
+    value: 100
+    slot: 42
+    item:
+      material: GOLD_BLOCK
+      name: "&aAdd &f100"                  
       

@@ -15,6 +15,7 @@ import fr.maxlego08.mobfighter.api.enums.PlaceholderAction;
 import fr.maxlego08.mobfighter.api.enums.XSound;
 import fr.maxlego08.mobfighter.api.sound.SoundOption;
 import fr.maxlego08.mobfighter.button.buttons.ZBackButton;
+import fr.maxlego08.mobfighter.button.buttons.ZBetNumberButton;
 import fr.maxlego08.mobfighter.button.buttons.ZBetSelectButton;
 import fr.maxlego08.mobfighter.button.buttons.ZHomeButton;
 import fr.maxlego08.mobfighter.button.buttons.ZInventoryButton;
@@ -123,6 +124,11 @@ public class ButtonLoader implements Loader<Button> {
 			List<String> selectedLore = configuration.getStringList(path + "selectedLore");
 			return new ZBetSelectButton(type, itemStack, slot, permission, elseMessage, elseButton, isPermanent, action,
 					placeHolder, value, glowIfCheck, sound, betSecletType, selectedLore);
+		}
+		case BET_MODIFIER: {
+			long modifier = configuration.getLong(path + "value", 0);
+			return new ZBetNumberButton(type, itemStack, slot, permission, elseMessage, elseButton, isPermanent, action,
+					placeHolder, value, glowIfCheck, sound, modifier);
 		}
 		case NONE:
 		default:

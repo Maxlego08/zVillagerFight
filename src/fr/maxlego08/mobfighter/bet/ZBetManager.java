@@ -129,6 +129,8 @@ public class ZBetManager extends ZUtils implements BetManager {
 			bet.refund(economy);
 			bets.remove(bet.getDuel());
 		});
+		this.betPlayers.clear();
+		this.betSeletedTypes.clear();
 	}
 
 	@Override
@@ -155,7 +157,11 @@ public class ZBetManager extends ZUtils implements BetManager {
 			IEconomy economy = plugin.getEconomy();
 			economy.depositMoney(Config.economy, player, bet.getBet());
 			bets.remove(player);
+
+			this.betPlayers.remove(player);
+			this.betSeletedTypes.remove(player);
 		}
+
 	}
 
 	@Override
