@@ -36,3 +36,14 @@ items:
       - 51
       - 52
       - 53
+  info:
+    type: NONE
+    slot: 31
+    item:
+      material: NETHER_STAR
+      name: "&7Informations"
+      lore:
+        - "&7&m-------------------------------------"
+        - "&f&l» &7Fighter&8: &a%zmobfighter_bet_name%"
+        - "&f&l» &7Bet&8: &a%zmobfighter_bet_price%"
+        - "&7&m-------------------------------------"

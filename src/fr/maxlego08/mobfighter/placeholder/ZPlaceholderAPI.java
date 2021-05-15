@@ -11,6 +11,7 @@ import fr.maxlego08.mobfighter.ZMobPlugin;
 import fr.maxlego08.mobfighter.api.Duel;
 import fr.maxlego08.mobfighter.api.Fighter;
 import fr.maxlego08.mobfighter.api.MobManager;
+import fr.maxlego08.mobfighter.api.bets.Bet;
 import fr.maxlego08.mobfighter.api.bets.BetManager;
 import fr.maxlego08.mobfighter.api.enums.BetSecletType;
 import fr.maxlego08.mobfighter.api.enums.Message;
@@ -134,6 +135,22 @@ public class ZPlaceholderAPI {
 			case "second_name": {
 				Fighter fighter = duel.getSecondFighter();
 				return fighter.getName();
+			}
+			case "bet_name": {
+				Optional<Bet> optional2 = betManager.getBet(player);
+				if (optional2.isPresent()){
+					Bet bet = optional2.get();
+					return bet.getFighter().getName();
+				}
+				return Message.BET_NAME_EMPTY.getMessage();
+			}
+			case "bet_price": {
+				Optional<Bet> optional2 = betManager.getBet(player);
+				if (optional2.isPresent()){
+					Bet bet = optional2.get();
+					return String.valueOf(bet.getBet());
+				}
+				return Message.BET_PRICE_EMPTY.getMessage();
 			}
 			case "selected_fighter_name": {
 				BetSecletType betSecletType = betManager.getSelectedType(player);

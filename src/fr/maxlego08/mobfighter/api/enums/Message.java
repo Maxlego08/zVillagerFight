@@ -88,6 +88,8 @@ public enum Message {
 	BET_NOT_SELECTED("None"),
 	BET_DUEL_ALREADY_START("§cThe duel has already begun."),
 	BET_SELECT_EMPTY("§cYou must select a fighter."),
+	BET_NAME_EMPTY("None"),
+	BET_PRICE_EMPTY("0"),
 	
 	
 	;
