@@ -14,17 +14,18 @@ import fr.maxlego08.mobfighter.path.nms.Path15R1;
 import fr.maxlego08.mobfighter.path.nms.Path16R1;
 import fr.maxlego08.mobfighter.path.nms.Path16R2;
 import fr.maxlego08.mobfighter.path.nms.Path16R3;
+import fr.maxlego08.mobfighter.path.nms.Path17;
 import fr.maxlego08.mobfighter.path.nms.Path18R3;
 import fr.maxlego08.mobfighter.zcore.logger.Logger;
 import fr.maxlego08.mobfighter.zcore.logger.Logger.LogType;
-import fr.maxlego08.mobfighter.zcore.utils.ItemDecoder;
+import fr.maxlego08.mobfighter.zcore.utils.nms.NMSUtils;
 
 public class ZPathManager implements PathManager {
 
 	private final Path path;
 
 	public ZPathManager() {
-		double nms = ItemDecoder.getNMSVersion();
+		double nms = NMSUtils.getNMSVersion();
 		if (nms == 1.8)
 			this.path = new Path18R3();
 		else if (nms == 1.15)
@@ -32,15 +33,17 @@ public class ZPathManager implements PathManager {
 		else if (nms == 1.12)
 			this.path = new Path12R1();
 		else if (nms == 1.13) {
-			EnumVersion nmsVersion = ItemDecoder.getVersion();
+			EnumVersion nmsVersion = NMSUtils.getVersion();
 			if (nmsVersion.equals(EnumVersion.V_13_R1))
 				this.path = new Path13R1();
 			else
 				this.path = new Path13R2();
 		} else if (nms == 1.14)
 			this.path = new Path14R1();
+		else if (nms == 1.17)
+			this.path = new Path17();
 		else if (nms == 1.16) {
-			EnumVersion nmsVersion = ItemDecoder.getVersion();
+			EnumVersion nmsVersion = NMSUtils.getVersion();
 			switch (nmsVersion) {
 			case V_16_R1:
 				this.path = new Path16R1();

@@ -24,9 +24,9 @@ import fr.maxlego08.mobfighter.save.Config;
 import fr.maxlego08.mobfighter.zcore.logger.Logger;
 import fr.maxlego08.mobfighter.zcore.logger.Logger.LogType;
 import fr.maxlego08.mobfighter.zcore.utils.BossBarManager;
-import fr.maxlego08.mobfighter.zcore.utils.ItemDecoder;
 import fr.maxlego08.mobfighter.zcore.utils.ZUtils;
 import fr.maxlego08.mobfighter.zcore.utils.builder.TimerBuilder;
+import fr.maxlego08.mobfighter.zcore.utils.nms.NMSUtils;
 import fr.maxlego08.mobfighter.zcore.utils.players.ActionBar;
 
 public class ZDuel extends ZUtils implements Duel {
@@ -126,8 +126,8 @@ public class ZDuel extends ZUtils implements Duel {
 				this.firstFighter.spawn(firstLocation);
 				this.secondFighter.spawn(secondLocation);
 
-				this.manager.setPathGoal(firstFighter, centerLocation);
-				this.manager.setPathGoal(secondFighter, centerLocation);
+				this.manager.setPathGoal(firstFighter, this.secondFighter.getLocation());
+				this.manager.setPathGoal(secondFighter, this.firstFighter.getLocation());
 
 				this.startSecond = null;
 
@@ -207,7 +207,7 @@ public class ZDuel extends ZUtils implements Duel {
 
 	private void updateBossBar(){
 		
-		if (ItemDecoder.isOneHand())
+		if (NMSUtils.isOneHand())
 			return;
 		
 		String message = Config.actionBarMessage;

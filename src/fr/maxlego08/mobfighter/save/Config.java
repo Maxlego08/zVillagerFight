@@ -10,7 +10,7 @@ import org.bukkit.Material;
 import fr.maxlego08.mobfighter.api.enums.Economy;
 import fr.maxlego08.mobfighter.zcore.logger.Logger;
 import fr.maxlego08.mobfighter.zcore.logger.Logger.LogType;
-import fr.maxlego08.mobfighter.zcore.utils.ItemDecoder;
+import fr.maxlego08.mobfighter.zcore.utils.nms.NMSUtils;
 import fr.maxlego08.mobfighter.zcore.utils.storage.Persist;
 import fr.maxlego08.mobfighter.zcore.utils.storage.Saveable;
 
@@ -101,7 +101,7 @@ public class Config implements Saveable {
 
 	public void load(Persist persist) {
 		persist.loadOrSaveDefault(getInstance(), Config.class);
-		if (Config.enableBossBar && ItemDecoder.isOneHand()){
+		if (Config.enableBossBar && NMSUtils.isOneHand()){
 			Config.enableActionBar = false;
 			Logger.info("You cannot use the bossbar in 1.8 and 1.7.10 !", LogType.WARNING);
 		}

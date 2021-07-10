@@ -1,7 +1,7 @@
 name: zMobfighter
 author: Maxlego08
 main: fr.maxlego08.mobfighter.ZMobPlugin
-version: 1.0.0.0
+version: 1.0.0.1
 softdepend: 
  - Vault
  - PlayerPoints
@@ -15,5 +15,6 @@ softdepend:
  - CMI
  - Citizens
  - TranslationAPI
+ - Multiverse-Core
 api-version: 1.13
 commands:
