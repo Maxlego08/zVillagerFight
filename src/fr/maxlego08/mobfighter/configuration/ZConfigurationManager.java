@@ -41,7 +41,7 @@ public class ZConfigurationManager extends YamlUtils implements ConfigurationMan
 		if (persist != null) // Pas la sauvegarde par défaut
 			return;
 
-		for (EntityType entityType : EntityType.values())
+		for (EntityType entityType : this.plugin.getAllowedEntities())
 			if (entityType.isAlive())
 				saveEntity(entityType);
 
