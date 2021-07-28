@@ -10,8 +10,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Monster;
-import org.bukkit.plugin.java.JavaPlugin;
 
+import fr.maxlego08.mobfighter.ZMobPlugin;
 import fr.maxlego08.mobfighter.api.configuration.ConfigurationManager;
 import fr.maxlego08.mobfighter.api.configuration.MobConfiguration;
 import fr.maxlego08.mobfighter.configuration.configurations.CreatureConfiguration;
@@ -25,11 +25,13 @@ import fr.maxlego08.mobfighter.zcore.utils.yaml.YamlUtils;
 
 public class ZConfigurationManager extends YamlUtils implements ConfigurationManager {
 
+	private final ZMobPlugin plugin;
 	private Map<EntityType, MobConfiguration> configurations = new HashMap<EntityType, MobConfiguration>();
 	private Map<EntityType, MobConfiguration> customConfigurations = new HashMap<EntityType, MobConfiguration>();
 
-	public ZConfigurationManager(JavaPlugin plugin) {
+	public ZConfigurationManager(ZMobPlugin plugin) {
 		super(plugin);
+		this.plugin = plugin;
 		customConfigurations.put(EntityType.VILLAGER, new VillagerConfiguration());
 	}
 
@@ -94,7 +96,7 @@ public class ZConfigurationManager extends YamlUtils implements ConfigurationMan
 			return;
 		}
 
-		for (EntityType entityType : EntityType.values())
+		for (EntityType entityType : this.plugin.getAllowedEntities())
 			if (entityType.isAlive()) {
 
 				String name = entityType.name().toLowerCase();

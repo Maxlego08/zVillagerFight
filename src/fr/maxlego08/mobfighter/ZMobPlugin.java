@@ -1,5 +1,9 @@
 package fr.maxlego08.mobfighter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.Plugin;
 
 import fr.maxlego08.mobfighter.api.IEconomy;
@@ -143,6 +147,40 @@ public class ZMobPlugin extends ZPlugin {
 				return;
 			}
 		};
+	}
+	
+	public List<EntityType> getAllowedEntities(){
+		List<EntityType> entityTypes = new ArrayList<EntityType>();
+		for(EntityType entityType : EntityType.values()){
+			
+			if (!entityType.isAlive())
+				continue;
+
+			switch (entityType.name()) {
+			case "ARMOR_STAND":
+			case "AXOLOTL":
+			case "BAT":
+			case "BEE":
+			case "BLAZE":
+			case "DOLPHIN":
+			case "DRAGON":
+			case "WHITER":
+			case "GHAST":
+			case "GUARDIN":
+			case "PARROT":
+			case "PUFFERFISH":
+			case "SALMON":
+			case "SHULKER":
+			case "SQUID":
+			case "VEX":
+			case "WITHER_SKULL":
+				continue;
+			default:
+				break;
+			}
+			
+		}
+		return entityTypes;
 	}
 
 }

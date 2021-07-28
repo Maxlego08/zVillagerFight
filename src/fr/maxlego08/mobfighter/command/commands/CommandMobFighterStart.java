@@ -1,6 +1,5 @@
 package fr.maxlego08.mobfighter.command.commands;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -51,14 +50,7 @@ public class CommandMobFighterStart extends VCommand {
 		} else if (args.length == 3 || args.length == 4) {
 
 			String startWith = args[args.length - 1];
-			Stream<String> entities = Arrays.asList(EntityType.values()).stream().filter(e -> {
-				switch (e) {
-				case ARMOR_STAND:
-					return false;
-				default:
-					return e.isAlive();
-				}
-			}).map(e -> {
+			Stream<String> entities = plugin.getAllowedEntities().stream().map(e -> {
 				return e.name().toLowerCase();
 			});
 			return this.generateList(entities.collect(Collectors.toList()), startWith);
