@@ -42,8 +42,7 @@ public class ZConfigurationManager extends YamlUtils implements ConfigurationMan
 			return;
 
 		for (EntityType entityType : this.plugin.getAllowedEntities())
-			if (entityType.isAlive())
-				saveEntity(entityType);
+			this.saveEntity(entityType);
 
 		Logger.info("Saved " + this.configurations.size() + " entities configurations.");
 	}
@@ -96,33 +95,33 @@ public class ZConfigurationManager extends YamlUtils implements ConfigurationMan
 			return;
 		}
 
-		for (EntityType entityType : this.plugin.getAllowedEntities())
-			if (entityType.isAlive()) {
+		for (EntityType entityType : this.plugin.getAllowedEntities()) {
 
-				String name = entityType.name().toLowerCase();
-				File file = new File(plugin.getDataFolder(), "entities/" + name + ".yml");
+			String name = entityType.name().toLowerCase();
+			File file = new File(plugin.getDataFolder(), "entities/" + name + ".yml");
 
-				if (!file.exists()) {
-					this.saveEntity(entityType);
-					continue;
-				}
-
-				Loader<MobConfiguration> loader = new ConfigurationLoader();
-				YamlConfiguration fileConfiguration = getConfig(file);
-
-				MobConfiguration configuration = loader.load(fileConfiguration, "configuration.");
-				this.configurations.put(entityType, configuration);
-
+			if (!file.exists()) {
+				this.saveEntity(entityType);
+				continue;
 			}
+
+			Loader<MobConfiguration> loader = new ConfigurationLoader();
+			YamlConfiguration fileConfiguration = getConfig(file);
+
+			MobConfiguration configuration = loader.load(fileConfiguration, "configuration.");
+			this.configurations.put(entityType, configuration);
+
+		}
 
 		this.configurations.values().forEach(configuration -> {
-			if (configuration.getNames().size() < 2){
+			if (configuration.getNames().size() < 2) {
 				configuration.getNames().add("Maxlego08");
 				configuration.getNames().add("AzartoxHD");
-				Logger.info("Not enough names in the configuration " + configuration.getType().name()+", addition of two automatic names.");
+				Logger.info("Not enough names in the configuration " + configuration.getType().name()
+						+ ", addition of two automatic names.");
 			}
 		});
-		
+
 		Logger.info("Loaded " + this.configurations.size() + " entities configurations.");
 	}
 

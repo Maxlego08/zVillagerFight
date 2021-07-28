@@ -148,11 +148,11 @@ public class ZMobPlugin extends ZPlugin {
 			}
 		};
 	}
-	
-	public List<EntityType> getAllowedEntities(){
+
+	public List<EntityType> getAllowedEntities() {
 		List<EntityType> entityTypes = new ArrayList<EntityType>();
-		for(EntityType entityType : EntityType.values()){
-			
+		for (EntityType entityType : EntityType.values()) {
+
 			if (!entityType.isAlive())
 				continue;
 
@@ -176,9 +176,10 @@ public class ZMobPlugin extends ZPlugin {
 			case "WITHER_SKULL":
 				continue;
 			default:
+				entityTypes.add(entityType);
 				break;
 			}
-			
+
 		}
 		return entityTypes;
 	}
