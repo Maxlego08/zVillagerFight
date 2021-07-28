@@ -187,6 +187,13 @@ public class ZBetManager extends ZUtils implements BetManager {
 			return;
 		}
 
+		Duel duel = duelOptional.get();
+		
+		if (!duel.isCooldown()) {
+			message(player, Message.BET_ALREADY_START, "%name%", duel.getArena().getName());
+			return;
+		}
+		
 		Optional<Bet> optional = getBet(player);
 
 		InventoryManager iInventory = plugin.getInventories();
@@ -240,12 +247,20 @@ public class ZBetManager extends ZUtils implements BetManager {
 	public void createBet(Player player, Duel duel, long betPrice) {
 		BetSecletType type = this.getSelectedType(player);
 
+		player.closeInventory();
+		
 		if (type == null) {
 			message(player, Message.BET_SELECT_EMPTY);
 			return;
 		}
 
-		player.closeInventory();
+		if (!this.validation(player, betPrice))
+			return;
+		
+		if (!duel.isCooldown()) {
+			message(player, Message.BET_ALREADY_START, "%name%", duel.getArena().getName());
+			return;
+		}
 
 		Fighter fighter = (type == BetSecletType.FIRST ? duel.getFirstFighter() : duel.getSecondFighter());
 		Bet bet = new ZBet(player, betPrice, duel, fighter);

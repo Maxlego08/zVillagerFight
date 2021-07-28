@@ -71,7 +71,7 @@ public enum Message {
 	DUEL_START_ERROR_DUEL("§cArena is already use."),
 	DUEL_STOP_ERROR_DUEL("§cArena is not use."),
 	DUEL_STOP_SUCCESS("§aYou have just stop a duel."),
-	DUEL_COOLDOWN("§fThe duel between §a%first% §fand §2%second% §fcommence dans §a%timer%§f."),
+	DUEL_COOLDOWN("§fThe duel between §a%first% §fand §2%second% §fstart in §a%timer%§f."),
 	
 	BET_ALREADY_CREATE("§cYou have already created a bet."),
 	BET_ALREADY_START("§cThe duel is already in progress, you can't create a bet now."),

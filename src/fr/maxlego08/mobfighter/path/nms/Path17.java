@@ -8,6 +8,7 @@ import fr.maxlego08.mobfighter.api.Fighter;
 import fr.maxlego08.mobfighter.api.path.Path;
 import net.minecraft.world.entity.EntityInsentient;
 import net.minecraft.world.entity.ai.goal.PathfinderGoal;
+import net.minecraft.world.entity.ai.goal.PathfinderGoalSelector;
 import net.minecraft.world.entity.ai.navigation.Navigation;
 	
 public class Path17 implements Path {
@@ -22,7 +23,8 @@ public class Path17 implements Path {
 		CraftCreature craftVillager = (CraftCreature) entity;
 		EntityInsentient entityInsentient = craftVillager.getHandle();
 		PathFinder finder = new PathFinder(entityInsentient, location, speed);
-		entityInsentient.bO.a(1, finder);
+		entityInsentient.bP = new PathfinderGoalSelector(entityInsentient.t.getMethodProfilerSupplier());
+		entityInsentient.bP.a(1, finder);
 	}
 
 	private class PathFinder extends PathfinderGoal {

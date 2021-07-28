@@ -1,7 +1,7 @@
 name: zMobfighter
 author: Maxlego08
 main: fr.maxlego08.mobfighter.ZMobPlugin
-version: 1.0.0.1
+version: 1.0.0.3
 softdepend: 
  - Vault
  - PlayerPoints
