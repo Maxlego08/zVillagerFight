@@ -38,6 +38,9 @@ public class ZDuel extends ZUtils implements Duel {
 	private final PathManager manager;
 	private final Random random = new Random();
 	private AtomicInteger startSecond;
+	
+	private double lastDistance;
+	private long lastDistanceCount;
 
 	/**
 	 * @param arena
@@ -163,9 +166,11 @@ public class ZDuel extends ZUtils implements Duel {
 		d1 = event.getD1();
 		d2 = event.getD2();
 		distance = event.getDistance();
+				
+		if (this.firstFighter.distance(this.secondFighter) <= distance || lastDistanceCount > Config.distanceSameExplosion) {
 
-		if (this.firstFighter.distance(this.secondFighter) <= distance) {
-
+			this.lastDistanceCount = 0;
+			
 			this.firstFighter.push(this.secondFighter.getLocation());
 			this.secondFighter.push(this.firstFighter.getLocation());
 
@@ -179,6 +184,12 @@ public class ZDuel extends ZUtils implements Duel {
 
 		}
 
+		if (distance == this.lastDistance){
+			lastDistanceCount++;
+		}
+		
+		this.lastDistance = distance;
+		
 		Location centerLocation = this.arena.getCenterLocation();
 		this.manager.setPathGoal(this.firstFighter, centerLocation);
 		this.manager.setPathGoal(this.secondFighter, centerLocation);
