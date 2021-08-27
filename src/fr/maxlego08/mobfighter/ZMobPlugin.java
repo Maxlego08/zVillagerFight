@@ -157,6 +157,7 @@ public class ZMobPlugin extends ZPlugin {
 				continue;
 
 			switch (entityType.name()) {
+			case "PLAYER":
 			case "ARMOR_STAND":
 			case "AXOLOTL":
 			case "BAT":
