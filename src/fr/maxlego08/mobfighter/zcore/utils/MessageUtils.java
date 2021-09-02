@@ -3,11 +3,13 @@ package fr.maxlego08.mobfighter.zcore.utils;
 import java.lang.reflect.Constructor;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import fr.maxlego08.mobfighter.api.enums.Message;
+import fr.maxlego08.mobfighter.zcore.enums.DefaultFontInfo;
 import fr.maxlego08.mobfighter.zcore.utils.players.ActionBar;
 
 public abstract class MessageUtils extends LocationUtils {
@@ -49,10 +51,19 @@ public abstract class MessageUtils extends LocationUtils {
 				break;
 			case TCHAT:
 				if (message.getMessages().size() > 0) {
-					message.getMessages()
-							.forEach(msg -> sender.sendMessage(Message.PREFIX.msg() + getMessage(msg, args)));
+					message.getMessages().forEach(msg -> {
+						sender.sendMessage(Message.PREFIX.msg() + this.papi(getMessage(msg, args), player));
+					});
 				} else
-					sender.sendMessage(Message.PREFIX.msg() + getMessage(message, args));
+					sender.sendMessage(Message.PREFIX.msg() + this.papi(getMessage(message, args), player));
+				break;
+			case CENTER:
+				if (message.getMessages().size() > 0) {
+					message.getMessages().forEach(msg -> {
+						sender.sendMessage(this.papi(this.getCenteredMessage(getMessage(msg, args)), player));
+					});
+				} else
+					sender.sendMessage(this.papi(this.getCenteredMessage(getMessage(message, args)), player));
 				break;
 			case TITLE:
 				// gestion du title message
@@ -169,6 +180,52 @@ public abstract class MessageUtils extends LocationUtils {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private final transient static int CENTER_PX = 154;
+
+	/**
+	 * 
+	 * @param message
+	 * @return message
+	 */
+	protected String getCenteredMessage(String message) {
+		if (message == null || message.equals(""))
+			return "";
+		message = ChatColor.translateAlternateColorCodes('&', message);
+
+		int messagePxSize = 0;
+		boolean previousCode = false;
+		boolean isBold = false;
+
+		for (char c : message.toCharArray()) {
+			if (c == '§') {
+				previousCode = true;
+				continue;
+			} else if (previousCode == true) {
+				previousCode = false;
+				if (c == 'l' || c == 'L') {
+					isBold = true;
+					continue;
+				} else
+					isBold = false;
+			} else {
+				DefaultFontInfo dFI = DefaultFontInfo.getDefaultFontInfo(c);
+				messagePxSize += isBold ? dFI.getBoldLength() : dFI.getLength();
+				messagePxSize++;
+			}
+		}
+
+		int halvedMessageSize = messagePxSize / 2;
+		int toCompensate = CENTER_PX - halvedMessageSize;
+		int spaceLength = DefaultFontInfo.SPACE.getLength() + 1;
+		int compensated = 0;
+		StringBuilder sb = new StringBuilder();
+		while (compensated < toCompensate) {
+			sb.append(" ");
+			compensated += spaceLength;
+		}
+		return sb.toString() + message;
 	}
 
 }
