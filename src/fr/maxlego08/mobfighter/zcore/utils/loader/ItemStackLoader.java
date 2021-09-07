@@ -77,6 +77,12 @@ public class ItemStackLoader extends ZUtils implements Loader<ItemStack> {
 
 		ItemMeta meta = item.getItemMeta();
 
+		int modelID = configuration.getInt(path + "modelID", 0);
+		if (modelID < 0)
+			modelID = 0;
+		if (modelID > 0)
+			meta.setCustomModelData(modelID);
+
 		List<String> tmpLore = configuration.getStringList(path + "lore");
 		if (tmpLore.size() != 0) {
 			List<String> lore = meta.getLore() == null ? new ArrayList<>() : meta.getLore();
@@ -202,6 +208,9 @@ public class ItemStackLoader extends ZUtils implements Loader<ItemStack> {
 					.forEach((enchant, level) -> enchantList.add(enchant.getName() + "," + level));
 
 			configuration.set(path + "enchants", enchantList);
+		}
+		if (NMSUtils.getNMSVersion() >= 1.14 && meta.hasCustomModelData()) {
+			configuration.set(path + "modelID", meta.getCustomModelData());
 		}
 
 	}
