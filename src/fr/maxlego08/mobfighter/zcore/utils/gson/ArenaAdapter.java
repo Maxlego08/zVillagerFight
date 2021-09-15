@@ -65,8 +65,12 @@ public class ArenaAdapter extends TypeAdapter<Arena> {
 		String center = (String) keys.get(CENTER);
 		String first = (String) keys.get(FIRST);
 		String second = (String) keys.get(SECOND);
-		return new ZArena(name, changeStringLocationToLocationEye(first), changeStringLocationToLocationEye(second),
-				changeStringLocationToLocationEye(center));
+		
+		Location firstLocation = changeStringLocationToLocationEye(first);
+		Location secondLocation = changeStringLocationToLocationEye(second);
+		Location centerLocation = changeStringLocationToLocationEye(center);
+		
+		return new ZArena(name, firstLocation, secondLocation, centerLocation);
 	}
 
 	/**
@@ -95,7 +99,7 @@ public class ArenaAdapter extends TypeAdapter<Arena> {
 	 * @return location as String
 	 */
 	protected String changeLocationToStringEye(Location location) {
-		if (location.getWorld() == null)
+		if (location == null || location.getWorld() == null)
 			return null;
 		String ret = location.getWorld().getName() + "," + location.getBlockX() + "," + location.getBlockY() + ","
 				+ location.getBlockZ() + "," + location.getYaw() + "," + location.getPitch();

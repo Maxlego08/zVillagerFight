@@ -172,6 +172,8 @@ public class ZMobManager extends ZUtils implements MobManager {
 		if (event.isCancelled())
 			return;
 
+		message(sender, Message.DUEL_LAUNCH);
+		
 		arena.setDuel(duel);
 		duel.start(second);
 		this.duels.add(duel);

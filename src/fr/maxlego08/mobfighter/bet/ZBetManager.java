@@ -151,17 +151,23 @@ public class ZBetManager extends ZUtils implements BetManager {
 
 	@Override
 	public void refundBet(Player player) {
+		
 		Optional<Bet> optional = getBet(player);
+		
 		if (optional.isPresent()) {
 			Bet bet = optional.get();
-			IEconomy economy = plugin.getEconomy();
-			economy.depositMoney(Config.economy, player, bet.getBet());
-			bets.remove(player);
+			Duel duel = bet.getDuel();
 
-			this.betPlayers.remove(player);
-			this.betSeletedTypes.remove(player);
+			if (duel.isCooldown()) {
+
+				IEconomy economy = this.plugin.getEconomy();
+				bet.refund(economy);
+				
+				this.bets.remove(player);
+				this.betPlayers.remove(player);
+				this.betSeletedTypes.remove(player);
+			}
 		}
-
 	}
 
 	@Override
@@ -188,12 +194,12 @@ public class ZBetManager extends ZUtils implements BetManager {
 		}
 
 		Duel duel = duelOptional.get();
-		
+
 		if (!duel.isCooldown()) {
 			message(player, Message.BET_ALREADY_START, "%name%", duel.getArena().getName());
 			return;
 		}
-		
+
 		Optional<Bet> optional = getBet(player);
 
 		InventoryManager iInventory = plugin.getInventories();
@@ -248,7 +254,7 @@ public class ZBetManager extends ZUtils implements BetManager {
 		BetSecletType type = this.getSelectedType(player);
 
 		player.closeInventory();
-		
+
 		if (type == null) {
 			message(player, Message.BET_SELECT_EMPTY);
 			return;
@@ -256,7 +262,7 @@ public class ZBetManager extends ZUtils implements BetManager {
 
 		if (!this.validation(player, betPrice))
 			return;
-		
+
 		if (!duel.isCooldown()) {
 			message(player, Message.BET_ALREADY_START, "%name%", duel.getArena().getName());
 			return;

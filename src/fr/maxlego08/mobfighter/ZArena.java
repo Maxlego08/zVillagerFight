@@ -48,21 +48,21 @@ public class ZArena implements Arena {
 	 * @return the firstLocation
 	 */
 	public Location getFirstLocation() {
-		return firstLocation.clone();
+		return this.firstLocation == null ? null : this.firstLocation.clone();
 	}
 
 	/**
 	 * @return the secondLocation
 	 */
 	public Location getSecondLocation() {
-		return secondLocation.clone();
+		return this.secondLocation == null ? null : this.secondLocation.clone();
 	}
 
 	/**
 	 * @return the centerLocation
 	 */
 	public Location getCenterLocation() {
-		return centerLocation.clone();
+		return this.centerLocation == null ? null : this.centerLocation.clone();
 	}
 
 	/**
