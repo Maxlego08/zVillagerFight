@@ -3,7 +3,8 @@ package fr.maxlego08.mobfighter.zcore.enums;
 public enum Folder {
 
 	UTILS,
-
+	ADDONS,
+	
 	;
 	
 
