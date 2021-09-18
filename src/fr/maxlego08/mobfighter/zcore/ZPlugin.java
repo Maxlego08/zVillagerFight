@@ -56,7 +56,7 @@ public abstract class ZPlugin extends JavaPlugin {
 
 	protected CommandManager commandManager;
 	protected ZInventoryManager inventoryManager;
-	
+
 	private PlayerPoints playerPoints;
 	private PlayerPointsAPI playerPointsAPI;
 
@@ -81,7 +81,7 @@ public abstract class ZPlugin extends JavaPlugin {
 		} catch (Exception e) {
 		}
 	}
-	
+
 	protected boolean preEnable() {
 
 		enableTime = System.currentTimeMillis();
@@ -90,7 +90,7 @@ public abstract class ZPlugin extends JavaPlugin {
 		log.log("Plugin Version V<&>c" + getDescription().getVersion(), LogType.INFO);
 
 		getDataFolder().mkdirs();
-		
+
 		hookPlayerPoints();
 
 		gson = getGsonBuilder().create();
@@ -99,7 +99,6 @@ public abstract class ZPlugin extends JavaPlugin {
 		if (getPlugin(Plugins.VAULT) != null)
 			economy = getProvider(Economy.class);
 
-		
 		boolean isNew = NMSUtils.isNewVersion();
 		for (String file : files) {
 			if (isNew) {
@@ -110,15 +109,19 @@ public abstract class ZPlugin extends JavaPlugin {
 					saveResource("inventories/" + file + ".yml", false);
 			}
 		}
-		
+
+		File addonFolder = new File(getDataFolder(), "addons");
+		if (addonFolder.exists())
+			addonFolder.mkdir();
+
 		return true;
 
 	}
-	
+
 	public PlayerPoints getPlayerPoints() {
 		return playerPoints;
 	}
-	
+
 	public PlayerPointsAPI getPlayerPointsAPI() {
 		return playerPointsAPI;
 	}
@@ -306,7 +309,7 @@ public abstract class ZPlugin extends JavaPlugin {
 	protected void registerInventory(EnumInventory inventory, VInventory vInventory) {
 		inventoryManager.addInventory(inventory, vInventory);
 	}
-	
+
 	/**
 	 * 
 	 * @param resourcePath
@@ -353,11 +356,11 @@ public abstract class ZPlugin extends JavaPlugin {
 			throw new IllegalArgumentException("ResourcePath cannot be null or empty");
 		}
 	}
-	
+
 	protected void registerFile(InventoryName file) {
 		this.files.add(file.getName());
 	}
-	
+
 	public List<String> getFiles() {
 		return files;
 	}
