@@ -1,4 +1,4 @@
-package fr.maxlego08.mobfighter.attack;
+package fr.maxlego08.mobfighter.addons;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,17 +7,19 @@ import java.net.URLClassLoader;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
 
-import fr.maxlego08.mobfighter.api.attack.AttackPlugin;
-import fr.maxlego08.mobfighter.api.attack.AttackPluginVersion;
-import fr.maxlego08.mobfighter.api.attack.AttackJavaPlugin;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import fr.maxlego08.mobfighter.api.addons.JavaAddon;
+import fr.maxlego08.mobfighter.api.addons.Addon;
+import fr.maxlego08.mobfighter.api.addons.AddonDescription;
 import fr.maxlego08.mobfighter.exceptions.InvalidPluginException;
 
-public class AttackPluginClassLoader extends URLClassLoader {
+public class AddonClassLoader extends URLClassLoader {
 
 	private final JarFile jarFile;
-	private final AttackJavaPlugin plugin;
+	private final JavaAddon plugin;
 
-	public AttackPluginClassLoader(File file, AttackPluginVersion version, ClassLoader parent)
+	public AddonClassLoader(JavaPlugin plugin, File file, AddonDescription version, ClassLoader parent)
 			throws InvalidPluginException, IOException {
 		super(new URL[] { file.toURI().toURL() }, parent);
 
@@ -32,23 +34,23 @@ public class AttackPluginClassLoader extends URLClassLoader {
 
 		Class<?> pluginClass;
 		try {
-			pluginClass = jarClass.asSubclass(AttackJavaPlugin.class);
+			pluginClass = jarClass.asSubclass(JavaAddon.class);
 		} catch (ClassCastException e) {
 			throw new InvalidPluginException("main class `" + version.getMain() + "' does not extend JavaPlugin", e);
 		}
 
 		try {
-			this.plugin = (AttackJavaPlugin) pluginClass.newInstance();
+			this.plugin = (JavaAddon) pluginClass.newInstance();
 		} catch (IllegalAccessException e) {
 			throw new InvalidPluginException("No public constructor", e);
 		} catch (InstantiationException e) {
 			throw new InvalidPluginException("Abnormal plugin type", e);
 		}
-		this.plugin.init(version);
+		this.plugin.init(plugin, version);
 
 	}
 
-	public AttackPlugin getPlugin() {
+	public Addon getPlugin() {
 		return plugin;
 	}
 
@@ -58,7 +60,7 @@ public class AttackPluginClassLoader extends URLClassLoader {
 		super.close();
 	}
 
-	public void onDisable() throws IOException {		
+	public void onDisable() throws IOException {
 		this.plugin.onDisable();
 		this.plugin.setEnable(false);
 		this.close();
@@ -66,7 +68,7 @@ public class AttackPluginClassLoader extends URLClassLoader {
 
 	public void onEnable(Logger logger) {
 		if (this.plugin.isEnable()) {
-			logger.info("Cant enable " + plugin.getVersion().getName() + ", its already loaded");
+			logger.info("Cant enable " + plugin.getDescription().getName() + ", its already loaded");
 			return;
 		}
 		this.plugin.setEnable(true);

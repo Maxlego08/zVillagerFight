@@ -1,10 +1,10 @@
-package fr.maxlego08.mobfighter.attack;
+package fr.maxlego08.mobfighter.addons;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import fr.maxlego08.mobfighter.api.attack.AttackPluginVersion;
+import fr.maxlego08.mobfighter.api.addons.AddonDescription;
 
-public class ZAttackPluginVersion implements AttackPluginVersion {
+public class ZAddonPluginVersion implements AddonDescription {
 
 	private final String version;
 	private final String author;
@@ -16,7 +16,7 @@ public class ZAttackPluginVersion implements AttackPluginVersion {
 	 * @param author
 	 * @param name
 	 */
-	public ZAttackPluginVersion(YamlConfiguration configuration) {
+	public ZAddonPluginVersion(YamlConfiguration configuration) {
 		super();
 		this.version = configuration.getString("version");
 		this.author = configuration.getString("author");

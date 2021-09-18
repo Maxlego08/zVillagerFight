@@ -6,15 +6,15 @@ import java.util.List;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.Plugin;
 
+import fr.maxlego08.mobfighter.addons.ZAddonManager;
 import fr.maxlego08.mobfighter.api.IEconomy;
 import fr.maxlego08.mobfighter.api.MobManager;
-import fr.maxlego08.mobfighter.api.attack.AttackManager;
+import fr.maxlego08.mobfighter.api.addons.AddonManager;
 import fr.maxlego08.mobfighter.api.bets.BetManager;
 import fr.maxlego08.mobfighter.api.configuration.ConfigurationManager;
 import fr.maxlego08.mobfighter.api.enums.EnumInventory;
 import fr.maxlego08.mobfighter.api.enums.InventoryName;
 import fr.maxlego08.mobfighter.api.inventory.InventoryManager;
-import fr.maxlego08.mobfighter.attack.ZAttackManager;
 import fr.maxlego08.mobfighter.bet.ZBetManager;
 import fr.maxlego08.mobfighter.command.CommandManager;
 import fr.maxlego08.mobfighter.command.commands.CommandMobFighter;
@@ -48,7 +48,7 @@ public class ZMobPlugin extends ZPlugin {
 	private final IEconomy economy = new ZEconomy(this);
 	private final BetManager betManager = new ZBetManager(this);
 	private InventoryManager inventoryLoader = new InventoryLoader(this, economy);
-	private final AttackManager attackManager = new ZAttackManager(this);
+	private final AddonManager attackManager = new ZAddonManager(this);
 
 	@Override
 	public void onEnable() {
@@ -194,7 +194,7 @@ public class ZMobPlugin extends ZPlugin {
 		return entityTypes;
 	}
 
-	public AttackManager getAttackManager() {
+	public AddonManager getAttackManager() {
 		return attackManager;
 	}
 

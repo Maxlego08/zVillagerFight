@@ -1,6 +1,6 @@
-package fr.maxlego08.mobfighter.api.attack;
+package fr.maxlego08.mobfighter.api.addons;
 
-public interface AttackPluginVersion {
+public interface AddonDescription {
 
 	/**
 	 * Get author of the addon

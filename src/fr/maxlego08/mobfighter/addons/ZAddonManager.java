@@ -1,4 +1,4 @@
-package fr.maxlego08.mobfighter.attack;
+package fr.maxlego08.mobfighter.addons;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,22 +15,22 @@ import java.util.stream.Collectors;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import fr.maxlego08.mobfighter.ZMobPlugin;
-import fr.maxlego08.mobfighter.api.attack.AttackManager;
-import fr.maxlego08.mobfighter.api.attack.AttackPlugin;
-import fr.maxlego08.mobfighter.api.attack.AttackPluginVersion;
+import fr.maxlego08.mobfighter.api.addons.AddonManager;
+import fr.maxlego08.mobfighter.api.addons.Addon;
+import fr.maxlego08.mobfighter.api.addons.AddonDescription;
 import fr.maxlego08.mobfighter.exceptions.InvalidDescriptionException;
 import fr.maxlego08.mobfighter.exceptions.InvalidPluginException;
 import fr.maxlego08.mobfighter.zcore.utils.ZUtils;
 
-public class ZAttackManager extends ZUtils implements AttackManager {
+public class ZAddonManager extends ZUtils implements AddonManager {
 
 	private final ZMobPlugin plugin;
-	private final List<AttackPluginClassLoader> classLoaders = new ArrayList<AttackPluginClassLoader>();
+	private final List<AddonClassLoader> classLoaders = new ArrayList<AddonClassLoader>();
 
 	/**
 	 * @param plugin
 	 */
-	public ZAttackManager(ZMobPlugin plugin) {
+	public ZAddonManager(ZMobPlugin plugin) {
 		super();
 		this.plugin = plugin;
 	}
@@ -38,44 +38,48 @@ public class ZAttackManager extends ZUtils implements AttackManager {
 	@Override
 	public void load() {
 
-		//
-
 		File folder = new File(this.plugin.getDataFolder(), "addons");
 		List<File> files = Arrays.asList(folder.listFiles()).stream()
 				.filter(f -> !f.isDirectory() && f.getAbsolutePath().endsWith(".jar")).collect(Collectors.toList());
 
 		files.forEach(t -> {
-			AttackPlugin plugin = null;
+			Addon plugin = null;
 			try {
 				plugin = this.loadPlugin(t);
 			} catch (InvalidPluginException e) {
 				e.printStackTrace();
 			} finally {
 				if (plugin != null) {
-					this.plugin.getLogger().info("Load addon " + plugin.getVersion().getName());
+					AddonDescription desc = plugin.getDescription();
+					this.plugin.getLogger().info("Loading " + desc.getName() + " v" + desc.getVersion());
 				}
 			}
 		});
 	}
 
 	@Override
-	public Optional<AttackPlugin> getPlugin(String name) {
-		return this.classLoaders.stream().filter(plugin -> plugin.getPlugin().getVersion().getName().equals(name))
-				.map(e -> (AttackPlugin) e.getPlugin()).findFirst();
+	public Optional<Addon> getAddon(String name) {
+		return this.classLoaders.stream().filter(plugin -> plugin.getPlugin().getDescription().getName().equals(name))
+				.map(e -> (Addon) e.getPlugin()).findFirst();
 	}
 
 	@Override
-	public AttackPlugin loadPlugin(File file) throws InvalidPluginException {
+	public Addon loadPlugin(File file) throws InvalidPluginException {
 
-		AttackPluginVersion pluginVersion;
+		AddonDescription description;
 		try {
-			pluginVersion = this.loadVersion(file);
+			description = this.loadVersion(file);
 		} catch (InvalidDescriptionException e) {
 			throw new InvalidPluginException(e);
 		}
 
+		Optional<Addon> optional = this.getAddon(description.getName());
+		if (optional.isPresent()) {
+			throw new InvalidPluginException("Addon " + description.getName() + " already exist !");
+		}
+
 		try {
-			AttackPluginClassLoader attackPluginClassLoader = new AttackPluginClassLoader(file, pluginVersion,
+			AddonClassLoader attackPluginClassLoader = new AddonClassLoader(this.plugin, file, description,
 					this.getClass().getClassLoader());
 
 			this.classLoaders.add(attackPluginClassLoader);
@@ -87,16 +91,15 @@ public class ZAttackManager extends ZUtils implements AttackManager {
 	}
 
 	@Override
-	public AttackPluginVersion loadVersion(File file) throws InvalidDescriptionException {
-		AttackPluginVersion pluginVersion;
+	public AddonDescription loadVersion(File file) throws InvalidDescriptionException {
+		AddonDescription description;
 		JarFile jarFile = null;
 		InputStream stream = null;
 		try {
 			jarFile = new JarFile(file);
 			JarEntry entry = jarFile.getJarEntry("addon.yml");
 			stream = jarFile.getInputStream(entry);
-			pluginVersion = new ZAttackPluginVersion(
-					YamlConfiguration.loadConfiguration(new InputStreamReader(stream)));
+			description = new ZAddonPluginVersion(YamlConfiguration.loadConfiguration(new InputStreamReader(stream)));
 			jarFile.close();
 		} catch (IOException e) {
 			throw new InvalidDescriptionException(e);
@@ -116,7 +119,7 @@ public class ZAttackManager extends ZUtils implements AttackManager {
 				e.printStackTrace();
 			}
 		}
-		return pluginVersion;
+		return description;
 	}
 
 	@Override
@@ -124,6 +127,8 @@ public class ZAttackManager extends ZUtils implements AttackManager {
 		this.classLoaders.forEach(classLoader -> {
 			try {
 				classLoader.onDisable();
+				AddonDescription desc = classLoader.getPlugin().getDescription();
+				this.plugin.getLogger().info("Disabling " + desc.getName() + " v" + desc.getVersion());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -136,6 +141,23 @@ public class ZAttackManager extends ZUtils implements AttackManager {
 		this.classLoaders.forEach(classLoader -> {
 			classLoader.onEnable(this.plugin.getLogger());
 		});
+	}
+
+	@Override
+	public void reload() {
+		this.unload();
+		this.load();
+		this.plugin.getLogger().info("Reload complete.");
+	}
+
+	@Override
+	public long count() {
+		return classLoaders.size();
+	}
+
+	@Override
+	public List<Addon> getAddons() {
+		return this.classLoaders.stream().map(e -> e.getPlugin()).collect(Collectors.toList());
 	}
 
 }
