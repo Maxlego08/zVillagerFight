@@ -18,7 +18,7 @@ public class CommandAddonReload extends VCommand {
 	@Override
 	protected CommandType perform(ZMobPlugin plugin) {
 
-		AddonManager manager = plugin.getAttackManager();
+		AddonManager manager = plugin.getAddonsManager();
 		manager.reload();
 		message(sender, Message.ADDON_RELOAD);
 

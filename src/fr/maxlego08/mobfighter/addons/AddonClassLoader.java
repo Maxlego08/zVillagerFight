@@ -7,6 +7,7 @@ import java.net.URLClassLoader;
 import java.util.jar.JarFile;
 import java.util.logging.Logger;
 
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.maxlego08.mobfighter.api.addons.JavaAddon;
@@ -62,6 +63,9 @@ public class AddonClassLoader extends URLClassLoader {
 
 	public void onDisable() throws IOException {
 		this.plugin.onDisable();
+		this.plugin.getListeners().forEach(listener -> {
+			HandlerList.unregisterAll(listener);
+		});
 		this.plugin.setEnable(false);
 		this.close();
 	}

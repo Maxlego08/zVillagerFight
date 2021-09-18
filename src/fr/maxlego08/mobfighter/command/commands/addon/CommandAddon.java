@@ -20,7 +20,7 @@ public class CommandAddon extends VCommand {
 	@Override
 	protected CommandType perform(ZMobPlugin plugin) {
 
-		AddonManager manager = plugin.getAttackManager();
+		AddonManager manager = plugin.getAddonsManager();
 		StringBuilder builder = new StringBuilder();
 		manager.getAddons().forEach(addon -> {
 			builder.append(addon.isEnable() ? "§a" : "§c");

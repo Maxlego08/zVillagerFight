@@ -29,10 +29,10 @@ public class CommandAddonVersion extends VCommand {
 	@Override
 	protected CommandType perform(ZMobPlugin plugin) {
 
-		AddonManager manager = plugin.getAttackManager();
+		AddonManager manager = plugin.getAddonsManager();
 		String name = argAsString(0);
 		Optional<Addon> optional = manager.getAddon(name);
-		if (!optional.isPresent()) {
+		if (optional.isPresent()) {
 
 			Addon addon = optional.get();
 			AddonDescription desc = addon.getDescription();
@@ -50,7 +50,7 @@ public class CommandAddonVersion extends VCommand {
 	public List<String> toTab(ZMobPlugin plugin, CommandSender sender2, String[] args) {
 		if (args.length == 3) {
 			String current = args[2];
-			AddonManager manager = plugin.getAttackManager();
+			AddonManager manager = plugin.getAddonsManager();
 			List<String> strings = manager.getAddons().stream().map(e -> e.getDescription().getName())
 					.collect(Collectors.toList());
 			return this.generateList(strings, current, Tab.CONTAINS);

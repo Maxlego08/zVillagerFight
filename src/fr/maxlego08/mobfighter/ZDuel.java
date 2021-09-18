@@ -13,6 +13,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import fr.maxlego08.mobfighter.api.Arena;
 import fr.maxlego08.mobfighter.api.Duel;
 import fr.maxlego08.mobfighter.api.Fighter;
+import fr.maxlego08.mobfighter.api.addons.AddonManager;
 import fr.maxlego08.mobfighter.api.bets.BetManager;
 import fr.maxlego08.mobfighter.api.configuration.ConfigurationManager;
 import fr.maxlego08.mobfighter.api.enums.Message;
@@ -167,6 +168,9 @@ public class ZDuel extends ZUtils implements Duel {
 		d2 = event.getD2();
 		distance = event.getDistance();
 				
+		AddonManager addonManager = this.plugin.getAddonsManager();
+		addonManager.duelTick(this);
+		
 		if (this.firstFighter.distance(this.secondFighter) <= distance || lastDistanceCount > Config.distanceSameExplosion) {
 
 			this.lastDistanceCount = 0;
@@ -250,6 +254,9 @@ public class ZDuel extends ZUtils implements Duel {
 		DuelWinEvent event = new DuelWinEvent(winner, looser, this);
 		event.callEvent();
 
+		AddonManager addonManager = this.plugin.getAddonsManager();
+		addonManager.duelWin(this, winner, looser);
+		
 		broadcast(Message.DUEL_WIN, "%winner%", winner.getName(), "%looser%", looser.getName());
 
 		winner.remove(); // On retire le winner
@@ -272,6 +279,9 @@ public class ZDuel extends ZUtils implements Duel {
 		if (event.isCancelled())
 			return;
 
+		AddonManager addonManager = this.plugin.getAddonsManager();
+		addonManager.duelStop(this);
+		
 		this.firstFighter.remove();
 		this.secondFighter.remove();
 		this.arena.setDuel(null);

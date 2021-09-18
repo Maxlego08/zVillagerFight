@@ -16,6 +16,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import fr.maxlego08.mobfighter.ZMobPlugin;
 import fr.maxlego08.mobfighter.api.addons.AddonManager;
+import fr.maxlego08.mobfighter.api.Duel;
+import fr.maxlego08.mobfighter.api.Fighter;
 import fr.maxlego08.mobfighter.api.addons.Addon;
 import fr.maxlego08.mobfighter.api.addons.AddonDescription;
 import fr.maxlego08.mobfighter.exceptions.InvalidDescriptionException;
@@ -147,6 +149,7 @@ public class ZAddonManager extends ZUtils implements AddonManager {
 	public void reload() {
 		this.unload();
 		this.load();
+		this.enable();
 		this.plugin.getLogger().info("Reload complete.");
 	}
 
@@ -158,6 +161,34 @@ public class ZAddonManager extends ZUtils implements AddonManager {
 	@Override
 	public List<Addon> getAddons() {
 		return this.classLoaders.stream().map(e -> e.getPlugin()).collect(Collectors.toList());
+	}
+
+	@Override
+	public void duelStart(Duel duel) {
+		this.getAddons().forEach(addon -> {
+			addon.duelStart(duel, duel.getArena(), duel.getFirstFighter(), duel.getSecondFighter());
+		});
+	}
+
+	@Override
+	public void duelTick(Duel duel) {
+		this.getAddons().forEach(addon -> {
+			addon.duelTick(duel, duel.getArena(), duel.getFirstFighter(), duel.getSecondFighter());
+		});
+	}
+
+	@Override
+	public void duelWin(Duel duel, Fighter winner, Fighter looser) {
+		this.getAddons().forEach(addon -> {
+			addon.duelWin(duel, duel.getArena(), duel.getFirstFighter(), duel.getSecondFighter());
+		});
+	}
+
+	@Override
+	public void duelStop(Duel duel) {
+		this.getAddons().forEach(addon -> {
+			addon.duelStop(duel, duel.getArena(), duel.getFirstFighter(), duel.getSecondFighter());
+		});
 	}
 
 }

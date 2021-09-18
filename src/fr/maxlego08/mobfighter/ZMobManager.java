@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import fr.maxlego08.mobfighter.api.Arena;
 import fr.maxlego08.mobfighter.api.Duel;
 import fr.maxlego08.mobfighter.api.MobManager;
+import fr.maxlego08.mobfighter.api.addons.AddonManager;
 import fr.maxlego08.mobfighter.api.bets.BetManager;
 import fr.maxlego08.mobfighter.api.configuration.ConfigurationManager;
 import fr.maxlego08.mobfighter.api.enums.Message;
@@ -172,6 +173,9 @@ public class ZMobManager extends ZUtils implements MobManager {
 		if (event.isCancelled())
 			return;
 
+		AddonManager addonManager = this.plugin.getAddonsManager();
+		addonManager.duelStart(duel);
+		
 		message(sender, Message.DUEL_LAUNCH);
 		
 		arena.setDuel(duel);

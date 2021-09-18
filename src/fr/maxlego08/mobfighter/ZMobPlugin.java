@@ -48,7 +48,7 @@ public class ZMobPlugin extends ZPlugin {
 	private final IEconomy economy = new ZEconomy(this);
 	private final BetManager betManager = new ZBetManager(this);
 	private InventoryManager inventoryLoader = new InventoryLoader(this, economy);
-	private final AddonManager attackManager = new ZAddonManager(this);
+	private final AddonManager addonsManager = new ZAddonManager(this);
 
 	@Override
 	public void onEnable() {
@@ -61,7 +61,7 @@ public class ZMobPlugin extends ZPlugin {
 		super.preEnable();
 
 		// Chargement des addons
-		this.attackManager.load();
+		this.addonsManager.load();
 
 		this.commandManager = new CommandManager(this);
 
@@ -108,7 +108,7 @@ public class ZMobPlugin extends ZPlugin {
 		VersionChecker versionChecker = new VersionChecker(this, 41);
 		versionChecker.useLastVersion();
 
-		this.attackManager.enable();
+		this.addonsManager.enable();
 		
 		super.postEnable();
 	}
@@ -118,7 +118,7 @@ public class ZMobPlugin extends ZPlugin {
 
 		this.preDisable();
 
-		this.attackManager.unload();
+		this.addonsManager.unload();
 		this.getSavers().forEach(saver -> saver.save(getPersist()));
 		this.manager.onDisable();
 
@@ -194,8 +194,8 @@ public class ZMobPlugin extends ZPlugin {
 		return entityTypes;
 	}
 
-	public AddonManager getAttackManager() {
-		return attackManager;
+	public AddonManager getAddonsManager() {
+		return addonsManager;
 	}
 
 }
