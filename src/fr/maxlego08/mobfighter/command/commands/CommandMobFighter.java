@@ -3,6 +3,7 @@ package fr.maxlego08.mobfighter.command.commands;
 import fr.maxlego08.mobfighter.ZMobPlugin;
 import fr.maxlego08.mobfighter.api.enums.Message;
 import fr.maxlego08.mobfighter.command.VCommand;
+import fr.maxlego08.mobfighter.command.commands.addon.CommandAddon;
 import fr.maxlego08.mobfighter.command.commands.arena.CommandVillagerFightArena;
 import fr.maxlego08.mobfighter.command.commands.bets.CommandMobFighterBet;
 import fr.maxlego08.mobfighter.zcore.enums.Permission;
@@ -18,6 +19,7 @@ public class CommandMobFighter extends VCommand {
 		this.addSubCommand(new CommandMobFighterVersion());
 		this.addSubCommand(new CommandMobFighterReload());
 		this.addSubCommand(new CommandMobFighterBet());
+		this.addSubCommand(new CommandAddon());
 	}
 
 	@Override

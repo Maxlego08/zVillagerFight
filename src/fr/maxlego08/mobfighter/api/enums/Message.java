@@ -63,6 +63,9 @@ public enum Message {
 	COMMAND_DESCRIPTION_START("Start a duel"), 
 	COMMAND_DESCRIPTION_STOP("Stop a duel"), 
 	COMMAND_DESCRIPTION_BET("Show your bet"), 
+	COMMAND_DESCRIPTION_ADDON("Show addons"), 
+	COMMAND_DESCRIPTION_ADDON_VERSION("Show an addon"), 
+	COMMAND_DESCRIPTION_ADDON_RELOAD("Reload addons"), 
 	COMMAND_RELOAD("§aReload !!"),
 	
 	DUEL_START("§fStart of the duel between §a%first% §fand §2%second%§f. May the best man win!"),
@@ -94,6 +97,9 @@ public enum Message {
 	
 	DUEL_LAUNCH("§aYou have just launched a duel."),
 	
+	ADDON_LIST("§fAddons (§a%amount%§f): %addons%"),
+	ADDON_RELOAD("§fYou just reloaded the addons."),
+	ADDON_NOT_FOUND("§cImpssoble to find addon §f%name%§c."),
 	
 	;
 

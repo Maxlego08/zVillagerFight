@@ -1,0 +1,23 @@
+package fr.maxlego08.mobfighter.exceptions;
+
+public class InvalidDescriptionException extends Exception {
+
+	private static final long serialVersionUID = 5721389122281775896L;
+
+	public InvalidDescriptionException(Throwable cause, String message) {
+		super(message, cause);
+	}
+
+	public InvalidDescriptionException(Throwable cause) {
+		super("Invalid addon.yml", cause);
+	}
+
+	public InvalidDescriptionException(String message) {
+		super(message);
+	}
+
+	public InvalidDescriptionException() {
+		super("Invalid addon.yml");
+	}
+
+}

@@ -6,8 +6,10 @@ import java.util.List;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.Plugin;
 
+import fr.maxlego08.mobfighter.addons.ZAddonManager;
 import fr.maxlego08.mobfighter.api.IEconomy;
 import fr.maxlego08.mobfighter.api.MobManager;
+import fr.maxlego08.mobfighter.api.addons.AddonManager;
 import fr.maxlego08.mobfighter.api.bets.BetManager;
 import fr.maxlego08.mobfighter.api.configuration.ConfigurationManager;
 import fr.maxlego08.mobfighter.api.enums.EnumInventory;
@@ -46,6 +48,7 @@ public class ZMobPlugin extends ZPlugin {
 	private final IEconomy economy = new ZEconomy(this);
 	private final BetManager betManager = new ZBetManager(this);
 	private InventoryManager inventoryLoader = new InventoryLoader(this, economy);
+	private final AddonManager addonsManager = new ZAddonManager(this);
 
 	@Override
 	public void onEnable() {
@@ -57,11 +60,14 @@ public class ZMobPlugin extends ZPlugin {
 
 		super.preEnable();
 
-		commandManager = new CommandManager(this);
+		// Chargement des addons
+		this.addonsManager.load();
+
+		this.commandManager = new CommandManager(this);
 
 		if (!isEnabled())
 			return;
-		inventoryManager = ZInventoryManager.getInstance();
+		this.inventoryManager = ZInventoryManager.getInstance();
 
 		this.registerCommand("zmf", new CommandMobFighter(), "zmobfigther");
 
@@ -102,18 +108,21 @@ public class ZMobPlugin extends ZPlugin {
 		VersionChecker versionChecker = new VersionChecker(this, 41);
 		versionChecker.useLastVersion();
 
+		this.addonsManager.enable();
+		
 		super.postEnable();
 	}
 
 	@Override
 	public void onDisable() {
 
-		preDisable();
+		this.preDisable();
 
-		getSavers().forEach(saver -> saver.save(getPersist()));
+		this.addonsManager.unload();
+		this.getSavers().forEach(saver -> saver.save(getPersist()));
 		this.manager.onDisable();
 
-		postDisable();
+		this.postDisable();
 
 	}
 
@@ -183,6 +192,10 @@ public class ZMobPlugin extends ZPlugin {
 
 		}
 		return entityTypes;
+	}
+
+	public AddonManager getAddonsManager() {
+		return addonsManager;
 	}
 
 }
