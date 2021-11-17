@@ -41,6 +41,11 @@ public class ZAddonManager extends ZUtils implements AddonManager {
 	public void load() {
 
 		File folder = new File(this.plugin.getDataFolder(), "addons");
+		
+		if (!folder.exists()){
+			folder.mkdir();
+		}	
+		
 		List<File> files = Arrays.asList(folder.listFiles()).stream()
 				.filter(f -> !f.isDirectory() && f.getAbsolutePath().endsWith(".jar")).collect(Collectors.toList());
 
