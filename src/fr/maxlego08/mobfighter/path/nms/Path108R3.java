@@ -1,19 +1,18 @@
 package fr.maxlego08.mobfighter.path.nms;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_17_R1.entity.CraftCreature;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftCreature;
 import org.bukkit.entity.LivingEntity;
 
 import fr.maxlego08.mobfighter.api.Fighter;
 import fr.maxlego08.mobfighter.api.path.Path;
-import net.minecraft.world.entity.EntityInsentient;
-import net.minecraft.world.entity.ai.goal.PathfinderGoal;
-import net.minecraft.world.entity.ai.goal.PathfinderGoalSelector;
-import net.minecraft.world.entity.ai.navigation.Navigation;
-	
-public class Path17 implements Path {
+import net.minecraft.server.v1_8_R3.EntityInsentient;
+import net.minecraft.server.v1_8_R3.Navigation;
+import net.minecraft.server.v1_8_R3.PathfinderGoal;
 
-	public Path17() {
+public class Path108R3 implements Path {
+
+	public Path108R3() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -23,8 +22,7 @@ public class Path17 implements Path {
 		CraftCreature craftVillager = (CraftCreature) entity;
 		EntityInsentient entityInsentient = craftVillager.getHandle();
 		PathFinder finder = new PathFinder(entityInsentient, location, speed);
-		entityInsentient.bP = new PathfinderGoalSelector(entityInsentient.t.getMethodProfilerSupplier());
-		entityInsentient.bP.a(1, finder);
+		entityInsentient.goalSelector.a(1, finder);
 	}
 
 	private class PathFinder extends PathfinderGoal {
