@@ -6,6 +6,7 @@ import fr.maxlego08.mobfighter.api.Fighter;
 import fr.maxlego08.mobfighter.api.enums.EnumVersion;
 import fr.maxlego08.mobfighter.api.path.Path;
 import fr.maxlego08.mobfighter.api.path.PathManager;
+import fr.maxlego08.mobfighter.path.nms.Path108R3;
 import fr.maxlego08.mobfighter.path.nms.Path12R1;
 import fr.maxlego08.mobfighter.path.nms.Path13R1;
 import fr.maxlego08.mobfighter.path.nms.Path13R2;
@@ -14,11 +15,11 @@ import fr.maxlego08.mobfighter.path.nms.Path15R1;
 import fr.maxlego08.mobfighter.path.nms.Path16R1;
 import fr.maxlego08.mobfighter.path.nms.Path16R2;
 import fr.maxlego08.mobfighter.path.nms.Path16R3;
-import fr.maxlego08.mobfighter.path.nms.Path17;
-import fr.maxlego08.mobfighter.path.nms.Path18R3;
+import fr.maxlego08.mobfighter.path.nms.Path18;
 import fr.maxlego08.mobfighter.zcore.logger.Logger;
 import fr.maxlego08.mobfighter.zcore.logger.Logger.LogType;
 import fr.maxlego08.mobfighter.zcore.utils.nms.NMSUtils;
+import fr.maxlego08.zmobfighter.Path17;
 
 public class ZPathManager implements PathManager {
 
@@ -27,22 +28,25 @@ public class ZPathManager implements PathManager {
 	public ZPathManager() {
 		double nms = NMSUtils.getNMSVersion();
 		if (nms == 1.8)
-			this.path = new Path18R3();
+			this.path = new Path108R3();
 		else if (nms == 1.15)
 			this.path = new Path15R1();
 		else if (nms == 1.12)
 			this.path = new Path12R1();
 		else if (nms == 1.13) {
 			EnumVersion nmsVersion = NMSUtils.getVersion();
-			if (nmsVersion.equals(EnumVersion.V_13_R1))
+			if (nmsVersion.equals(EnumVersion.V_13_R1)) {
 				this.path = new Path13R1();
-			else
+			} else {
 				this.path = new Path13R2();
-		} else if (nms == 1.14)
+			}
+		} else if (nms == 1.14) {
 			this.path = new Path14R1();
-		else if (nms == 1.17)
+		} else if (nms == 1.17) {
 			this.path = new Path17();
-		else if (nms == 1.16) {
+		} else if (nms == 1.18) {
+			this.path = new Path18();
+		} else if (nms == 1.16) {
 			EnumVersion nmsVersion = NMSUtils.getVersion();
 			switch (nmsVersion) {
 			case V_16_R1:

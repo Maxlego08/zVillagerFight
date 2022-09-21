@@ -1,18 +1,19 @@
 package fr.maxlego08.mobfighter.path.nms;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftCreature;
+import org.bukkit.craftbukkit.v1_18_R1.entity.CraftCreature;
 import org.bukkit.entity.LivingEntity;
 
 import fr.maxlego08.mobfighter.api.Fighter;
 import fr.maxlego08.mobfighter.api.path.Path;
-import net.minecraft.server.v1_8_R3.EntityInsentient;
-import net.minecraft.server.v1_8_R3.Navigation;
-import net.minecraft.server.v1_8_R3.PathfinderGoal;
+import net.minecraft.world.entity.EntityInsentient;
+import net.minecraft.world.entity.ai.goal.PathfinderGoal;
+import net.minecraft.world.entity.ai.goal.PathfinderGoalSelector;
+import net.minecraft.world.entity.ai.navigation.Navigation;
+	
+public class Path18 implements Path {
 
-public class Path18R3 implements Path {
-
-	public Path18R3() {
+	public Path18() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -22,7 +23,8 @@ public class Path18R3 implements Path {
 		CraftCreature craftVillager = (CraftCreature) entity;
 		EntityInsentient entityInsentient = craftVillager.getHandle();
 		PathFinder finder = new PathFinder(entityInsentient, location, speed);
-		entityInsentient.goalSelector.a(1, finder);
+		entityInsentient.bR = new PathfinderGoalSelector(entityInsentient.t.ac());
+		entityInsentient.bR.a(1, finder);
 	}
 
 	private class PathFinder extends PathfinderGoal {
@@ -41,7 +43,7 @@ public class Path18R3 implements Path {
 		public PathFinder(EntityInsentient entity, Location location, double speed) {
 			this.entity = entity;
 			this.location = location;
-			this.navigation = (Navigation) this.entity.getNavigation();
+			this.navigation = (Navigation) this.entity.D();
 			this.speed = speed;
 		}
 
